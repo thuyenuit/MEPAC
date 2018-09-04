@@ -1,0 +1,93 @@
+﻿
+
+<div class="page-header">
+    <h1>Thể loại<small><i class="ace-icon fa fa-angle-double-right"></i> Danh sách thể loại</small></h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" class="form-control" ng-model="keyWord" placeholder="Từ khóa...">
+        <div class="space-4"></div>
+    </div>
+    <div class="col-md-2">
+        <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
+                ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
+        <div class="space-4"></div>
+    </div>
+
+    <div class="col-md-2 col-xs-4">
+        <button class="btn btn-sm btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
+            <i class="fa fa-search"></i> <span class="hidden-480"> Tìm kiếm</span>
+        </button>
+    </div>
+    <div class="col-md-2 col-xs-4">
+        <button ng-click="deleteMulti()" id="btnDeleteMulti" ng-show="selectDelete" class="btn btn-sm btn-block btn-danger btn-flat" type="button">
+            <i class="fa fa-trash-o"></i> <span class="hidden-480"> {{resData.LabelDelete}}</span>
+        </button>
+    </div>
+    <div class="col-md-2 col-xs-4">
+        <button ng-click="fnAddCategory()" class="btn btn-sm btn-block btn-primary btn-flat" type="button">
+            <i class="fa fa-plus"></i> <span class="hidden-480">Thêm mới</span>
+        </button>
+    </div>
+    
+</div>
+<div class="row">
+    <div class="col-xs-12">      
+        <table id="simple-table" class="table table-bordered table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label ng-show="checkAllDelete" class="pos-rel">
+                                    <input type="checkbox" class="ace" name="all" ng-model="checkall" ng-click="selectAll()" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th class="center">STT</th>
+                            <th>Thể loại</th>
+                            <th>Alias</th>
+                            <th style="border-right: 1px solid #ddd;" class="hidden-480">Trạng thái</th>
+  
+                        </tr>
+                    </thead>
+                    <tbody style="height: 230px;overflow-y: auto;width: 100%;">
+                        <tr ng-repeat="item in lstProductCategory | orderBy:sortColumn:reverse">
+                            <td class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" ng-if="item.Status == true" ng-model="item.checked" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td class="center">{{ $index + 1 }}</td>
+                            <td>
+                                <a ui-sref="categoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
+                                    {{ item.Display}}
+                                </a>
+                            </td>
+                            <td>{{ item.Alias }}</td>
+                            <td class="hidden-480" style="font-style:normal">
+                                <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
+                                    {{ item.Status | statusFilter}}
+                                </span>
+                            </td>                          
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7" class="left">
+                                <span ng-hide="checkAllDelete" class="pull-left" style="padding:5px">Không có bản ghi nào</span> 
+                                <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" 
+                                                 total-count="{{totalCount}}" search-func="ListCategory(page)">
+                                </pager-directive>
+                                <select ng-show="checkAllDelete" ng-change="changeShow()" ng-model="valueShow" class="pull"
+                                        ng-options="option.value as option.name for option in options"></select>
+
+                                <span ng-show="checkAllDelete" class="hidden-480 pull-right" style="padding:5px">
+                                    Hiển thị từ <strong> {{ showFrom }}</strong> - <strong>{{showTo}}</strong> của <strong>{{totalCount}}</strong> bản ghi
+                                </span> 
+                            </td>
+                        </tr>                      
+                    </tfoot>
+                </table>                        
+    </div>
+</div>

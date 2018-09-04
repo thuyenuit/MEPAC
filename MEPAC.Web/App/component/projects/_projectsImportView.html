@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div class="page-header" style="min-height: 50px;">
+        <div style="display:initial; ">
+            <div class="col-md-6 col-xs-6">
+                <span style="font-size:22px">Nhập sản phẩm từ excel</span>
+            </div>         
+        </div>
+    </div>
+    <div ng-controller="productImportController">
+        <form class="form-horizontal" novalidate name="frmImportProduct" role="form" ng-submit="ImportProduct()">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="widget-box">
+                        <div class="widget-header">
+                            <h5 class="widget-title">Nhập sản phẩm từ excel</h5>
+                            <div class="widget-toolbar">
+                                <a href="javascript:void(0);" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body" style="display: block;">
+                            <div class="widget-main form-horizontal">
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label class="col-sm-3 control-label no-padding-right">
+                                            Chọn file <span class="label-required">*</span>
+                                        </label>
+                                        <div class="col-sm-6">
+                                            <label class="ace-file-input">
+                                                <input file-upload name="file" ng-required=true type="file" id="fileId" class="class-width-2 form-control"
+                                                       placeholder='Chưa có file được chọn' />
+                                                <span class="ace-file-container" data-title="Chọn file">
+                                                    <span class="ace-file-name" data-title="{{linkFileImport}}">
+                                                        <i class="ace-icon fa fa-upload"></i>
+                                                    </span>
+                                                </span>
+                                                <a class="remove"><i class="ace-icon fa fa-times"></i></a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-4"></div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-2 col-xs-5">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="form-field-radio typeImport" type="radio" class="ace typeInsert" checked="checked">
+                                                <span class="lbl"> Thêm mới</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-xs-5">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="form-field-radio typeImport" type="radio" class="ace typeUpdate">
+                                                <span class="lbl">  Cập nhật</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-2 col-xs-4">
+                                        <button ng-click="DownloadTemplate()" class="btn btn-sm btn-success btn-flat col-md-12 col-xs-12" type="button">
+                                            <i class="fa fa-download"></i> Tải file mẫu
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-xs-4">
+                                        <button class="btn btn-sm btn-info col-md-12 col-xs-12" type="submit" ng-disabled="frmImportProduct.$invalid">
+                                            <i class="ace-icon fa fa-check bigger-110"></i>Tải lên
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-xs-4">
+                                        <button class="btn btn-sm col-md-12 col-xs-12" type="reset" ui-sref="products">
+                                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                                            Quay lại
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                    </div>
+                                </div>
+                               
+                                <input type="hidden" name="typeImportExcel" ng-model="typeImport" />
+                            </div>
+                            <div class="space-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
