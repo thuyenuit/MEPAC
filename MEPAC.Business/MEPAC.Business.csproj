@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{60ECA439-132A-4369-8139-0E783FD6C5A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MEPAC.Business</RootNamespace>
+    <AssemblyName>MEPAC.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\ApplicationUserBusiness.cs" />
+    <Compile Include="Business\ContactBusiness.cs" />
+    <Compile Include="Business\HiringBusiness.cs" />
+    <Compile Include="Business\InformationBusiness.cs" />
+    <Compile Include="Business\MenuBusiness.cs" />
+    <Compile Include="Business\MetaImageBusiness.cs" />
+    <Compile Include="Business\NewsBusiness.cs" />
+    <Compile Include="Business\PartnerBusiness.cs" />
+    <Compile Include="Business\ProjectsBusiness.cs" />
+    <Compile Include="Business\RangeBusiness.cs" />
+    <Compile Include="Business\SlideBusiness.cs" />
+    <Compile Include="Business\SubMenuBusiness.cs" />
+    <Compile Include="Common\ObjectCommon.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MEPAC.Model\MEPAC.Model.csproj">
+      <Project>{38d2ad37-57d8-4f1c-9e5c-a81d89f2c5c2}</Project>
+      <Name>MEPAC.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MEPAC.Reportsitory\MEPAC.Reportsitory.csproj">
+      <Project>{c8d0111f-216e-4c8c-a0bf-a0a74e4abc01}</Project>
+      <Name>MEPAC.Reportsitory</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
