@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "MEPAC - Thông tin dự án";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <style>
+        div.class-cg {
+            position: initial !important;
+        }
+    </style>
+</head>
+<body ng-controller="rootController">
+    <div class="class-cg" 
+         cg-busy="{promise:promise,templateUrl:templateUrl,message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}">
+        <div ui-view>
+        </div>
+    </div>
+</body>
+</html>
+
