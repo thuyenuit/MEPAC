@@ -12,6 +12,10 @@ namespace MEPAC.Business.Business
     public interface IMetaImageBusiness
     {
         IQueryable<MetaImage> GetAll();
+        void Create(MetaImage objImage);
+        void Update(MetaImage objImage);
+        void Delete(int Id);
+        void Save();
     }
 
     public class MetaImageBusiness : IMetaImageBusiness
@@ -26,10 +30,29 @@ namespace MEPAC.Business.Business
             this._unitOfWork = _unitOfWork;
         }
 
+        public void Create(MetaImage objImage)
+        {
+            _imageRepository.Create(objImage);
+        }
+
+        public void Delete(int Id)
+        {
+            _imageRepository.Delete(Id);
+        }
+
         public IQueryable<MetaImage> GetAll()
         {
             return _imageRepository.GetAll();
         }
 
+        public void Save()
+        {
+            _unitOfWork.Commit();
+        }
+
+        public void Update(MetaImage objImage)
+        {
+            _imageRepository.Update(objImage);
+        }
     }
 }

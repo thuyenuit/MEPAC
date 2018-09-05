@@ -34,5 +34,7 @@ namespace MEPAC.Model.Models
         public DateTime? PostDate { get; set; }
 
         public string PostBy { get; set; }
+
+        public bool IsRepresentative { get; set; }
     }
 }

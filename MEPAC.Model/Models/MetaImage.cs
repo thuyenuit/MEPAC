@@ -19,6 +19,9 @@ namespace MEPAC.Model.Models
 
         public string Link { get; set; }
 
+        public int TypeID { get; set; }
+
         public bool IsActive { get; set; }
+
     }
 }

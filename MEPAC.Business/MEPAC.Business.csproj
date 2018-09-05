@@ -54,6 +54,7 @@
     <Compile Include="Business\SubMenuBusiness.cs" />
     <Compile Include="Common\ObjectCommon.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="ParamFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
