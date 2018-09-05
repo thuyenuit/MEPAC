@@ -11,25 +11,23 @@
                     <span style="font-size:22px">Thêm mới <span class="hidden-480">dự án</span></span>
                 </div>
                 <div class="col-md-4 col-xs-6">
-                    <div class="col-md-3 col-xs-4">
+                    <!--<div class="col-md-5 col-xs-4">
+                        <button class="btn btn-sm btn-info" type="button" ng-click="SaveContinue()" ng-disabled="frmAddProject.$invalid">
+                            <i class="ace-icon fa fa-save bigger-110"></i><span class="hidden-480">Lưu và tiếp tục</span>
+                        </button>
+                    </div>-->
+                    <div class="col-md-4 col-xs-4 pull-right">
+                        <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                            <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
+                        </button>
+                    </div>
+                    <div class="col-md-3 col-xs-4 pull-right">
                         <button class="btn btn-sm btn-info" type="button" ng-click="Save()" ng-disabled="frmAddProject.$invalid">
                             <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
                         </button>
                     </div>
-                    <div class="col-md-5 col-xs-4">
-                        <button class="btn btn-sm btn-info" type="button" ng-click="SaveContinue()" ng-disabled="frmAddProject.$invalid">
-                            <i class="ace-icon fa fa-save bigger-110"></i><span class="hidden-480">Lưu và tiếp tục</span>
-                        </button>
-                    </div>
-                    <div class="col-md-4 col-xs-4">
-                        <button class="btn btn-sm btn-default" type="reset" ui-sref="products">
-                            <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
-                        </button>
-                    </div>
-
-
-
                 </div>
+
             </div>
             <input type="hidden" ng-model="typeAction" />
         </div>
@@ -65,10 +63,10 @@
 
                         <div  class="col-xs-12 col-md-12">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
+                                <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
                                     Tên dự án <span class="label-required">*</span>
                                 </label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-md-4">
                                     <input ng-required="true" type="text" maxlength="200" name="display" placeholder="Tên dự án" class="col-xs-12 col-sm-12"
                                            ng-model="projectInfo.Display">
                                     <span class="has-error" ng-show="frmAddProject.display.$touched && frmAddProject.display.$error.required">
@@ -76,17 +74,20 @@
                                     </span>
                                 </div>
 
-                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> 
+                                <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1"> 
                                     Thời gian thực hiện <span class="label-required">*</span></label>
-                                <div class="col-sm-4">
+                                <div class="col-sm-4 col-md-4">
                                     <div class="input-group date">
                                         <input type="date" class="form-control pull-left" name="fromDate" ng-model="projectInfo.FromDate" id="datepicker2" placeholder="Từ ngày">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="date" class="form-control pull-right" name="toDate" ng-model="projectInfo.ToDate" id="datepicker" placeholder="Đến ngày">
-                                        <span class="has-error" ng-show="{{(frmAddProject.fromDate.$touched && frmAddProject.fromDate.$error.required) || (frmAddProject.toDate.$touched && frmAddProject.toDate.$error.required) }}">
-                                            Vui lòng nhập thời gian thực hiện
+                                        <input style="width: 95%;" type="date" class="form-control pull-left" name="toDate" ng-model="projectInfo.ToDate" id="datepicker" placeholder="Đến ngày">
+                                        <span class="has-error" ng-show="{{frmAddProject.fromDate.$touched && frmAddProject.fromDate.$error.required }}">
+                                            Vui lòng nhập ngày bắt đầu!
+                                        </span>
+                                        <span class="has-error" ng-show="{{frmAddProject.toDate.$touched && frmAddProject.toDate.$error.required}}">
+                                            Vui lòng nhập ngày kết thúc
                                         </span>
                                     </div>
                                 </div>
@@ -130,16 +131,9 @@
                                 <div class="col-sm-10">
                                     <button type="button" ng-click="ChooseMoreImage()" class="btn btn-sm btn-default">Chọn ảnh</button>
                                     <label class="ace-file-input ace-file-multiple" ng-show="showImage">
-                                        <!--<input multiple="" type="file" id="id-input-file-3">-->
-                                        <!--<span class="ace-file-container" ng-click="ChooseMoreImage()" data-title="Browse...">
-                                            <span class="ace-file-name" data-title="No File ...">
-                                                <i class="ace-icon ace-icon fa fa-cloud-upload"></i>
-                                            </span>
-                                        </span>-->
-
                                         <span class="ace-file-container hide-placeholder selected" >
                                             <span class="ace-file-name" ng-repeat="img in moreImages" data-title="{{img}}">
-                                                <img class="middle" style="background-image: url({{img}}); width: 50px; height: 50px;" src="{{img}}">
+                                                <img class="middle" style="background-image: url({{img}}); width: 100px; height: 50px;" src="{{img}}">
                                                 <i ng-click="RemoveImage(img)" class="ace-icon fa fa-times pull-right" style="display:block !important;top: 10px !important;"></i>
                                             </span>
                                         </span>
@@ -195,6 +189,11 @@
                                     <span class="lbl"> Hiển thị trang chủ</span>
                                 </label>
 
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" name="all" ng-model="projectInfo.IsRepresentative" />
+                                    <span class="lbl"> Dự án tiêu biểu</span>
+                                </label>
+
                                 <!--<label class="pos-rel">
                                     <input type="checkbox" class="ace" name="all" ng-model="projectInfo.HotFlag" />
                                     <span class="lbl"> Sản phẩm hot</span>
@@ -203,21 +202,16 @@
                         </div>
 
                         <div class="clearfix">
-                            <div class="row" style="float:right">
-                                <div class="col-xs-3">
+                            <div class="col-md-4 col-xs-6" style="float:right">
+
+                                <div class="col-md-4 col-xs-4 pull-right">
+                                    <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                                        <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
+                                    </button>
+                                </div>
+                                <div class="col-md-3 col-xs-4 pull-right">
                                     <button class="btn btn-sm btn-info" type="button" ng-click="Save()" ng-disabled="frmAddProject.$invalid">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>Lưu
-                                    </button>
-                                </div>
-                                <div class="col-xs-5">
-                                    <button class="btn btn-sm btn-info" type="button" ng-click="SaveContinue()" ng-disabled="frmAddProject.$invalid">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>Lưu và tiếp tục
-                                    </button>
-                                </div>
-                                <div class="col-xs-3">
-                                    <button class="btn btn-sm" type="reset" ui-sref="products">
-                                        <i class="ace-icon fa fa-undo bigger-110"></i>
-                                        Quay lại
+                                        <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
                                     </button>
                                 </div>
                                 <input type="hidden" ng-model="typeAction" />
@@ -229,12 +223,5 @@
             </div>
         </div>
     </form>
-
-    <script>
-        $(function () {
-           // $('#datepicker').datepicker({ autoclose: true });
-           // $('#datepicker2').datepicker({ autoclose: true });
-        });
-    </script>
 </body>
 </html>

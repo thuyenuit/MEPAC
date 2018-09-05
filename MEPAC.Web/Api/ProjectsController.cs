@@ -1,4 +1,5 @@
-﻿using MEPAC.Business.Business;
+﻿using MEPAC.Business;
+using MEPAC.Business.Business;
 using MEPAC.Model.Models;
 using MEPAC.Web.Infrastructure.Core;
 using MEPAC.Web.Models;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace MEPAC.Web.Api
 {
@@ -16,17 +18,20 @@ namespace MEPAC.Web.Api
     [Authorize]
     public class ProjectsController : BaseApiController
     {
+        IMetaImageBusiness _metaImageBusiness;
         IProjectsBusiness _projectsBusiness;
         IApplicationUserBusiness _applicationUserBusiness;
         public ProjectsController(
+            IMetaImageBusiness _metaImageBusiness,
             IProjectsBusiness _projectsBusiness,
             IApplicationUserBusiness _applicationUserBusiness)
         {
+            this._metaImageBusiness = _metaImageBusiness;
             this._projectsBusiness = _projectsBusiness;
             this._applicationUserBusiness = _applicationUserBusiness;
         }
 
-        [Route("search")]      
+        [Route("search")]
         [HttpGet]
         public HttpResponseMessage Search(HttpRequestMessage request,
             int page, int pageSize, string keyWord, int status)
@@ -55,7 +60,8 @@ namespace MEPAC.Web.Api
                     PostBy = x.PostBy,
                     PostDate = x.PostDate,
                     IsActive = x.IsActive,
-                    IsShow = x.IsShow
+                    IsShow = x.IsShow,
+                    IsRepresentative = x.IsRepresentative
                 }).ToList();
 
                 string StrDate = string.Empty;
@@ -107,10 +113,32 @@ namespace MEPAC.Web.Api
                 lstProjectVM = lstProjectVM.OrderByDescending(x => x.ProjectID).ThenBy(x => x.Display).ToList();
                 int totalRow = lstProjectVM.Count();
 
-                IEnumerable<ProjectsViewModel> lstResult = lstProjectVM.Skip((page) * pageSize).Take(pageSize);
+                List<ProjectsViewModel> lstResult = lstProjectVM.Skip((page) * pageSize).Take(pageSize).ToList();
+                List<string> lstUserID = lstResult.Select(x => x.CreateBy).ToList();
+                var lstUSer = _applicationUserBusiness.GetAll().Where(x => lstUserID.Contains(x.Id)).ToList();
+
+                foreach (var item in lstResult)
+                {
+                    var objUser = lstUSer.Where(x => x.Id == item.CreateBy).FirstOrDefault();
+                    if (objUser != null)
+                    {
+                        item.FullNameCreate = objUser.FullName;
+                    }
+
+                    if(!string.IsNullOrEmpty(item.UpdateBy))
+                    {
+                        objUser = lstUSer.Where(x => x.Id == item.UpdateBy).FirstOrDefault();
+                        if (objUser != null)
+                        {
+                            item.FullNameUpdate = objUser.FullName;
+                        }
+                    }                
+                }
+
+
                 var paginationset = new PaginationSet<ProjectsViewModel>()
                 {
-                    Items = lstResult,
+                    Items = lstResult.AsEnumerable(),
                     Page = page,
                     TotalCount = totalRow,
                     TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize),
@@ -120,6 +148,59 @@ namespace MEPAC.Web.Api
                 };
 
                 var response = request.CreateResponse(HttpStatusCode.OK, paginationset);
+                return response;
+            });
+        }
+
+        [Route("getbyid")]
+        [HttpGet]
+        public HttpResponseMessage GetById(HttpRequestMessage request, int projectId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadGateway, ModelState);
+                }
+                else
+                {
+                    try
+                    {
+                        Projects obj = _projectsBusiness.GetById(projectId);
+                        if (obj != null)
+                        {
+                            ProjectsViewModel obVM = new ProjectsViewModel();
+                            obVM.ProjectID = obj.ProjectID;
+                            obVM.Display = obj.Display;
+                            obVM.LinkImage = obj.Image;
+                            obVM.Description = obj.Description;
+                            obVM.CreateBy = obj.CreateBy;
+                            obVM.CreateDate = obj.CreateDate;
+                            obVM.IsActive = obj.IsActive;
+                            obVM.IsShow = obj.IsShow;
+                            obVM.PostBy = obj.PostBy;
+                            obVM.PostDate = obj.PostDate;
+                            obVM.MetaDescription = obj.MetaDescription;
+                            obVM.MetaKeyword = obj.MetaKeyword;
+                            obVM.IsRepresentative = obj.IsRepresentative;
+
+                            List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == ParamFile.TYPE_IMAGE_PROJECT && x.ParentID == obj.ProjectID).ToList();
+                            if (lstMetaImage.Count() > 0)
+                            {
+                                List<string> lstImage = lstMetaImage.Select(x => x.Link).ToList();
+                                obVM.ListMoreImage = lstImage;
+                            }
+
+                            response = request.CreateResponse(HttpStatusCode.Created, obVM);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        response = request.CreateResponse(HttpStatusCode.NotFound, "Không tìm thấy");
+                    }                
+                }
+
                 return response;
             });
         }
@@ -137,56 +218,60 @@ namespace MEPAC.Web.Api
                 }
                 else
                 {
-                     List<string> lstError = new List<string>();
-                     if (string.IsNullOrEmpty(projectVM.Display))
-                     {
-                         lstError.Add("Vui lòng nhập tên dự án");
-                     }
-                     else
-                     {
+                    List<string> lstError = new List<string>();
+                    if (string.IsNullOrEmpty(projectVM.Display))
+                    {
+                        lstError.Add("Vui lòng nhập tên dự án");
+                    }
+                    else
+                    {
                         projectVM.Display = projectVM.Display.Trim();
-                         if (projectVM.Display.Length > 200)
-                         {
-                             lstError.Add("Tên sản phẩm không được nhập quá 200 ký tự");
-                         }                       
-                     }
+                        if (projectVM.Display.Length > 200)
+                        {
+                            lstError.Add("Tên dự án không được nhập quá 200 ký tự");
+                        }
+                    }
 
-                   
                     if (string.IsNullOrEmpty(projectVM.LinkImage))
                     {
-                        lstError.Add("Vui lòng chọn ảnh dự án");
+                        lstError.Add("Vui lòng chọn ảnh đại diện cho dự án");
                     }
 
 
                     if (!string.IsNullOrEmpty(projectVM.MetaDescription)
                      && projectVM.MetaDescription.Length > 500)
-                     {
-                         lstError.Add("Meta Description không được nhập quá 500 ký tự");
-                     }
+                    {
+                        lstError.Add("Meta Description không được nhập quá 500 ký tự");
+                    }
 
-                     if (!string.IsNullOrEmpty(projectVM.MetaKeyword)
-                     && projectVM.MetaKeyword.Length > 500)
-                     {
-                         lstError.Add("Meta Keyword không được nhập quá 500 ký tự");
-                     }
+                    if (!string.IsNullOrEmpty(projectVM.MetaKeyword)
+                    && projectVM.MetaKeyword.Length > 500)
+                    {
+                        lstError.Add("Meta Keyword không được nhập quá 500 ký tự");
+                    }
 
-                     if (lstError.Count() > 0)
-                     {
-                         return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
-                     }
+                    if (lstError.Count() > 0)
+                    {
+                        return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
+                    }
+
+                    List<string> lstMoreImage = new JavaScriptSerializer().Deserialize<List<string>>(projectVM.PostBy);
+                    projectVM.ListMoreImage = lstMoreImage;
 
                     projectVM.IsActive = true;
                     projectVM.CreateDate = DateTime.Now;
-                    projectVM.CreateBy = Provider.UserInfoInstance.UserCodeInstance;
+                    projectVM.CreateBy = Provider.UserInfoInstance.UserIDInstance;
 
-                    if(projectVM.IsShow)
+                    if (projectVM.IsShow)
                     {
-                        projectVM.PostBy = Provider.UserInfoInstance.UserCodeInstance;
+                        projectVM.PostBy = Provider.UserInfoInstance.UserIDInstance;
                         projectVM.PostDate = DateTime.Now;
                     }
 
                     Projects objNew = new Projects();
                     objNew.Display = projectVM.Display;
+                    objNew.ToDate = projectVM.ToDate;
+                    objNew.FromDate = projectVM.FromDate;
                     objNew.Image = projectVM.LinkImage;
                     objNew.Description = projectVM.Description;
                     objNew.CreateBy = projectVM.CreateBy;
@@ -197,8 +282,9 @@ namespace MEPAC.Web.Api
                     objNew.PostDate = projectVM.PostDate;
                     objNew.MetaDescription = projectVM.MetaDescription;
                     objNew.MetaKeyword = projectVM.MetaKeyword;
-
-                                        response = request.CreateResponse(HttpStatusCode.Created, "Thêm thành công");
+                    objNew.IsRepresentative = projectVM.IsRepresentative;
+                    _projectsBusiness.Create(objNew, lstMoreImage);
+                    response = request.CreateResponse(HttpStatusCode.Created, "Thêm thành công");
                 }
 
                 return response;
@@ -206,7 +292,7 @@ namespace MEPAC.Web.Api
         }
 
         [Route("update")]
-        [HttpPut]
+        [HttpPost]
         public HttpResponseMessage Update(HttpRequestMessage request, ProjectsViewModel projectVM)
         {
             return CreateHttpResponse(request, () =>
@@ -219,98 +305,113 @@ namespace MEPAC.Web.Api
                 }
                 else
                 {
-                    /*List<string> lstError = new List<string>();
-                    if (productVM.ProductID <= 0)
+                    try
                     {
-                        lstError.Add("Thông tin sản phẩm không hợp lệ");
-                    }
-
-                    if (string.IsNullOrEmpty(productVM.ProductName))
-                    {
-                        lstError.Add("Vui lòng nhập tên sản phẩm");
-                    }
-                    else
-                    {
-                        productVM.ProductName = productVM.ProductName.Trim();
-                        if (productVM.ProductName.Length > 255)
+                        List<string> lstError = new List<string>();
+                        if (projectVM.ProjectID <= 0)
                         {
-                            return request.CreateResponse(HttpStatusCode.BadRequest, "Vui lòng nhập tên sản phẩm");
+                            lstError.Add("Dự án không tồn tại");
                         }
 
-                        bool checkName = _productService.GetAll().Any(x => x.ProductID != productVM.ProductID && x.ProductName.ToUpper().Equals(productVM.ProductName));
-                        if (checkName)
+                        if (string.IsNullOrEmpty(projectVM.Display))
                         {
-                            lstError.Add(string.Format("Tên sản phẩm <i>{0}</i> đã tồn tại", productVM.ProductName));
+                            lstError.Add("Vui lòng nhập tên dự án");
                         }
-                    }
-
-                    if (productVM.CategoryID <= 0)
-                    {
-                        lstError.Add("Vui lòng chọn thể loại");
-                    }
-
-                    if (!string.IsNullOrEmpty(productVM.MetaDescription)
-                    && productVM.MetaDescription.Length > 500)
-                    {
-                        lstError.Add("MetaDescription không được nhập quá 500 ký tự");
-                    }
-
-                    if (string.IsNullOrEmpty(productVM.ProductCode))
-                    {
-                        //string code = Utils.AutoGenericCode();
-                        //productVM.ProductCode = code;
-                        lstError.Add("Vui lòng nhập mã sản phẩm");
-                    }
-                    else
-                    {
-                        productVM.ProductCode = productVM.ProductCode.Trim();
-                        if (productVM.ProductCode.Length > 255)
+                        else
                         {
-                            lstError.Add("Mã sản phẩm không được nhập quá 255 ký tự");
+                            projectVM.Display = projectVM.Display.Trim();
+                            if (projectVM.Display.Length > 200)
+                            {
+                                lstError.Add("Tên dự án không được nhập quá 200 ký tự");
+                            }
                         }
 
-                        bool checkCode = _productService.GetAll().Any(x => x.ProductID != productVM.ProductID && x.ProductCode.ToUpper().Equals(productVM.ProductCode));
-                        if (checkCode)
+                        if (string.IsNullOrEmpty(projectVM.LinkImage))
                         {
-                            lstError.Add(string.Format("Mã sản phẩm <i>{0}</i> đã tồn tại", productVM.ProductCode));
+                            lstError.Add("Vui lòng chọn ảnh đại diện cho dự án");
                         }
-                    }
 
-                    if ((productVM.ExistMaximum.HasValue && productVM.ExistMinimum.HasValue)
-                        && (productVM.ExistMaximum > 0 && productVM.ExistMinimum > 0))
-                    {
-                        if (productVM.ExistMaximum.Value <= productVM.ExistMinimum.Value)
+
+                        if (!string.IsNullOrEmpty(projectVM.MetaDescription)
+                         && projectVM.MetaDescription.Length > 500)
                         {
-                            lstError.Add("Giá trị tồn tối thiểu không được lớn hơn tồn tối đa");
+                            lstError.Add("Meta Description không được nhập quá 500 ký tự");
                         }
-                    }
 
-                    if (lstError.Count() > 0)
-                    {
-                        return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
-                    }
+                        if (!string.IsNullOrEmpty(projectVM.MetaKeyword)
+                        && projectVM.MetaKeyword.Length > 500)
+                        {
+                            lstError.Add("Meta Keyword không được nhập quá 500 ký tự");
+                        }
 
-                    productVM.IsActive = true;
-                    productVM.CreateDate = DateTime.Now;
-                    productVM.CreateBy = UserInfoInstance.UserCodeInstance;
+                        if (lstError.Count() > 0)
+                        {
+                            return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
+                        }
 
-                    var productDB = _productService.GetSingleById(productVM.ProductID);
-                    if (productDB != null)
-                    {
-                        productVM.UpdateDate = DateTime.Now;
-                        productDB.MapProduct(productVM);
-                        _productService.Update(productDB);
-                        _productService.SaveChanges();
+                        List<string> lstMoreImage = new JavaScriptSerializer().Deserialize<List<string>>(projectVM.PostBy);
+                        projectVM.ListMoreImage = lstMoreImage;
+
+                        if (projectVM.IsShow)
+                        {
+                            projectVM.PostBy = Provider.UserInfoInstance.UserIDInstance;
+                            projectVM.PostDate = DateTime.Now;
+                        }
+
+                        Projects objNew = new Projects();
+                        objNew.ProjectID = projectVM.ProjectID;
+                        objNew.Display = projectVM.Display;
+                        objNew.FromDate = projectVM.FromDate;
+                        objNew.ToDate = projectVM.ToDate;
+                        objNew.Image = projectVM.LinkImage;
+                        objNew.Description = projectVM.Description;
+                        objNew.IsActive = projectVM.IsActive;
+                        objNew.IsShow = projectVM.IsShow;
+                        objNew.PostBy = projectVM.PostBy;
+                        objNew.PostDate = projectVM.PostDate;
+                        objNew.UpdateBy = Provider.UserInfoInstance.UserIDInstance;
+                        objNew.UpdateDate = DateTime.Now;
+                        objNew.MetaDescription = projectVM.MetaDescription;
+                        objNew.MetaKeyword = projectVM.MetaKeyword;
+                        objNew.IsRepresentative = projectVM.IsRepresentative;
+                        _projectsBusiness.Update(objNew, lstMoreImage);
                         response = request.CreateResponse(HttpStatusCode.OK, "Cập nhật thành công");
                     }
-                    else
-                        response = request.CreateResponse(HttpStatusCode.NotFound, "Không tìm thấy sản phẩm.");*/
-
-                    response = request.CreateResponse(HttpStatusCode.OK, "Cập nhật thành công");
+                    catch (Exception ex)
+                    {
+                        response = request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+                    }
+                   
                 }
 
                 return response;
             });
+        }
+
+        [Route("deletemulti")]
+        [HttpDelete]
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string jsonlistId)
+        {
+            HttpResponseMessage response = null;
+            if (!ModelState.IsValid)
+            {
+                response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            else
+            {
+                List<int> lstProjectID = new JavaScriptSerializer().Deserialize<List<int>>(jsonlistId);
+
+                List<Projects> lstProjects = _projectsBusiness.GetAll().Where(x=> lstProjectID.Contains(x.ProjectID)).ToList();
+
+                foreach (var item in lstProjects)
+                {
+                    _projectsBusiness.Delete(item.ProjectID);
+                }
+                _projectsBusiness.SaveChange();
+                response = request.CreateResponse(HttpStatusCode.OK, lstProjects.Count());
+
+            }
+            return response;
         }
 
     }

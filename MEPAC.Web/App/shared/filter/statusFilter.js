@@ -2,9 +2,9 @@
     app.filter('statusFilter', function () {
         return function (input) {
             if (input == true)
-                return 'Đang kinh doanh';
+                return 'Đang hiển thị';
             else
-                return 'Ngừng kinh doanh';
+                return 'Đã hủy';
         }
     })
 

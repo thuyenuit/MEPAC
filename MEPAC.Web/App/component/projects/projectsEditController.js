@@ -1,109 +1,121 @@
 ﻿//<reference path="/Assets/Admin/libs/angular/angular.js" />
 
 (function (app) {
-    app.controller('productEditController', productEditController);
+    app.controller('projectsEditController', projectsEditController);
 
-    productEditController.$inject = ['$scope',
+    projectsEditController.$inject = ['$scope',
         'apiService', '$interval', '$filter', '$ngBootbox', '$state', '$stateParams', 'notificationService'];
 
-    function productEditController($scope, apiService, $interval,
+    function projectsEditController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, $stateParams, notificationService) {
 
-        angular.element("input[name='quantity']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-        });
-        angular.element("input[name='existMinimum']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-        });
-        angular.element("input[name='existMaximum']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-        });
-        angular.element("input[name='pricePromotion']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-        });
-        angular.element("input[name='priceCost']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-        });
-        angular.element("input[name='priceSell']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-            if (this.value <= 0) {
-                $scope.pcEditInfo.PricePromotion = null;
-                $scope.percent = null;
+        $scope.projectInfo = {};
+
+        $scope.ChooseImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.projectInfo.LinkImage = fileUrl;
+                    $("#spanImage").attr("data-title", fileUrl);
+                })
+
             }
-        });
-
-        angular.element("input[name='percent']").on('input', function () {
-            this.value = this.value.replace(/[^\d\.\-]/g, '').replace('-', '');
-
-            if (this.value > 100) {
-                this.value = 100;
-            }
-        });
-
-        $scope.GetSEOTitle = GetSEOTitle;
-        function GetSEOTitle() {
-            $scope.pcEditInfo.Alias = commonService.getSeoTitle($scope.pcEditInfo.ProductName);
+            finder.popup();
         }
 
-        $scope.GetPriceSale = GetPriceSale;
-        function GetPriceSale() {
-            if ($scope.percent > 0) {
-                var priceSell = $scope.pcEditInfo.PriceSell;
-                $scope.pcEditInfo.PricePromotion = ($scope.percent * priceSell) / 100;
+        $scope.showImage = false;
+        $scope.moreImages = [];
+        $scope.ChooseMoreImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                    //$("#spanImage").attr("data-title", fileUrl);
+                    if ($scope.moreImages.length > 0) {
+                        $scope.showImage = true;
+                    }
+                    else {
+                        $scope.showImage = false;
+                    }
+
+                })
+            }
+            finder.popup();
+        }
+
+        $scope.RemoveAllImage = function () {
+            $scope.moreImages = [];
+            $scope.showImage = false;
+        }
+
+        $scope.RemoveImage = function (image) {
+            var index = $scope.moreImages.indexOf(image);
+            if (index > -1) {
+                $scope.moreImages.splice(index, 1);
+            }
+
+            if ($scope.moreImages.length > 0) {
+                $scope.showImage = true;
             }
             else {
-                $scope.pcEditInfo.PricePromotion = null;
+                $scope.showImage = false;
             }
         }
 
-        $scope.categories = {};
-        function LoadCategory() {
-            apiService.get('/api/productcategory/getallNoPage', null, function (result) {
-                $scope.categories = result.data;
-            }, function () {
-                notificationService.displayError('Không thể tải danh sách thể loại');
-            });
+        $scope.ckeditorOptions = {
+            language: 'vi',
+            height: '400px',
+            toolbarCanCollapse: true
         }
-        LoadCategory();
 
 
-        $scope.pcEditInfo = {};
-        $scope.LoadProductInfo = LoadProductInfo;
-        function LoadProductInfo() {
+        $scope.LoadProjectInfo = LoadProjectInfo;
+        function LoadProjectInfo() {
             var consfig = {
                 params: {
-                    productId: $stateParams.productID
+                    projectId: $stateParams.projectId
                 }
             };
 
-            var url = '/api/product/getbyid';
+            var url = '/api/projects/getbyid';
             $scope.promise = apiService.get(url, consfig, function (result) {
-                $scope.pcEditInfo = result.data;
+                $scope.projectInfo = result.data;
+                if (result.data != null)
+                {
+                    $("#spanImage").attr("data-title", $scope.projectInfo.LinkImage);
+                    if (result.data.ListMoreImage != null && result.data.ListMoreImage.length > 0)
+                    {
+                        $.each(result.data.ListMoreImage, function (index, value) {
+                            $scope.moreImages.push(value)
+                        });
+                        $scope.showImage = true;
+                    }
+                }
+
             }, function () {
-                notificationService.displayError('Không tìm thấy thông tin sản phẩm! Vui lòng kiểm tra lại');
+                notificationService.displayError('Không tìm thấy thông tin dự án! Vui lòng kiểm tra lại');
             })
             $scope.$parent.MethodShowLoading("Đang tải dữ liệu", $scope.promise);
         }
-        LoadProductInfo();
+        LoadProjectInfo();
 
 
-        $scope.EditProduct = EditProduct;
-        function EditProduct() {
+        $scope.EditProject = EditProject;
+        function EditProject() {
             var validate = ValidateData();
             if (validate) {
-                var url = '/sms/product/update';
-                $scope.promise = apiService.put(url, $scope.pcEditInfo, function (result) {
+                $scope.projectInfo.PostBy = JSON.stringify($scope.moreImages);
+                var url = '/api/projects/update';
+                $scope.promise = apiService.post(url, $scope.projectInfo, function (result) {
                     notificationService.displaySuccess(result.data);
-                    $state.go('products');
-                }, function (result) {
-                    console.log(result);
+                    $state.go('projects');
+                }, function (result) {                
                     if (result.status == 500) {
                         notificationService.displayError('Hệ thống đang bảo trì. Vui lòng thao tác lại sau!');
                     }
                     else {
                         notificationService.displayError(result.data);
                     }
-
                 });
                 $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
             }
@@ -112,31 +124,37 @@
         function ValidateData() {
             var textError = '';
             var arrayError = [];
-            if ($scope.pcEditInfo.ProductName == null || $scope.pcEditInfo.ProductName == ''
-            || $scope.pcEditInfo.ProductName == undefined) {
-                arrayError.push("Vui lòng nhập tên sản phẩm");
+            if (IsNotNull($scope.projectInfo.Display) == false) {
+                arrayError.push("Vui lòng nhập tên dự án");
             }
-            else if ($scope.pcEditInfo.ProductName.length > 255) {
-                arrayError.push("Tên sản phẩm không vượt quá 255 ký tự");
-            }
-
-            if ($scope.pcEditInfo.ProductCategoryID == null || $scope.pcEditInfo.ProductCategoryID == ''
-            || $scope.pcEditInfo.ProductCategoryID == undefined) {
-                arrayError.push("Vui lòng chọn thể loại");
+            else if ($scope.projectInfo.Display.length > 200) {
+                arrayError.push("Tên dự án không vượt quá 200 ký tự");
             }
 
-            if ($scope.pcEditInfo.ProductCode != null && $scope.pcEditInfo.ProductCode.length > 255) {
-                arrayError.push("Mã sản phẩm không vượt quá 255 ký tự");
+            if (IsNotNull($scope.projectInfo.FromDate) == false) {
+                arrayError.push("Vui lòng nhập ngày bắt đầu dự án");
             }
 
-            if ($scope.pcEditInfo.ExistMaximum > 0 && $scope.pcEditInfo.ExistMinimum > 0) {
-                if ($scope.pcEditInfo.ExistMaximum <= $scope.pcEditInfo.ExistMinimum) {
-                    arrayError.push("Giá trị tồn tối thiểu không được lớn hơn tồn tối đa");
+            if (IsNotNull($scope.projectInfo.ToDate) == false) {
+                arrayError.push("Vui lòng nhập ngày kết thúc dự án");
+            }
+
+            if (IsNotNull($scope.projectInfo.FromDate) == true
+                && IsNotNull($scope.projectInfo.ToDate) == true) {
+                var fromDate = new Date($scope.projectInfo.FromDate);
+                var toDate = new Date($scope.projectInfo.ToDate);
+
+                if (fromDate > toDate) {
+                    arrayError.push("Ngày bắt đầu không được lớn hơn ngày kết thúc dự án");
                 }
             }
 
+            if (IsNotNull($scope.projectInfo.LinkImage) == false) {
+                arrayError.push("Vui lòng chọn ảnh đại diện dự án");
+            }
+
             if (arrayError.length > 0) {
-                textError = arrayError.join(", ");
+                textError = arrayError.join(". ");
                 notificationService.displayError(textError);
                 return false;
             }
@@ -144,8 +162,14 @@
             return true;
         }
 
+        function IsNotNull(obj) {
+            if (obj == null || obj == '' || undefined)
+                return false;
+            return true;
+        }
+
 
     }
-})(angular.module('sms.product'));
+})(angular.module('sms.projects'));
 
 

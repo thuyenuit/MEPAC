@@ -8,7 +8,14 @@
         return {
             getSeoTitle: getSeoTitle,
             getTree: getTree,
-            inputNumber: inputNumber
+            inputNumber: inputNumber,
+            isNotNull: IsNotNull
+        }
+
+        function IsNotNull(obj) {
+            if (obj == null || obj == '' || undefined)
+                return false;
+            return true;
         }
 
         function getSeoTitle(input) {

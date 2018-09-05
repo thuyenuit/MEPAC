@@ -10,21 +10,21 @@
     function projectsAddController($scope, $sce, $compile, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService, commonService, authenticationService) {
 
-        angular.element("input[name='quantity']").on('input', function () {
-            this.value = commonService.inputNumber(this.value);
-        });
-        angular.element("input[name='existMinimum']").on('input', function () {
-            this.value = commonService.inputNumber(this.value);
-        });
-        angular.element("input[name='existMaximum']").on('input', function () {
-            this.value = commonService.inputNumber(this.value);
-        });
-        angular.element("input[name='pricePromotion']").on('input', function () {
-            this.value = commonService.inputNumber(this.value);
-        });
-        angular.element("input[name='priceCost']").on('input', function () {
-            this.value = commonService.inputNumber(this.value);
-        });
+        //angular.element("input[name='quantity']").on('input', function () {
+        //    this.value = commonService.inputNumber(this.value);
+        //});
+        //angular.element("input[name='existMinimum']").on('input', function () {
+        //    this.value = commonService.inputNumber(this.value);
+        //});
+        //angular.element("input[name='existMaximum']").on('input', function () {
+        //    this.value = commonService.inputNumber(this.value);
+        //});
+        //angular.element("input[name='pricePromotion']").on('input', function () {
+        //    this.value = commonService.inputNumber(this.value);
+        //});
+        //angular.element("input[name='priceCost']").on('input', function () {
+        //    this.value = commonService.inputNumber(this.value);
+        //});
         //angular.element("input[name='priceSell']").on('input', function () {
         //    this.value = commonService.inputNumber(this.value); 
         //    if( this.value <= 0)
@@ -152,19 +152,28 @@
         }
    
         
-        $scope.projectInfo.Tags = "";
+        //$scope.projectInfo.Tags = "";
         $scope.AddProject = AddProject;
         function AddProject() {
-            var error = ValidateData();
-            if(true)
+            var validate = ValidateData();
+            if (validate)
             {
+                $scope.projectInfo.PostBy =JSON.stringify($scope.moreImages);
                 var url = '/api/projects/create';
                 $scope.promise = apiService.post(url, $scope.projectInfo, function (result) {
-                        notificationService.displaySuccess(result.data);
-                        if ($scope.typeAction == 0) {
-                            $state.go('projects');
-                        }
-                        //$scope.projectInfo = {};
+                    notificationService.displaySuccess(result.data);
+                    $state.go('projects');
+                        //if ($scope.typeAction == 0) {
+                        //    $state.go('projects');
+                        //}
+                        //else {
+                        //    $state.go('projectAdd');
+                        //    $scope.projectInfo = {};
+                        //    $scope.moreImages = [];
+                        //    $("#spanImage").attr("data-title", "Chưa chọn ảnh...");
+                        //    $scope.showImage = false;
+                        //    $("input[name='display']").focus();
+                        //}
 
                     }, function (result) {
                         notificationService.displayError(result.data);
@@ -176,35 +185,51 @@
         function ValidateData() {
             var textError = '';
             var arrayError = [];
-            if ($scope.projectInfo.Display == null || $scope.projectInfo.Display == '' 
-            || $scope.projectInfo.Display == undefined)
+            if (IsNotNull($scope.projectInfo.Display) == false)
             {
-                arrayError.push("Vui lòng nhập tên sản phẩm");              
+                arrayError.push("Vui lòng nhập tên dự án");              
             }
             else if ($scope.projectInfo.Display.length > 200)
             {
-                arrayError.push("Tên sản phẩm không vượt quá 200 ký tự");
+                arrayError.push("Tên dự án không vượt quá 200 ký tự");
             }
 
-            if (($scope.projectInfo.FromDate == null || $scope.projectInfo.FromDate == ''
-                || $scope.projectInfo.FromDate == undefined)
-                || ( $scope.projectInfo.ToDate == null || $scope.projectInfo.ToDate == ''
-                || $scope.projectInfo.ToDate == undefined)) {
-                arrayError.push("Vui lòng nhập thời gian thực hiện");
+            if (IsNotNull($scope.projectInfo.FromDate) == false) {
+                arrayError.push("Vui lòng nhập ngày bắt đầu dự án");
             }
 
-            if ($scope.projectInfo.LinkImage == null || $scope.projectInfo.LinkImage == '')
+            if (IsNotNull($scope.projectInfo.ToDate) == false) {
+                arrayError.push("Vui lòng nhập ngày kết thúc dự án");
+            }
+
+            if (IsNotNull($scope.projectInfo.FromDate) == true
+                && IsNotNull($scope.projectInfo.ToDate) == true)
             {
-                arrayError.push("Vui lòng chọn file ảnh");
+                var fromDate = new Date($scope.projectInfo.FromDate);
+                var toDate = new Date($scope.projectInfo.ToDate);
+
+                if (fromDate > toDate) {
+                    arrayError.push("Ngày bắt đầu không được lớn hơn ngày kết thúc dự án");
+                }
+            }
+
+            if (IsNotNull($scope.projectInfo.LinkImage) == false) {
+                arrayError.push("Vui lòng chọn ảnh đại diện dự án");
             }
 
             if (arrayError.length > 0)
             {
-                textError = arrayError.join(", ");
+                textError = arrayError.join(". ");
                 notificationService.displayError(textError);
                 return false;
             }
 
+            return true;
+        }
+
+        function IsNotNull(obj) {
+            if (obj == null || obj == '' || undefined)
+                return false;
             return true;
         }
 

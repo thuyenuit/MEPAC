@@ -42,9 +42,18 @@ namespace MEPAC.Web.Models
         /// </summary>
         public string CreateBy { get; set; }
         /// <summary>
+        /// Người tạo
+        /// </summary>
+        public string FullNameCreate { get; set; }
+
+        /// <summary>
         /// Người cập nhật
         /// </summary>
         public string UpdateBy { get; set; }
+        /// <summary>
+        /// Người tạo
+        /// </summary>
+        public string FullNameUpdate { get; set; }
         /// <summary>
         /// Ngày tạo
         /// </summary>
@@ -69,6 +78,13 @@ namespace MEPAC.Web.Models
         /// Trạng thái
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// Dự án tiêu biểu
+        /// </summary>
+        public bool IsRepresentative { get; set; }
+
+        public List<string> ListMoreImage { get; set; }
 
     }
 }

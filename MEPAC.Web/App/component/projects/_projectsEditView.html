@@ -3,264 +3,190 @@
 <head>
     <meta charset="utf-8" />
 </head>
-<body>
-    <div class="page-header">
-        <h1>
-            Sản phẩm
-            <small>
-                <i class="ace-icon fa fa-angle-double-right"></i> Cập nhật
-            </small>
-        </h1>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-12">
-                    <form class="form-horizontal" novalidate name="frmEditProduct" role="form" ng-submit="EditProduct()">
+<body ng-controller="projectsEditController">
+    <form class="form-horizontal" novalidate name="frmAddProject" role="form" ng-submit="EditProject()">
+        <div class="page-header">
+            <div style="display:initial; ">
+                <div class="col-md-8 col-xs-6">
+                    <span style="font-size:22px">Cập nhật <span class="hidden-480">dự án</span></span>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="col-md-4 col-xs-4 pull-right">
+                        <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                            <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
+                        </button>
+                    </div>
+                    <div class="col-md-3 col-xs-4 pull-right">
+                        <button class="btn btn-sm btn-info" type="submit" ng-disabled="frmAddProject.$invalid">
+                            <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="clearfix">
-                            <div class="row" style="float:right">
-                                <div class="col-md-5 col-xs-3">
-                                    <button class="btn btn-sm btn-info" type="submit" ng-disabled="frmEditProduct.$invalid">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>Lưu
-                                    </button>
-                                </div>
-                                <div class="col-md-7 col-xs-3">
-                                    <button class="btn btn-sm" type="reset" ui-sref="products">
-                                        <i class="ace-icon fa fa-undo bigger-110"></i>
-                                        Quay lại
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
+            </div>
+            <input type="hidden" ng-model="typeAction" />
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12">
                         <div class="form-group hidden-480">
                             <label class="col-sm-12 control-label no-padding-right" style="text-align:left!important">
-                                Nhập các thông tin cơ bản của sản phẩm
-                                <br /><i>(Ghi chú: Tên sản phẩm là duy nhất và không được trùng nhau)</i>
+                                Nhập các thông tin cơ bản của dự án
+                                <br /><i>(Lưu ý: các trường có dấu <span style="color:red">*</span> là bắt buộc)</i>
                             </label>
                         </div>
+                        <div class="col-xs-12 col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                                    Tên dự án <span class="label-required">*</span>
+                                </label>
+                                <div class="col-sm-4 col-md-4">
+                                    <input ng-required="true" type="text" maxlength="200" name="display" placeholder="Tên dự án" class="col-xs-12 col-sm-12"
+                                           ng-model="projectInfo.Display">
+                                    <span class="has-error" ng-show="frmAddProject.display.$touched && frmAddProject.display.$error.required">
+                                        Vui lòng nhập tên dự án!
+                                    </span>
+                                </div>
 
-                        <!--<span class="profile-picture">
-                            <img id="avatar" class="editable img-responsive editable-click editable-empty"
-                                 alt="Alex's Avatar" src="/Assets/images/avatars/profile-pic.jpg">
-                        </span>-->
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Sản phẩm <span class="label-required">*</span>
-                            </label>
-                            <div class="col-sm-4">
-                                <input ng-required="true" type="text" maxlength="255" name="productName" placeholder="Sản phẩm" class="col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.ProductName" ng-change="GetSEOTitle()">
-                                <span class="has-error" ng-show="frmEditProduct.productName.$touched && frmEditProduct.productName.$error.required">
-                                    Vui lòng nhập tên sản phẩm!
-                                </span>
-                            </div>
-
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Alias </label>
-                            <div class="col-sm-4">
-                                <input type="text" readonly class="col-xs-12 col-sm-12" ng-model="pcEditInfo.Alias">
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Thể loại <span class="label-required">*</span>
-                            </label>
-                            <div class="col-sm-4">
-                                <select name="categoryID" ng-required=true class="form-control"
-                                        ng-model="pcEditInfo.ProductCategoryID"
-                                        ng-options="option.ProductCategoryID as option.Display for option in categories">
-                                    <option value="">[Lựa chọn]</option>
-                                </select>
-                                <span class="has-error" ng-show="frmEditProduct.categoryID.$touched && frmEditProduct.categoryID.$error.required">
-                                    Vui lòng chọn thể loại!
-                                </span>
-                            </div>
-
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Mã sản phẩm
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="productCode" maxlength="255"
-                                       class="col-xs-12 col-sm-12" ng-model="pcEditInfo.ProductCode">
-                                <span class="has-error" ng-show="frmEditProduct.productCode.$touched && frmEditProduct.productCode.$error.required">
-                                    Vui lòng nhập mã sản phẩm
-                                </span>
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Giá vốn
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="priceCost" maxlength="10" placeholder="Giá vốn" class="text-right col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.PriceCost">
-                            </div>
-
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Giá bán
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="priceSell" maxlength="10" placeholder="Giá bán" class="text-right col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.PriceSell">
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right">
-                                Khuyến mại (%)
-                            </label>
-                            <div class="col-sm-1">
-                                <input type="text" name="percent" maxlength="3" placeholder="%" class="col-xs-3 col-sm-12" ng-change="GetPriceSale()"
-                                       ng-model="percent" ng-disabled="pcEditInfo.PriceSell == undefined || pcEditInfo.PriceSell <= 0">
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" readonly disabled name="pricePromotion" maxlength="10" placeholder="Giá khuyến mại"
-                                       class="text-right col-xs-8 col-sm-12 pull-right" ng-model="pcEditInfo.PricePromotion">
-                            </div>
-
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Số lượng
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="quantity" maxlength="5" placeholder="Số lượng" class="col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.Quantity">
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Mức tồn tối thiểu
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="existMinimum" maxlength="5" placeholder="Mức tồn tối thiểu" class="col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.ExistMinimum">
-                            </div>
-
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Mức tồn tối đa
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="text" name="existMaximum" maxlength="5" placeholder="Mức tồn tối đa" class="numbersOnly col-xs-12 col-sm-12"
-                                       ng-model="pcEditInfo.ExistMaximum">
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right">Mô tả</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" name="content" ckeditor="ckeditorOptions"
-                                          ng-model="pcEditInfo.Description"></textarea>
-                            </div>
-                        </div>
-                        <div class="space-4"></div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-tags">Tag keyword</label>
-                            <div class="col-sm-10">
-                                <div class="inline">
-                                    <div class="tags">
-                                        <div class="content-tags">
-                                            <!--<span class="tag">Tag Input Control<button type="button" class="close">×</button></span>
-                                            <span class="tag">Programmatically Added<button type="button" class="close">×</button></span>-->
+                                <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                                    Thời gian thực hiện <span class="label-required">*</span>
+                                </label>
+                                <div class="col-sm-4 col-md-4">
+                                    <div class="input-group date">
+                                        <input type="date" class="form-control pull-left" name="fromDate" ng-model="projectInfo.FromDate" id="datepicker2" placeholder="Từ ngày">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
                                         </div>
-
-                                        <input type="text" name="tags" id="form-field-tags" value="Tag Input Control" placeholder="Tag keyword" style="display: none;">
-                                        <input type="text" placeholder="Tag keyword">
+                                        <input style="width: 95%;" type="date" class="form-control pull-left" name="toDate" ng-model="projectInfo.ToDate" id="datepicker" placeholder="Đến ngày">
+                                        <span class="has-error" ng-show="{{frmAddProject.fromDate.$touched && frmAddProject.fromDate.$error.required }}">
+                                            Vui lòng nhập ngày bắt đầu!
+                                        </span>
+                                        <span class="has-error" ng-show="{{frmAddProject.toDate.$touched && frmAddProject.toDate.$error.required}}">
+                                            Vui lòng nhập ngày kết thúc
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="space-4"></div>
+                            <div class="space-4"></div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Meta Description </label>
-                            <div class="col-sm-10">
-                                <input type="text" maxlength="255" placeholder="Meta Description" class="form-control" ng-model="pcEditInfo.MetaDescription">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
-                                Avatar
-                            </label>
-                            <div class="col-sm-4">
-                                <label class="ace-file-input">
-                                    <input type="file" id="id-input-file-2">
-                                    <span class="ace-file-container" data-title="Chọn file">
-                                        <span class="ace-file-name" data-title="Chưa có file ...">
-                                            <i class="ace-icon fa fa-upload"></i>
-                                        </span>
-                                    </span>
-                                    <a class="remove"><i class="ace-icon fa fa-times"></i></a>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
+                                    Hình ảnh <span class="label-required">*</span>
                                 </label>
+                                <div class="col-sm-4">
+                                    <!--<select name="categoryID" ng-required=true class="form-control" ng-model="categories"
+                                            ng-options="option.CategoryID as option.Display group by option.GroupName for option in categories">
+                                        <option value="" selected="selected">[Lựa chọn]</option>
+                                    </select>-->
+
+                                    <label class="ace-file-input">
+                                        <input type="file" name="linkImage" id="id-input-file-2">
+                                        <span class="ace-file-container" data-title="Chọn" ng-click="ChooseImage()">
+                                            <span class="ace-file-name" id="spanImage" data-title="Chưa chọn ảnh...">
+                                                <i class="ace-icon fa fa-upload"></i>
+                                            </span>
+                                        </span>
+                                        <a class="remove" href="#">
+                                            <i class="ace-icon fa fa-times">
+                                            </i>
+                                        </a>
+                                    </label>
+                                    <!--<button class="btn btn-default" ng-click="ChooseImage()">Chọn ảnh</button>-->
+                                    <span class="has-error" ng-show="frmAddProject.linkImage.$touched && frmAddProject.linkImage.$error.required">
+                                        Vui lòng chọn hình ảnh!
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                        </div>
+
+                        <div class="space-4"></div>
+                        <div class="col-xs-12 col-md-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
+                                    Thêm ảnh
+                                </label>
+                                <div class="col-sm-10">
+                                    <button type="button" ng-click="ChooseMoreImage()" class="btn btn-sm btn-default">Chọn ảnh</button>
+                                    <label class="ace-file-input ace-file-multiple" ng-show="showImage">
+                                        <span class="ace-file-container hide-placeholder selected">
+                                            <span class="ace-file-name" ng-repeat="img in moreImages" data-title="{{img}}">
+                                                <img class="middle" style="background-image: url({{img}}); width: 100px; height: 50px;" src="{{img}}">
+                                                <i ng-click="RemoveImage(img)" class="ace-icon fa fa-times pull-right" style="display:block !important;top: 10px !important;"></i>
+                                            </span>
+                                        </span>
+                                        <a class="remove" ng-click="RemoveAllImage()"><i class="ace-icon fa fa-times"></i></a>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right">Mô tả</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="content" ckeditor="ckeditorOptions"
+                                              ng-model="projectInfo.Description"></textarea>
+                                </div>
                             </div>
 
-                            <div class="col-sm-6">
-                                <label class="ace-file-input ace-file-multiple">
-                                    <input multiple="" type="file" id="id-input-file-3">
-                                    <span class="ace-file-container" data-title="Thả files ở đây hoặc click chọn">
-                                        <span class="ace-file-name" data-title="No File ...">
-                                            <i class="ace-icon ace-icon fa fa-cloud-upload"></i>
-                                        </span>
-                                    </span>
-                                    <a class="remove"><i class="ace-icon fa fa-times"></i></a>
-                                </label>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Meta keyword</label>
+                                <div class="col-sm-10">
+                                    <input type="text" maxlength="255" placeholder="Meta keyword" class="form-control" ng-model="projectInfo.MetaKeyword">
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Meta description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" maxlength="255" placeholder="Meta Description" class="form-control" ng-model="projectInfo.MetaDescription">
+                                </div>
                             </div>
                         </div>
-                        <div class="space-4"></div>
 
                         <div class="space-4"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"></label>
                             <div class="col-sm-10">
                                 <label class="pos-rel">
-                                    <input type="checkbox" class="ace" name="all" ng-model="pcEditInfo.HomeFlag" />
-                                    <span class="lbl"> Hiển thị</span>
+                                    <input type="checkbox" class="ace" name="all" ng-model="projectInfo.IsShow" />
+                                    <span class="lbl"> Hiển thị trang chủ</span>
+                                </label>
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" name="all" ng-model="projectInfo.IsRepresentative" />
+                                    <span class="lbl"> Dự án tiêu biểu</span>
                                 </label>
 
                                 <label class="pos-rel">
-                                    <input type="checkbox" class="ace" name="all" ng-model="pcEditInfo.HotFlag" />
-                                    <span class="lbl"> Sản phẩm hot</span>
+                                    <input type="checkbox" class="ace" name="all" ng-model="projectInfo.IsActive" />
+                                    <span class="lbl"> Trạng thái</span>
                                 </label>
                             </div>
                         </div>
 
                         <div class="clearfix">
-                            <div class="row" style="float:right">
-                                <div class="col-md-5 col-xs-3">
-                                    <button class="btn btn-sm btn-info" type="button" ng-disabled="frmEditProduct.$invalid">
-                                        <i class="ace-icon fa fa-check bigger-110"></i>Lưu
+                            <div class="col-md-4 col-xs-6" style="float:right">
+
+                                <div class="col-md-4 col-xs-4 pull-right">
+                                    <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                                        <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
                                     </button>
-                                </div>                           
-                                <div class="col-md-7 col-xs-3">
-                                    <button class="btn btn-sm" type="reset" ui-sref="products">
-                                        <i class="ace-icon fa fa-undo bigger-110"></i>
-                                        Quay lại
+                                </div>
+                                <div class="col-md-3 col-xs-4 pull-right">
+                                    <button class="btn btn-sm btn-info" type="submit" ng-disabled="frmAddProject.$invalid">
+                                        <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
                                     </button>
                                 </div>
                                 <input type="hidden" ng-model="typeAction" />
                             </div>
                         </div>
-                    </form>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </body>
 </html>
-
-
-
-
-
-
-

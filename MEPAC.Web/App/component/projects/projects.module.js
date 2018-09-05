@@ -20,7 +20,7 @@
                 templateUrl: '/app/component/projects/_projectsAddView.html',
                 controller: 'projectsAddController'
             })
-            .state('projectsEdit', {
+            .state('projectEdit', {
                 parent: 'baseView',
                 url: '/edit-project?projectId',
                 templateUrl: '/app/component/projects/_projectsEditView.html',
