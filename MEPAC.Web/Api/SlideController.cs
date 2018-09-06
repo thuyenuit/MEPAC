@@ -36,11 +36,21 @@ namespace MEPAC.Web.Api
         [Route("search")]
         [HttpGet]
         public HttpResponseMessage Search(HttpRequestMessage request,
-            int page, int pageSize)
+            int page, int pageSize, int status)
         {
             return CreateHttpResponse(request, () =>
             {
-                List<Slide> lstSlideDB = _slideBusiness.GetAll().Where(x=>x.IsActive).ToList();
+                IQueryable<Slide> iquery = _slideBusiness.GetAll();
+                if (status == 1)
+                {
+                    iquery = iquery.Where(x => x.IsActive == true);
+                }
+                else
+                {
+                    iquery = iquery.Where(x => x.IsActive == false);
+                }
+
+                List<Slide> lstSlideDB = iquery.ToList();
 
                 List<SlideViewModel> lstSlideVM = lstSlideDB.Select(x => new SlideViewModel()
                 {

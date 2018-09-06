@@ -160,7 +160,7 @@ namespace MEPAC.Web.Api
                     try
                     {
                         List<string> lstError = new List<string>();
-                        var objSubMenu = SubMenuBusiness.GetById(rangeVM.SubMenuID);
+                        var objSubMenu = new SubMenu();//SubMenuBusiness.GetById(rangeVM.SubMenuID);
 
                         if (objSubMenu == null)
                         {
@@ -220,7 +220,7 @@ namespace MEPAC.Web.Api
                         //};
                         objSubMenu.Display = rangeVM.SubMenuName;
                         objSubMenu.Image = rangeVM.LinkImage;
-                        SubMenuBusiness.Update(objSubMenu);
+                       // SubMenuBusiness.Update(objSubMenu);
 
                         Range objRDB = RangeBusiness.GetById(rangeVM.RangeID);
                         if(objRDB == null)
@@ -254,7 +254,7 @@ namespace MEPAC.Web.Api
                             RangeBusiness.Update(objRDB);
                         }
 
-                        SubMenuBusiness.Save();
+                        //SubMenuBusiness.Save();
                         RangeBusiness.Save();
                         response = request.CreateResponse(HttpStatusCode.OK, "Cập nhật thành công");
                     }
@@ -291,11 +291,11 @@ namespace MEPAC.Web.Api
                 List<SubMenu> lstSubMenu = SubMenuBusiness.GetAll().Where(x => lstSubMenuID.Contains(x.SubMenuID)).ToList();
                 foreach (var item in lstSubMenu)
                 {
-                    SubMenuBusiness.Delete(item.SubMenuID);
+                   // SubMenuBusiness.Delete(item.SubMenuID);
                 }
 
-                RangeBusiness.Save();
-                SubMenuBusiness.Save();
+                //RangeBusiness.Save();
+                //SubMenuBusiness.Save();
                 response = request.CreateResponse(HttpStatusCode.OK, lstSubMenuID.Count());
 
             }

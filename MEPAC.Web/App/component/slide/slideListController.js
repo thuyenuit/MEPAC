@@ -32,6 +32,18 @@
             ListSlide();
         };
 
+        $scope.listStatus = [];
+        $scope.listStatus.StatusID = 1;
+        function LoadStatus() {
+            apiService.get('/api/other/getListStatus', null, function (result) {
+                $scope.listStatus = result.data;
+                $scope.listStatus.StatusID = 1;
+            }, function (result) {
+                // notificationService.displayError('Không thể tải danh sách trạng thái');
+            });
+        }
+        LoadStatus();
+
         $scope.lstSlide = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
@@ -44,11 +56,12 @@
         function ListSlide(page) {
 
             page = page || 0;
-
+            var statusId = $scope.listStatus.StatusID;
             var consfig = {
                 params: {
                     page: page,
                     pageSize: $scope.valueShow,
+                    status: statusId
                 }
             };           
 

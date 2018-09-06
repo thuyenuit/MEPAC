@@ -50,13 +50,19 @@
         </div>
     </div>-->
     <div class="space-4"></div>
-    <div class="row" ng-show="showTitle">
-        <div class="col-md-12">
-            <span>Lần thực hiện gần nhất: ngày <strong style="color: orange;">{{StrDate}}</strong> 
+    <div class="row" >
+        <div class="col-md-10">
+            <span ng-show="showTitle">Lần thực hiện gần nhất: ngày <strong style="color: orange;">{{StrDate}}</strong> 
             lúc <strong style="color: orange;">{{StrHour}}</strong> bởi 
             <strong style="color: orange;"> {{StrUser}}</strong>
             </span>
         </div> 
+        <div class="col-md-2">
+           
+                <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
+                        ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
+            
+        </div>
     </div>
     <div class="space-4"></div>
     <div class="row">

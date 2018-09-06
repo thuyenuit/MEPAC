@@ -28,7 +28,7 @@ namespace MEPAC.Web.Api
             return CreateHttpResponse(request, () =>
             {
                 List<Status> lstStatus = new List<Status>();
-                lstStatus.Add(new Status() { StatusID = 1 , StatusName = "Đang hoạt động" });
+                lstStatus.Add(new Status() { StatusID = 1 , StatusName = "Đang hiển thị" });
                 lstStatus.Add(new Status() { StatusID = 2 , StatusName = "Đã hủy" });
 
                 var response = request.CreateResponse(HttpStatusCode.OK, lstStatus);
