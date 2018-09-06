@@ -133,13 +133,13 @@ namespace MEPAC.Business.Business
                     result.Description = objInpput.Description;
                     result.IsActive = objInpput.IsActive;
                     result.IsShow = objInpput.IsShow;
-                    result.PostBy = objInpput.PostBy;
+                    result.PostBy = objInpput.PostBy;    
                     result.PostDate = objInpput.PostDate;
                     result.UpdateBy = objInpput.UpdateBy;
                     result.UpdateDate = objInpput.UpdateDate;
                     result.MetaDescription = objInpput.MetaDescription;
                     result.MetaKeyword = objInpput.MetaKeyword;
-
+                    result.IsRepresentative = objInpput.IsRepresentative;
                     _projectRepository.Update(result);
                     _unitOfWork.Commit();
 
