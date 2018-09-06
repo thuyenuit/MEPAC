@@ -7,6 +7,7 @@ namespace MEPAC.Web.Provider
 {
     public class UserInfoInstance
     {
+        public static string UserIDInstance { get; set; }
         public static string UserCodeInstance { get; set; }
         public static string UserNameInstance { get; set; }
         public static string FullNameInstance { get; set; }

@@ -1,4 +1,5 @@
 ﻿using MEPAC.Model.Models;
+using MEPAC.Web.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -33,6 +34,7 @@ namespace MEPAC.Web.Provider
             ApplicationUser user;
             try
             {
+                MEPAC.Reportsitory.MEPACDbContext DbContext = new MEPAC.Reportsitory.MEPACDbContext();
                 user = await userManager.FindAsync(context.UserName, context.Password);
             }
             catch
@@ -103,12 +105,15 @@ namespace MEPAC.Web.Provider
                         {"message", "Đăng nhập thành công" }
                     });
 
+                //GlobalInfo _global = new GlobalInfo();
+                //_global.AccountUserID = user.Id;
+
                 UserInfoInstance.EmailInstance = email;
                 UserInfoInstance.FullNameInstance = user.FullName;
                 UserInfoInstance.PhoneInstance = phoneNumber;
                 UserInfoInstance.UserCodeInstance = userCode;
                 UserInfoInstance.UserNameInstance = user.UserName;
-
+                UserInfoInstance.UserIDInstance = user.Id;
                /* List<ListStatus> listStatus = new List<ListStatus> {
                     new ListStatus() { StatusID = SystemParameter.StatusID_0, StatusName = SystemParameter.StatusName_0},
                     new ListStatus() { StatusID = SystemParameter.StatusID_1, StatusName = SystemParameter.StatusName_1},

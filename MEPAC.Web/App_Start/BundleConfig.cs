@@ -27,6 +27,21 @@ namespace MEPAC.Web
                        "~/Content/bootstrap.css",
                        "~/Content/site.css"));*/
 
+            bundles.Add(new ScriptBundle("~/client/bundles/jquery").Include(
+                      "~/Assets/Client/js/jquery-2.1.4.min.js",
+                      "~/Assets/Client/js/bootstrap.js",
+                      "~/Assets/Client/js/move-top.js",
+                      "~/Assets/Client/js/easing.js",
+                      "~/Assets/Client/js/customize.js"));
+
+            bundles.Add(new StyleBundle("~/client/bundles/css").Include(
+                      "~/Assets/Client/css/bootstrap.css",
+                      // "~/Assets/Client/css/font-awesome.min.css",
+                      "~/Assets/Admin/plusgins/font-awesome/css/font-awesome.min.css",
+                       "~/Assets/Admin/plusgins/Ionicons/css/ionicons.min.css",
+                      "~/Assets/Client/css/style.css",
+                      "~/Assets/Client/css/customize.css"));
+
             bundles.Add(new StyleBundle("~/Assets/Admin/css").Include(
                       "~/Assets/css/bootstrap.min.css",
                       "~/Assets/css/jquery-ui.custom.min.css",

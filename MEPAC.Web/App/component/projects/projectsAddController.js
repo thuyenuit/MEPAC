@@ -84,8 +84,7 @@
                 $scope.$apply(function () {
                     $scope.projectInfo.LinkImage = fileUrl;
                     $("#spanImage").attr("data-title", fileUrl);
-                })
-               
+                })              
             }
             finder.popup();
         }

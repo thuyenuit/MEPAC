@@ -1,4 +1,6 @@
-﻿using MEPAC.Business.Common;
+﻿using MEPAC.Business.Business;
+using MEPAC.Business.Common;
+using MEPAC.Model.Models;
 using MEPAC.Web.Infrastructure.Core;
 using System;
 using System.Collections.Generic;
@@ -13,8 +15,10 @@ namespace MEPAC.Web.Api
     [Authorize]
     public class OtherController : BaseApiController
     {
-        public OtherController()
+        IInformationBusiness _informationBusiness;
+        public OtherController(IInformationBusiness _informationBusiness)
         {
+            this._informationBusiness = _informationBusiness;
         }
 
         [Route("getListStatus")]
@@ -28,6 +32,60 @@ namespace MEPAC.Web.Api
                 lstStatus.Add(new Status() { StatusID = 2 , StatusName = "Đã hủy" });
 
                 var response = request.CreateResponse(HttpStatusCode.OK, lstStatus);
+                return response;
+            });
+        }
+
+        [Route("getInforCompany")]
+        [HttpGet]
+        public HttpResponseMessage GetInforCompany(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var obj = _informationBusiness.GetAll().FirstOrDefault();
+
+                var response = request.CreateResponse(HttpStatusCode.OK, obj);
+                return response;
+            });
+        }
+
+        [Route("updateInforCompany")]
+        [HttpPost]
+        public HttpResponseMessage Update(HttpRequestMessage request, Information info)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+
+                if (!ModelState.IsValid)
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadGateway, ModelState);
+                }
+                else
+                {
+                    try
+                    {
+                        List<string> lstError = new List<string>();
+                        if (info.InformationID <= 0)
+                        {
+                            lstError.Add("Thông tin không tồn tại");
+                        }
+
+                        if (string.IsNullOrEmpty(info.Content))
+                        {
+                            lstError.Add("Vui lòng nhập thông tin giới thiệu");
+                        }
+
+                        _informationBusiness.Update(info);
+                        response = request.CreateResponse(HttpStatusCode.OK, "Cập nhật thành công");
+                    }
+                    catch (Exception ex)
+                    {
+                        response = request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+                    }
+
+                }
+
                 return response;
             });
         }

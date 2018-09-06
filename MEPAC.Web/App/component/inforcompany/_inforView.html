@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+</head>
+<body ng-controller="inforController">
+    <form class="form-horizontal" novalidate name="frmAddProject" role="form" ng-submit="EditProject()">
+        <div class="page-header">
+            <div style="display:initial; ">
+                <div class="col-md-8 col-xs-6">
+                    <span style="font-size:22px">Thông tin công ty</span>
+                </div>
+                <div class="col-md-4 col-xs-6">
+                    <div class="col-md-4 col-xs-4 pull-right">
+                        <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                            <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
+                        </button>
+                    </div>
+                    <div class="col-md-3 col-xs-4 pull-right">
+                        <button class="btn btn-sm btn-info" type="submit" ng-disabled="frmAddProject.$invalid">
+                            <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="padding-top: 20px;">
+                <div class="col-xs-12 col-md-12">
+                    <!--<div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" for="form-field-1">
+                            Logo <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-10">
+                            <label class="ace-file-input">
+                                <input type="text" name="image" ng-model="slideInfo.Image" style="display:none">
+                                <input type="file" name="linkImage" id="id-input-file-2">
+                                <span class="ace-file-container" data-title="Chọn" ng-click="ChooseImage()">
+                                    <span class="ace-file-name" id="spanImage" data-title="Chưa chọn ảnh...">
+                                        <i class="ace-icon fa fa-upload"></i>
+                                    </span>
+                                </span>
+                                <a class="remove" href="#">
+                                    <i class="ace-icon fa fa-times">
+                                    </i>
+                                </a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>-->
+                    <!--<div class="form-group">
+                        <div class="col-sm-10 col-md-10 pull-right">
+                            <img class="middle" style="width: 100%" src="{{projectInfo.Image}}">
+                        </div>
+                    </div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Tên công ty <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="200" name="display" placeholder="Tên công ty" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Display">
+                            <span class="has-error" ng-show="frmAddProject.display.$touched && frmAddProject.display.$error.required">
+                                Vui lòng nhập tên công ty!
+                            </span>
+                        </div>
+
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Tên viết tắc
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input type="text" maxlength="50" name="shortDisplay" placeholder="Tên viết tắt" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.ShortDisplay">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Địa chỉ 1 <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="300" name="address" placeholder="Địa chỉ" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Address1">
+                            <span class="has-error" ng-show="frmAddProject.address.$touched && frmAddProject.address.$error.required">
+                                Vui lòng nhập địa chỉ 1!
+                            </span>
+                        </div>
+
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Địa chỉ 2 <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="300" name="address2" placeholder="Địa chỉ 2" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Address2">
+                            <span class="has-error" ng-show="frmAddProject.address2.$touched && frmAddProject.address2.$error.required">
+                                Vui lòng nhập địa chỉ 2!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <!--<div class="form-group" ng-show="showAddress3 || showAddress4 ">
+                        <label ng-show="showAddress3"
+                               class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Địa chỉ 3 <span class="label-required">*</span>
+                        </label>
+                        <div ng-show="showAddress3" class="col-sm-4 col-md-4">
+                            <input type="text" maxlength="300" name="address3" placeholder="Địa chỉ 3" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Address3">
+                            <span class="has-error" ng-show="frmAddProject.address3.$touched && frmAddProject.address3.$error.required">
+                                Vui lòng nhập địa chỉ!
+                            </span>
+                        </div>
+
+                        <label ng-show="showAddress4" class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Địa chỉ 4 <span class="label-required">*</span>
+                        </label>
+                        <div ng-show="showAddress4" class="col-sm-4 col-md-4">
+                            <input type="text" maxlength="300" name="address4" placeholder="Địa chỉ 4" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Address4">
+                            <span class="has-error" ng-show="frmAddProject.address4.$touched && frmAddProject.address4.$error.required">
+                                Vui lòng nhập địa chỉ!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>-->
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Điện thoại <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="30" name="phone" placeholder="Điện thoại" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Phone">
+                            <span class="has-error" ng-show="frmAddProject.phone.$touched && frmAddProject.phone.$error.required">
+                                Vui lòng nhập số điện thoại!
+                            </span>
+                        </div>
+
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Email <span class="label-required">*</span>
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="200" name="email" placeholder="Email" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Email">
+                            <span class="has-error" ng-show="frmAddProject.email.$touched && frmAddProject.email.$error.required">
+                                Vui lòng nhập email!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-md-2 control-label no-padding-right" for="form-field-1">
+                            Website
+                        </label>
+                        <div class="col-sm-4 col-md-4">
+                            <input ng-required="true" type="text" maxlength="50" name="website" placeholder="Website" class="col-xs-12 col-sm-12"
+                                   ng-model="projectInfo.Website">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">Giới thiệu công ty</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="content" ckeditor="ckeditorOptions"
+                                      ng-model="projectInfo.Content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="space-4"></div>
+                   
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Meta keyword</label>
+                            <div class="col-sm-10">
+                                <input type="text" maxlength="255" placeholder="Meta keyword" class="form-control" ng-model="projectInfo.MetaKeyword">
+                            </div>
+                        </div>
+                        <div class="space-4"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1-1"> Meta description</label>
+                            <div class="col-sm-10">
+                                <input type="text" maxlength="255" placeholder="Meta Description" class="form-control" ng-model="projectInfo.MetaDescription">
+                            </div>
+                        </div>
+                  
+                </div>
+                <div class="clearfix">
+                    <div class="col-md-4 col-xs-6" style="float:right">
+
+                        <div class="col-md-4 col-xs-4 pull-right">
+                            <button class="btn btn-sm btn-default" type="reset" ui-sref="projects">
+                                <i class="ace-icon fa fa-undo bigger-110"></i><span class="hidden-480">Quay lại</span>
+                            </button>
+                        </div>
+                        <div class="col-md-3 col-xs-4 pull-right">
+                            <button class="btn btn-sm btn-info" type="submit" ng-disabled="frmAddProject.$invalid">
+                                <i class="ace-icon fa fa-save bigger-110"></i> <span class="hidden-480">Lưu</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </form>
+</body>
+</html>

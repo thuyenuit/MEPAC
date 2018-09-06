@@ -1,31 +1,413 @@
-﻿@{
+﻿@using MEPAC.Model.Models;
+
+@{
     ViewBag.Title = "Home Page";
+
+    List<Slide> lstSlide = new List<Slide>();
+    if (ViewData["LIST_SLIDE"] != null)
+    {
+        lstSlide = (List<Slide>)ViewData["LIST_SLIDE"];
+    }
+
+    List<Projects> lstProject = new List<Projects>();
+    if (ViewData["LIST_PROJECT_REP"] != null)
+    {
+        lstProject = (List<Projects>)ViewData["LIST_PROJECT_REP"];
+    }
+
+    int count = 0;
+    int index = 0;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<!-- banner -->
+<div class="container container-slider">
+    <div style="margin-top: 90px;position: inherit;" id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            @foreach (var item in lstSlide)
+            {
+                <li data-target="#myCarousel" data-slide-to="@count" class=@(count == 0 ? "active": "icon-nek")></li>
+                count++;
+            }
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+
+            @for (int i = 0; i < lstSlide.Count(); i++)
+            {
+                if (index == 0)
+                {
+                    <div class="item active">
+                        <img class="slider-image" src="@lstSlide[i].Image" alt="Los Angeles" style="width: 100%;">
+
+                        @if (!string.IsNullOrEmpty(lstSlide[i].Content))
+                    {
+                            <div class="carousel-caption justify-content-center">
+                                <div class="col-10 align-center title-slider">
+                                    <p class="mbr-text mbr-fonts-style display-5">@lstSlide[i].Content</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <img class="slider-image" src="@lstSlide[i].Image" alt="Los Angeles" style="width: 100%;">
+
+                        @if (!string.IsNullOrEmpty(lstSlide[i].Content))
+                    {
+                            <div class="carousel-caption justify-content-center">
+                                <div class="col-10 align-center title-slider">
+                                    <p class="mbr-text mbr-fonts-style display-5">@lstSlide[i].Content</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                index++;
+            }
+        </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+
+<!-- //banner -->
+<!-- du an tieu bieu -->
+<div class="events events-first project-representative">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-11 col-sm-10 col-xs-7">
+                <h4 class="pd"><span class="border-bt">DỰ ÁN TIÊU BIỂU</span></h4>
+            </div>
+            <div class="col-md-1 col-sm-2 col-xs-5 view-all">
+                <div style="border: 2px solid #0066CC; text-align: center;">
+                    @if (lstProject.Count() > 0)
+                    {
+                        <a href="/trang-gioi-thieu-150" class="view_all_1 xs-bottom-view-all">Tất cả</a>
+                    }                 
+                </div>
+            </div>
+        </div>
+        <div class="events-grids vt-fontsize">
+
+            @foreach (var item in lstProject)
+            {
+                var linkUrl = "/chi-tiet-du-an/" + item.ProjectID;
+                <div class="col-md-4 events-gri;d">
+                    <div class="events-grid1 hvr-sweep-to-top">
+                        <a href="@linkUrl">
+                            <img src="@item.Image" alt="" class="img-responsive" />
+                        </a>
+                        <h4><a href="@linkUrl">@item.Display</a></h4>
+                        <ul>
+                            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@item.FromDate.ToString("dd/MM/yyyy") - @item.ToDate.ToString("dd/MM/yyyy")</li>
+                        </ul>
+                    </div>
+                </div>
+            }
+            <div class="clearfix"></div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+</div>
+<!-- //du an tieu bieu -->
+<!-- linh vuc -->
+<div class="events range none-padding-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h4 class="pd"><span class="border-bt">LĨNH VỰC HOẠT ĐỘNG</span></h4>
+                <div class="events-grids">
+                    <div class="col-md-6 col-sm-6 col-xs-12 slidering" style="margin-left: -15px;">
+                        <div class="thumbnail thumbnail-hr evaluation-img">
+                            <img src="~/Assets/Client/images/lapdat.jpg" alt="" style="max-width: 100%;">
+                            <div class="overlay-hover">
+                                <div class="text-hover">
+                                    <h4>
+                                        Cung cấp & lắp đặt
+                                    </h4>
+                                    <h4>
+                                        hệ thống điện tử
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12 slidering">
+                        <div class="thumbnail thumbnail-hr evaluation-img">
+                            <img src="~/Assets/Client/images/baotri2.jpg" alt="" style="max-width: 100%;">
+                            <div class="overlay-hover">
+                                <div class="text-hover">
+                                    <h4>
+                                        Bảo trì & bảo dưỡng
+                                    </h4>
+                                    <h4>
+                                        hệ thống điện tử
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12 slidering" style="margin-left: -15px;">
+                        <div class="thumbnail thumbnail-hr evaluation-img">
+                            <img src="~/Assets/Client/images/tuvan.jpg" alt="" style="max-width: 100%;">
+                            <div class="overlay-hover">
+                                <div class="text-hover">
+                                    <h4>
+                                        Tư vấn thiết kế
+                                    </h4>
+                                    <h4>
+                                        hệ thống điện tử
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12 slidering">
+                        <div class="thumbnail thumbnail-hr evaluation-img">
+                            <img src="~/Assets/Client/images/quanlyduan.jpg" alt="" style="max-width: 100%;">
+                            <div class="overlay-hover">
+                                <div class="text-hover">
+                                    <h4>
+                                        Tư vấn quản lý dự án
+                                    </h4>
+                                    <h4>
+                                        hệ thống điện tử
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="col-md-3 hiring">
+                <h4 class="pd"><span class="border-bt">TUYỂN DỤNG</span></h4>
+                <div class="events-grids vt-fontsize08">
+                    <div class="col-md-12 col-xs-6 padding-right-left-15">
+                        <div class="events-grid1 vt-hiring">
+                            <a href="single.html">
+                                <img src="~/Assets/Client/images/tuyenketoan.png" alt=" " class="img-responsive" />
+                            </a>
+                            <h4><a href="single.html">Tuyển dụng - Kế toán, kiểm toán.</a></h4>
+                            <ul>
+                                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/08/2018</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-xs-6 padding-right-left-15 vt-paddingtop10">
+                        <div class="events-grid1 vt-hiring">
+                            <a href="single.html">
+                                <img src="~/Assets/Client/images/kysudien.jpg" alt="" class="img-responsive" />
+                            </a>
+                            <h4><a href="single.html">Tuyển dụng - Kỹ sư điện.</a></h4>
+                            <ul>
+                                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>24/07/2018</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+</div>
+<!-- //linh vuc -->
+<!-- tin tuc -->
+<div class="events news none-padding">
+    <div class="container">
+        <div class="row">
+            <h4 class="pd"><span class="border-bt">TIN TỨC</span></h4>
+            <div class="events-grids">
+                <div class="big-item clearfix">
+                    <div class="class-image-news col-md-8">
+                        <a href="#">
+                            <div class="image-wrap">
+                                <img style="width: 100% !important;" class="img-news" src="~/Assets/Client/images/phoi-canh-vinhomes-central-park-1.jpg">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="class-info-news col-md-4 ">
+                        <h2 class="post-title"><a href="#">Mepac phối cảnh thi công về thiết kế điện cho Dự án Vinhomes Central Park </a></h2>
+                        <p style="font-size: 16px;" class="date" class="glyphicon glyphicon-calendar">20/08/2018</p>
+                        <p style="font-size: 16px;" class="short-content-main">
+                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
+                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
+                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
+                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park...
+                        </p>
+                        <p style="font-size: 16px;" class="post-link"><a href="#">Đọc thêm</a></p>
+                        <p class="clear"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="events-grids">
+                <div class="col-md-3 col-sm-6">
+                    <div class="events-grid1 hvr-sweep-to-top">
+                        <a href="single.html">
+                            <img src="~/Assets/Client/images/van-phong-cho-thue-binh-thanh-coteccons-building-184470-1_221854.jpg" alt=" " class="img-responsive" />
+                        </a>
+                        <h4 class="child-item"><a href="single.html">Khởi công thi công các hạng mục tòa nhà Coteccons</a></h4>
+                        <ul class="child-date">
+                            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/8/2018</li>
+                        </ul>
+                        <p class="short-content">Ngay sau lễ khởi công dự án...</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="events-grid1 hvr-sweep-to-top">
+                        <a href="single.html">
+                            <img src="~/Assets/Client/images/CTBrotex.jpg" alt=" " class="img-responsive" />
+                        </a>
+                        <h4 class="child-item"><a href="single.html">Khởi công thi công các hạng mục công trình Brotex</a></h4>
+                        <ul class="child-date">
+                            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>25/2/2018</li>
+                        </ul>
+                        <p class="short-content">Ngay sau lễ khởi công dự án...</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 padding-top-15">
+                    <div class="events-grid1 hvr-sweep-to-top">
+                        <a href="single.html">
+                            <img src="~/Assets/Client/images/thaodien2.jpg" alt=" " class="img-responsive" />
+                        </a>
+                        <h4 class="child-item"><a href="single.html">Khởi công thi công các hạng mục công trình Masteri Thảo Điền</a></h4>
+                        <ul class="child-date">
+                            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>01/5/2017</li>
+                        </ul>
+                        <p class="short-content">Ngay sau lễ khởi công dự án...</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 padding-top-15">
+                    <div class="events-grid1 hvr-sweep-to-top">
+                        <a href="single.html">
+                            <img src="~/Assets/Client/images/thaodien2.jpg" alt=" " class="img-responsive" />
+                        </a>
+                        <h4 class="child-item"><a href="single.html">Khởi công thi công các hạng mục công trình Masteri Thảo Điền</a></h4>
+                        <ul class="child-date">
+                            <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>01/5/2017</li>
+                        </ul>
+                        <p class="short-content">Ngay sau lễ khởi công dự án...</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- //tin tuc -->
+
+<div class="events partner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="pd"><span class="border-bt">ĐỐI TÁC</span></h4>
+                <div class="events-grids">
+                    <div class="inner_sec_info_w3ls_agile">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 col-centered">
+                                <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                                    <div class="carousel-inner">
+                                        <div class="item active">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/Daikin_Logo.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/FDC-logo.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/KTG.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/ricons.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/bosch.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/nestle.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/commscope.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item">
+                                            <div class="carousel-col">
+                                                <div class="thumbnail">
+                                                    <img src="~/Assets/Client/images/LOGO-UNICONS-thumbnail.jpg" alt="Image" style="max-width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Controls -->
+                                    <div class="left carousel-control">
+                                        <a href="#carousel" role="button" data-slide="prev">
+                                            <span style="top: 45%;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </div>
+                                    <div class="right carousel-control">
+                                        <a href="#carousel" role="button" data-slide="next">
+                                            <span style="top: 45%;" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
     </div>
 </div>

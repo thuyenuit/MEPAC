@@ -3,6 +3,8 @@
 (function () {
     angular.module('sms',
         ['sms.projects', 'sms.range',
+         'sms.slide',
+         'sms.infor',
         'sms.common']).config(config).config(configAuthentication);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];

@@ -1,0 +1,154 @@
+﻿
+@using MEPAC.Web.Models;
+
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<ClientYearViewModel> lstYearsVM = ViewData["LIST_YEAR"] != null ? (List<ClientYearViewModel>)ViewData["LIST_YEAR"] : new List<ClientYearViewModel>();
+    List<ClientProjectViewMdel> lstProjectsCompleteVM = ViewData["LIST_PROJECT_COMPLETE"] != null ? (List<ClientProjectViewMdel>)ViewData["LIST_PROJECT_COMPLETE"] : new List<ClientProjectViewMdel>();
+    List<ClientProjectViewMdel> lstProjectsUnCompleteVM = ViewData["LIST_PROJECT_UNCOMPLETE"] != null ? (List<ClientProjectViewMdel>)ViewData["LIST_PROJECT_UNCOMPLETE"] : new List<ClientProjectViewMdel>();
+}
+
+<div class="events-first events-projects">
+    <div class="container-fluid" style="padding-bottom: 20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="pd"><span class="border-bt">DỰ ÁN THEO NĂM</span></h4>
+                <div class="events-grids">
+                    <div class="">
+                        <div class="widget-box widget-color-blue2">
+                            <div class="widget-header"></div>
+                            <div class="widget-body product-by-year">
+                                @foreach (var item in lstYearsVM)
+                                {
+                                    <span class="@(item.Selected ? "active info-year" : "info-year")"
+                                          value="@item.YearID"><span>@item.Display</span></span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="" style="padding-top: 10px">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#complete">Đã hoàn thành</a></li>
+                            <li><a data-toggle="tab" href="#uncomplete">Chưa hoàn thành</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="complete" class="tab-pane fade in active">
+
+                                @if (lstProjectsCompleteVM.Count() > 0)
+                                {
+                                    <div class="events-grids">
+                                        @for (int i = 0; i < lstProjectsCompleteVM.Count() - 4; i++)
+                                        {
+                                            var item = lstProjectsCompleteVM[i];
+                                            string link = "/chi-tiet-du-an/" + item.ProjectID;
+
+                                            <div class="col-md-3 events-grid">
+                                                <div class="events-grid1 hvr-sweep-to-top" style="background: #f5f5f5;">
+                                                    <a href="@link">
+                                                        <img src="@item.LinkImage" alt="@item.MetaDescription" title="@item.Display" class="img-responsive" />
+                                                    </a>
+                                                    <h4><a href="@link">@item.Display</a></h4>
+                                                    <ul>
+                                                        <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@item.Year</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="events-grids">
+                                        @for (int i = 4; i < lstProjectsCompleteVM.Count(); i++)
+                                        {
+                                            var item = lstProjectsCompleteVM[i];
+                                            string link = "/chi-tiet-du-an/" + item.ProjectID;
+
+                                            <div class="col-md-3 events-grid">
+                                                <div class="events-grid1 hvr-sweep-to-top" style="background: #f5f5f5;">
+                                                    <a href="@link">
+                                                        <img src="@item.LinkImage" alt="@item.MetaDescription" title="@item.Display" class="img-responsive" />
+                                                    </a>
+                                                    <h4><a href="@link">@item.Display</a></h4>
+                                                    <ul>
+                                                        <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@item.Year</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div style="float: right">
+                                        <nav aria-label="...">
+                                            <ul class="pagination">
+                                                <li class="page-item disabled">
+                                                    <span class="page-link">&laquo; </span>
+                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item active">
+                                                    <span class="page-link">
+                                                        2
+                                                        <span class="sr-only">(current)</span>
+                                                    </span>
+                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#">&laquo; </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h4>Không có dự án nào.</h4>
+                                    <div class="clearfix"></div>
+                                }
+
+
+                            </div>
+                            <div id="uncomplete" class="tab-pane fade">
+
+                                @if (lstProjectsUnCompleteVM.Count() > 0)
+                                {
+                                    <div class="events-grids">
+                                        <div class="col-md-3 events-grid">
+                                            <div class="events-grid1 hvr-sweep-to-top" style="background: #f5f5f5;">
+                                                <a href="single.html">
+                                                    <img src="~/Assets/Client/images/landmark-2.jpg" alt=" " class="img-responsive" />
+                                                </a>
+                                                <h4><a href="single.html">The Lanmark 81</a></h4>
+                                                <ul>
+                                                    <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>2018</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="events-grids">
+                                        <h4 style="margin-left: 15px;font-size: 15px !important;">Không có dự án nào</h4>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+

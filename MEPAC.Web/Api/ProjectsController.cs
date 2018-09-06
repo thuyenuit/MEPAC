@@ -3,6 +3,8 @@ using MEPAC.Business.Business;
 using MEPAC.Model.Models;
 using MEPAC.Web.Infrastructure.Core;
 using MEPAC.Web.Models;
+using MEPAC.Web.Provider;
+using MEPAC.Web.Utils;
 using MEPAC.WebAdmin.Infrastructure.Core;
 using System;
 using System.Collections.Generic;
@@ -254,17 +256,17 @@ namespace MEPAC.Web.Api
                     {
                         return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
                     }
-
+                    GlobalInfo _global = new GlobalInfo();
                     List<string> lstMoreImage = new JavaScriptSerializer().Deserialize<List<string>>(projectVM.PostBy);
                     projectVM.ListMoreImage = lstMoreImage;
 
                     projectVM.IsActive = true;
                     projectVM.CreateDate = DateTime.Now;
-                    projectVM.CreateBy = Provider.UserInfoInstance.UserIDInstance;
+                    projectVM.CreateBy = UserInfoInstance.UserIDInstance;
 
                     if (projectVM.IsShow)
                     {
-                        projectVM.PostBy = Provider.UserInfoInstance.UserIDInstance;
+                        projectVM.PostBy = UserInfoInstance.UserIDInstance;
                         projectVM.PostDate = DateTime.Now;
                     }
 
@@ -348,13 +350,13 @@ namespace MEPAC.Web.Api
                         {
                             return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
                         }
-
+                        GlobalInfo _global = new GlobalInfo();
                         List<string> lstMoreImage = new JavaScriptSerializer().Deserialize<List<string>>(projectVM.PostBy);
                         projectVM.ListMoreImage = lstMoreImage;
 
                         if (projectVM.IsShow)
                         {
-                            projectVM.PostBy = Provider.UserInfoInstance.UserIDInstance;
+                            projectVM.PostBy = UserInfoInstance.UserIDInstance;
                             projectVM.PostDate = DateTime.Now;
                         }
 
@@ -369,7 +371,7 @@ namespace MEPAC.Web.Api
                         objNew.IsShow = projectVM.IsShow;
                         objNew.PostBy = projectVM.PostBy;
                         objNew.PostDate = projectVM.PostDate;
-                        objNew.UpdateBy = Provider.UserInfoInstance.UserIDInstance;
+                        objNew.UpdateBy = UserInfoInstance.UserIDInstance;
                         objNew.UpdateDate = DateTime.Now;
                         objNew.MetaDescription = projectVM.MetaDescription;
                         objNew.MetaKeyword = projectVM.MetaKeyword;

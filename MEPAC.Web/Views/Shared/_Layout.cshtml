@@ -2,43 +2,293 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="Công ty Mepac, cong ty mepac, cung cấp lắp đặt hệ thống điện cơ, bảo trì bảo dưỡng hệ thống điện cơ, tư vấn thiết kế hệ thống điện cơ, tư vấn quản lý dự án hệ thống điện cơ cho các công trình">
+    <meta name="description" content="Công ty Mepac, cong ty mepac, cung cấp lắp đặt hệ thống điện cơ, bảo trì bảo dưỡng hệ thống điện cơ, tư vấn thiết kế hệ thống điện cơ, tư vấn quản lý dự án hệ thống điện cơ cho các công trình">
+    <meta property="og:title" content="Meac.vn - Công ty Mepac, cong ty mepac, cung cấp lắp đặt hệ thống điện cơ, bảo trì bảo dưỡng hệ thống điện cơ, tư vấn thiết kế hệ thống điện cơ, tư vấn quản lý dự án hệ thống điện cơ cho các công trình">
+    <meta property="og:description" content="Công ty Mepac, cong ty mepac, cung cấp lắp đặt hệ thống điện cơ, bảo trì bảo dưỡng hệ thống điện cơ, tư vấn thiết kế hệ thống điện cơ, tư vấn quản lý dự án hệ thống điện cơ cho các công trình">
+    <meta content="INDEX,FOLLOW" name="robots">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="copyright" content="Công ty Cổ phần MEPAC">
+    <meta name="author" content="Công ty Cổ phần MEPAC">
+    <meta http-equiv="audience" content="General">
+    <meta name="GENERATOR" content="Công ty Cổ phần MEPAC">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <meta property="og:site_name" content="mepac.vn">
 
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/client/bundles/css")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+    <!-- header -->
+    <div class="header">
+        <div class="header-top" style="padding: 5px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="logo">
+                        <a href="http://mepac.vn/" class="site-logo-link" rel="home">
+                            <img width="230" height="60" src="http://mepac.vn/wp-content/uploads/2017/04/logomepac.png"
+                                 class="site-logo attachment-large" alt="logomepac" data-size="large">
+                        </a>
+                    </div>
+                </div>
+                <div class="header-top-left">
+                    <ul>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+                <div class="header-top-left1">
+                    <h5><a style="color: #0066CC; font-weight: bold;" title="Email" href="http://mail.mepac.vn/webmail/">ĐĂNG NHẬP WEBMAIL</a></h5>
+                </div>
+                <div class="header-top-right">
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        </div>
+        <div class="header-bottom" style="max-height: 50px;">
+            <div class="container">
+                <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <div class="logo-mobile">
+                            <a href="http://mepac.vn/" class="site-logo-link" rel="home">
+                                <img width="210" height="50" src="http://mepac.vn/wp-content/uploads/2017/04/logomepac.png"
+                                     class="site-logo attachment-large" alt="logomepac" data-size="large">
+                            </a>
+                            <i class="fa fa-globe" aria-hidden="true" style="padding: 1em; cursor: pointer; color: gray; float: right"
+                               data-toggle="collapse" data-target="#bs-example-navbar-collapse-2"></i>
+                        </div>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+                        <nav>
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="/"><i class="fa fa-home"></i></a></li>
+                                <li><a href="index.html" class="hvr-bounce-to-bottom">Giới thiệu</a></li>
+                                <li class="dropdown dropdown-3" value="3">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Lĩnh vực</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="defaultvariation.html">Cung cấp – Lắp đặt HT Cơ Điện</a></li>
+                                        <li><a href="agentinsidebarvariation.html">Bảo trì – Bảo dưỡng HT Cơ Điện</a></li>
+                                        <li><a href="galleryvariation.html">Tư vấn thiết kế HT Cơ Điện</a></li>
+                                        <li><a href="galleryvariation.html">Tư vấn QLDA HT Cơ Điện</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="/danh-sach-du-an" class="hvr-bounce-to-bottom">Dự án</a></li>
+
+                                <li class="dropdown dropdown-5" value="5">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Tin tức</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="defaultvariation.html">Tin công trình</a></li>
+                                        <li><a href="agentinsidebarvariation.html">Tin thị trường</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="short-codes.html" class="hvr-bounce-to-bottom">Tuyển dụng</a></li>
+                                <li><a href="mail.html" class="hvr-bounce-to-bottom">Liên hệ</a></li>
+                            </ul>
+                        </nav>
+
+                        <nav>
+                            <ul class="nav navbar-nav search-desk" style="float: right !important">
+                                <li style="padding: 0.5em;">
+                                    <img src="~/Assets/Client/images/icon-vn.png" width="30" style="padding-top: 5px" />
+                                </li>
+                                <li style="padding: 0.5em;">
+                                    <img src="~/Assets/Client/images/icon-usa.png" width="30" style="padding-top: 5px" />
+                                </li>
+                                <li style="padding: 0.5em;">
+                                    <input style="display: none" class="search_box" type="checkbox" id="search_box">
+                                    <label class="icon-search" for="search_box"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></label>
+                                    <div class="search_form" style="box-shadow: 9px 10px 10px -10px grey;">
+                                        <form action="#" method="post">
+                                            <input type="text" maxlength="200" name="Search" placeholder="Tìm kiếm...">
+                                            <input type="submit" value=" ">
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+
+                    <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-2">
+                        <nav>
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <div class="" style="padding-top: 5px;">
+                                        <div class="">
+                                            <form action="#" method="post">
+                                                <input type="text" class="keyword-mobile" maxlength="200" name="Search" placeholder="Tìm kiếm...">
+                                                <input type="submit" class="btnSeach-mobile" value=" ">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="padding-bottom: 4px; padding-top: 2px;">
+                                    <span>Ngôn ngữ: </span>
+                                    <img src="~/Assets/Client/images/icon-vn.png" width="30" style="padding-top: 5px" />
+                                    <span style="padding-top: 5px; color: #fff">- </span>
+                                    <img src="~/Assets/Client/images/icon-usa.png" width="30" style="padding-top: 5px" />
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </nav>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    <!-- //header -->
+    <!-- content -->
+    @RenderBody()
+    <!-- //content -->
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-contact"></div>
+            <div class="footer-grids">
+                <div class="col-md-4 footer-grid">
+                    <div>
+                        <h3 style="color: #fff; padding-left: 0.3em; font-weight: bold;">Công Ty Cổ Phần MEPAC</h3>
+                    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+                    <div class="info-company">
+                        <div class="info-icon">
+                            <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+                        </div>
+                        <div class="info">
+                            <span style="padding-left: 0em !important;">Trụ sở chính: 69/32 Lê Công Phép, P.An Lạc, Q.Bình Tân, TP.HCM</span>
+                        </div>
+                    </div>
+
+                    <div class="info-company">
+                        <div class="info-icon">
+                            <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+                        </div>
+                        <div class="info">
+                            <span style="padding-left: 0em !important;">Văn phòng: 52, Đường số 2, KDC Him Lam, P.Tân hưng, Q.7, TP.HCM</span>
+                        </div>
+                    </div>
+
+                    <div class="info-company">
+                        <div class="info-icon">
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                        </div>
+                        <div class="info">
+                            <span style="padding-left: 0em !important;">info@mepac.vn</span>
+                        </div>
+                    </div>
+
+                    <div class="info-company">
+                        <div class="info-icon">
+                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                        </div>
+                        <div class="info">
+                            <span style="padding-left: 0em !important;">08-62639900-22531289</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 footer-grid">
+                    <ul>
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="#">Lĩnh vực</a></li>
+                        <li><a href="#">Dự án</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                        <li><a href="#">Tuyển dụng</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 footer-grid">
+
+                    <iframe src="https://www.youtube.com/embed/t4qFgbRGbJo" frameborder="0" allow="autoplay; encrypted-media"
+                            width="100%" allowfullscreen class="vt-if"></iframe>
+                    <p><span style="padding-left: 0em !important;"><a href="single.html">Giới thiệu về MEPAC</a></span></p>
+                    <p><span style="padding-left: 0em !important;"><a href="single.html">Xem thêm >> </a></span></p>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4 footer-grid" style="padding-bottom: 1em;">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" style="border-radius: 0px" class="form-control" id="txtFullName" placeholder="Họ tên *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" style="border-radius: 0px" class="form-control" id="txtEmail" placeholder="Email *" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" style="border-radius: 0px" rows="5" placeholder="Nội dung cần liên hệ"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default" style="border-radius: 0px">Gửi</button>
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copy">
+        <p>© 2018 Copyright by MEPAC. All rights reserved</p>
+    </div>
+    <!-- //footer -->
+
+    @Scripts.Render("~/client/bundles/jquery")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(".events-grid1.hvr-sweep-to-top").hover(function () {
+            $(this).find("h4 a").css("color", "#fff");
+            $(this).find("ul li").css("color", "#fff");
+            $(this).find("p.short-content").css("color", "#fff");
+
+        }, function () {
+            $(this).find("h4 a").css("color", "#0066CC");
+            $(this).find("ul li").css("color", "#333");
+            $(this).find("p.short-content").css("color", "#333");
+        });
+    </script>
+
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+            $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+        });
+    });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <!-- here stars scrolling icon -->
+    <script type="text/javascript">
+
+	    $(document).ready(function () {
+
+	        $().UItoTop({ easingType: 'easeOutQuart' });
+	    });
+
+	    $("li.dropdown").hover(function () {
+	        var val = $(this).attr("value");
+	        $(this).addClass("open");
+	        $(this).find("a .dropdown-toggle").attr("aria-expanded", true);
+	    }, function () {
+	        $(this).removeClass("open");
+	        $(this).find("a .dropdown-toggle").attr("aria-expanded", false);
+	    });
+
+    </script>
+    <!-- //here ends scrolling icon -->
 </body>
 </html>
