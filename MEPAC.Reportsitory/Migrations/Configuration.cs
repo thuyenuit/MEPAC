@@ -25,6 +25,7 @@
             // CreateMenu(context);
             // CreateSubMenu(context);
             // CreateUserAdmin(context);
+            //CreateInfo(context);
         }
 
         private void CreateUserAdmin(MEPACDbContext context)
@@ -58,6 +59,29 @@
                 var adminUser = manager.FindByEmail("info@mepac.vn");
                 manager.AddToRoles(adminUser.Id, new string[] { "Admin", "Manage"});
             }
+        }
+
+        void CreateInfo(MEPACDbContext context)
+        {
+            context.Information.AddOrUpdate(x => x.Display,
+                  new Information {
+                      Display = "Công ty cổ phần MEPAC",
+                      ShortDisplay = "MEPAC",
+                      Address1 = "Địa chỉ 1",
+                      Address2 = "Địa chỉ 2",
+                      Address3 = "",
+                      Address4 = "",
+                      Address5 = "",
+                      Content = "",
+                      CreateBy = "",
+                      CreateDate = DateTime.Now,
+                      Email = "",
+                      MetaDescription = "",
+                      MetaKeyword = "",
+                      Phone = "",
+                      UpdateBy = "",
+                      UpdateDate = DateTime.Now,
+                      Website = ""});
         }
 
         void CreateMenu(MEPACDbContext context)
