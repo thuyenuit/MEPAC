@@ -2,7 +2,7 @@
 
 (function () {
     angular.module('sms',
-        ['sms.projects',
+        ['sms.projects', 'sms.range',
         'sms.common']).config(config).config(configAuthentication);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
