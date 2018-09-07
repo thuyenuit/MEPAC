@@ -1,0 +1,223 @@
+
+
+.post-title 
+{
+	text-align:left;
+	font-size:23px;
+}
+
+.big-item .date
+{
+	float: left;
+	padding-top:5px;
+	padding-bottom:8px;
+}
+
+.big-item .short-content-main
+{
+	clear:both;
+}
+
+.carousel-inner .carousel-col img{
+	min-height:140px;
+}
+
+
+.short-content
+{
+	clear:both;
+	white-space: nowrap;
+    /*border: solid 1px;
+    width: 100px;
+    height: auto;*/
+    text-overflow: ellipsis;
+    overflow: hidden;
+	margin:0xp;
+}
+
+.big-item .post-link
+{
+	float:right;
+}
+
+.child-item >a
+{
+	font-size:17px !important;
+	text-transform:unset !important ;
+	text-align:justify;
+}
+
+.child-date 
+{
+	float:right;
+}
+
+.child-date > li
+{
+	padding:0px !important;
+}
+
+.evaluation-img
+{
+	/*background-color: #726962;*/
+}
+
+.text-hover{
+	    background-color: #2774e673;
+		    padding: 5px;
+}
+
+.text-hover > h4
+{
+	font-weight:bold !important ;
+	color:#fff;
+}
+
+.CTV-slider{
+  width:400px;
+  margin:20px auto;
+  text-align: center;
+  padding:20px;
+  color:white;
+  .parent-slide{padding:15px;}
+  img{display: block;margin:auto;}
+}
+
+  .affix {
+      top: 20px;
+      z-index: 9999 !important;
+  }
+  div.col-sm-9 div {
+      height: 250px;
+      font-size: 28px;
+  }
+  #section1 {color: #fff; background-color: #1E88E5;}
+  #section2 {color: #fff; background-color: #673ab7;}
+  #section3 {color: #fff; background-color: #ff9800;}
+  #section41 {color: #fff; background-color: #00bcd4;}
+  #section42 {color: #fff; background-color: #009688;}
+  
+  @media screen and (max-width: 810px) {
+    #section1, #section2, #section3, #section41, #section42  {
+        margin-left: 150px;
+    }
+  }
+  
+.vt-background
+{
+	background: url("https://www.w3schools.com/howto/img_girl.jpg") ;
+	background-repeat:none;
+	background-size:cover;
+	background-position:center;
+	height:100%;
+	background-attachment: fixed;
+}
+
+.vt-fontsize h4 a 
+{
+	font-size:1.0em !important;
+	text-align:center !important;
+}
+
+.vt-fontsize08 h4 a 
+{
+	font-size: 0.8em !important;
+}
+
+.video .post-link
+{
+	float:right;
+	font-size:0.8em;
+}
+
+.vt-paddingtop10
+{
+	padding-top:10px;
+}
+
+.vt-hiring
+{
+	padding:0 0 1em 0;
+}
+
+
+
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.carousel-control { 
+    width: 8%;
+    width: 0px;
+}
+
+.carousel-control > a > span {
+    color: white;
+	font-size: 29px !important;
+}
+
+.carousel-col { 
+    position: relative; 
+    min-height: 1px; 
+    padding: 5px; 
+    float: left;
+ }
+
+ .container-slider .carousel
+ {
+	 position: inherit !important;
+ }
+ 
+.inner_sec_info_w3ls_agile .active > div { display:none; }
+.inner_sec_info_w3ls_agile .active > div:first-child { display:block; }
+
+/*xs*/
+@media (max-width: 767px) {
+  .carousel-inner .active.left { left: -50%; }
+  .carousel-inner .active.right { left: 50%; }
+	.carousel-inner .next        { left:  50%; }
+	.carousel-inner .prev		     { left: -50%; }
+  .carousel-col                { width: 50%; }
+	.active > div:first-child + div { display:block; }
+	
+}
+
+/*sm*/
+@media (min-width: 768px) and (max-width: 991px) {
+  .carousel-inner .active.left { left: -50%; }
+  .carousel-inner .active.right { left: 50%; }
+	.carousel-inner .next        { left:  50%; }
+	.carousel-inner .prev		     { left: -50%; }
+  .carousel-col                { width: 50%; }
+	.active > div:first-child + div { display:block; }
+}
+
+/*md*/
+@media (min-width: 992px) and (max-width: 1199px) {
+  .carousel-inner .active.left { left: -33%; }
+  .carousel-inner .active.right { left: 33%; }
+	.carousel-inner .next        { left:  33%; }
+	.carousel-inner .prev		     { left: -33%; }
+  .carousel-col                { width: 33%; }
+	.active > div:first-child + div { display:block; }
+  .active > div:first-child + div + div { display:block; }
+}
+
+/*lg*/
+@media (min-width: 1200px) {
+  .carousel-inner .active.left { left: -25%; }
+  .carousel-inner .active.right{ left:  25%; }
+	.carousel-inner .next        { left:  25%; }
+	.carousel-inner .prev		     { left: -25%; }
+  .carousel-col                { width: 25%; }
+	.active > div:first-child + div { display:block; }
+  .active > div:first-child + div + div { display:block; }
+	.active > div:first-child + div + div + div { display:block; }
+}
+
+.block {
+	width: 306px;
+	height: 230px;
+}
