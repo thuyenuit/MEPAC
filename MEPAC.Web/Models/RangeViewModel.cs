@@ -23,5 +23,6 @@ namespace MEPAC.Web.Models
         public int MenuID { get; set; }
         public string MetaKeyword { get; set; }
         public string MetaDescription { get; set; }
+        public int OrderBy { get; set; }
     }
 }
