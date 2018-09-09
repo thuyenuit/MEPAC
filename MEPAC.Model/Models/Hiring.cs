@@ -28,5 +28,11 @@ namespace MEPAC.Model.Models
         public DateTime? PostDate { get; set; }
 
         public string PostBy { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsShow { get; set; }
+
+        public string LinkImage { get; set; }
     }
 }
