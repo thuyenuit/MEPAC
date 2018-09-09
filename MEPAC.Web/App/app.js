@@ -2,7 +2,7 @@
 
 (function () {
     angular.module('sms',
-        ['sms.projects', 'sms.range',
+        ['sms.projects', 'sms.range', 'sms.hiring', 'sms.partner',
          'sms.slide',
          'sms.infor',
         'sms.common']).config(config).config(configAuthentication);

@@ -1,16 +1,16 @@
 ﻿//<reference path="/Assets/Admin/libs/angular/angular.js" />
 
 (function (app) {
-    app.controller('hiringListController', hiringListController);
+    app.controller('partnerListController', partnerListController);
 
-    hiringListController.$inject = ['$scope',
+    partnerListController.$inject = ['$scope',
         'apiService', '$interval', '$filter', '$ngBootbox', '$state', 'notificationService'];
 
-    function hiringListController($scope, apiService, $interval,
+    function partnerListController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
 
-        $scope.onClickAddHiring = function () {
-            $state.go('hiringAdd');
+        $scope.onClickAddPartner = function () {
+            $state.go('partnerAdd');
         };
 
         // show
@@ -21,16 +21,16 @@
             { name: 100, value: 100 }];
         $scope.valueShow = $scope.options[0].value;
         $scope.changeShow = function () {
-            ListHiring();
+            ListPartner();
         };
 
         $scope.onChangeStatus = function () {
-            ListHiring();
+            ListPartner();
         };
 
         $scope.keyWord = '';
         $scope.onSearch = function () {
-            ListHiring();
+            ListPartner();
         };
 
         $scope.listStatus = [];
@@ -48,7 +48,7 @@
         // list
         //$scope.editFastProduct = [];
 
-        $scope.lstHiring = [];
+        $scope.lstPartner = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
         $scope.totalCount = 0;
@@ -56,8 +56,8 @@
         $scope.showTo = 0;
         $scope.checkAllDelete = false;
 
-        $scope.ListHiring = ListHiring;
-        function ListHiring(page) {
+        $scope.ListPartner = ListPartner;
+        function ListPartner(page) {
 
             page = page || 0;
 
@@ -77,18 +77,18 @@
                     keyword: keyword,
                     status: statusId
                 }
-            };           
+            };
 
-            var url = '/api/hiring/search';
+            var url = '/api/partner/search';
             $scope.promise = apiService.get(url, consfig, function (result) {
-                $scope.lstHiring = result.data.Items;
+                $scope.lstPartner = result.data.Items;
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
                 $scope.totalCount = result.data.TotalCount;
-                $scope.StrDate = result.data.StrDate
-                $scope.StrHour = result.data.StrHour;
-                $scope.StrUser = result.data.StrUser;
-                $scope.showTitle = false;
+                //$scope.StrDate = result.data.StrDate
+                //$scope.StrHour = result.data.StrHour;
+                //$scope.StrUser = result.data.StrUser;
+                //$scope.showTitle = false;
 
                 if (result.data.Items.length == 0) {
                     $scope.checkAllDelete = false;
@@ -96,7 +96,7 @@
                 }
                 else {
                     $scope.showTitle = true;;
-                    $scope.checkAllDelete = true;                
+                    $scope.checkAllDelete = true;
                 }
             }, function (result) {
                 //notificationService.displayError('Không thể tải danh sách sản phẩm');
@@ -104,7 +104,7 @@
 
             $scope.$parent.MethodShowLoading("Đang tải dữ liệu", $scope.promise);
         }
-        $scope.ListHiring();
+        $scope.ListPartner();
 
         // select multi
         $scope.selectDelete = true;
@@ -112,13 +112,13 @@
         $scope.selectAll = selectAll;
         function selectAll() {
             if ($scope.isAll === false) {
-                angular.forEach($scope.lstHiring, function (item) {
+                angular.forEach($scope.lstPartner, function (item) {
                     item.checked = true;
                 });
                 $scope.isAll = true;
             }
             else {
-                angular.forEach($scope.lstHiring, function (item) {
+                angular.forEach($scope.lstPartner, function (item) {
                     item.checked = false;
                 });
                 $scope.isAll = false;
@@ -135,16 +135,16 @@
         // Lắng nghe sự thay đổi của lstProductCategory,
         // co 2 tham so: 1 - lang nghe ten bien lstProductCategory
         //               2 - function (new, old) va filter nhung gia tri moi la true thi vao danh sach da dc checked
-        $scope.$watch("lstHiring", function (newCheck, old) {
+        $scope.$watch("lstPartner", function (newCheck, old) {
             var checked = $filter("filter")(newCheck, { checked: true });
             if (checked.length) {
                 $scope.selected = checked;
                 $scope.selectDelete = false;
             } else {
-                $scope.selectDelete = true;               
+                $scope.selectDelete = true;
             }
 
-            angular.forEach(newCheck, function (item) { 
+            angular.forEach(newCheck, function (item) {
                 if (item.checked === false) {
                     $("input[name='all']").attr('checked', false);
                     $scope.isAll = false;
@@ -159,7 +159,7 @@
 
                 var listId = [];
                 $.each($scope.selected, function (i, item) {
-                    listId.push(item.HiringID);
+                    listId.push(item.PartID);
                 });
                 if (listId.length > 0) {
                     var consfigs = {
@@ -167,13 +167,13 @@
                             jsonlistId: JSON.stringify(listId)
                         }
                     };
-                    var url = '/api/hiring/deletemulti';
+                    var url = '/api/partner/deletemulti';
                     $scope.promise = apiService.del(url, consfigs, function (result) {
                         if (result.status === 400)
                             notificationService.displayError('Xóa không thành công! Vui lòng kiểm tra lại.');
                         else
                             notificationService.displaySuccess('Xóa thành công ' + result.data + ' bản ghi');
-                        ListHiring();
+                        ListPartner();
                     }, function (result) {
                         notificationService.displayError('Xóa không thành công! Vui lòng kiểm tra lại.');
                     });
@@ -244,4 +244,4 @@
         //    $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
         //}
     }
-})(angular.module('sms.hiring'));
+})(angular.module('sms.partner'));

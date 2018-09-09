@@ -25,6 +25,7 @@
                 url: '/edit-hiring?hiringId',
                 templateUrl: '/app/component/hiring/_hiringEditView.html',
                 controller: 'hiringEditController'
-            });
+            })
+        ;
     }
 })();
