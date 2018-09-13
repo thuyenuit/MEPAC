@@ -36,5 +36,7 @@ namespace MEPAC.Model.Models
         public string PostBy { get; set; }
 
         public bool IsRepresentative { get; set; }
+
+        public bool IsFinish { get; set; }
     }
 }
