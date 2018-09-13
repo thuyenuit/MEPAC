@@ -1,7 +1,63 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model MEPAC.Model.Models.Information
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewBag.Title = "Giới thiệu";
+
+    string metaKeyword = !string.IsNullOrEmpty(Model.MetaKeyword) ? Model.MetaKeyword : "Công ty MEPAC, giới thiệu công ty, gioi thieu cong ty";
+    string metaDescription = !string.IsNullOrEmpty(Model.MetaDescription) ? Model.MetaDescription : "Công ty MEPAC, giới thiệu công ty, gioi thieu cong ty";
+
+
+}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="@metaKeyword">
+    <meta name="description" content="@metaDescription">
+    <meta property="og:title" content="@metaKeyword">
+    <meta property="og:description" content="@metaDescription">
+    <meta content="INDEX,FOLLOW" name="robots">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="copyright" content="@metaKeyword">
+    <meta name="author" content="@metaKeyword">
+    <meta http-equiv="audience" content="General">
+    <meta name="GENERATOR" content="@Model.Display">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta property="og:site_name" content="@Model.Website">
+
+    <style>
+        .events .info-content {
+            padding-top: 8em;
+        }
+         .events .info-content p {
+            padding-top: 1%;
+        }
+
+        .events .info-content ul {
+        padding: 0.5em 3em;
+        }
+        .events .info-content ul li{
+        padding: 0.3em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="events">
+        <div class="container">
+            <div class="info-content">
+                <h4 style="text-align:center"><span class="border-bt">GIỚI THIỆU CHUNG</span></h4>
+                <div class="clearfix"></div>
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

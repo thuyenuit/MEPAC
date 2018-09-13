@@ -1,4 +1,5 @@
 ﻿using MEPAC.Model.Models;
+using MEPAC.Web.Controllers;
 using MEPAC.Web.Utils;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -105,23 +106,14 @@ namespace MEPAC.Web.Provider
                         {"message", "Đăng nhập thành công" }
                     });
 
-                //GlobalInfo _global = new GlobalInfo();
-                //_global.AccountUserID = user.Id;
-
+                AdminController.UserID = user.Id;
+       
                 UserInfoInstance.EmailInstance = email;
                 UserInfoInstance.FullNameInstance = user.FullName;
                 UserInfoInstance.PhoneInstance = phoneNumber;
                 UserInfoInstance.UserCodeInstance = userCode;
                 UserInfoInstance.UserNameInstance = user.UserName;
-                UserInfoInstance.UserIDInstance = user.Id;
-               /* List<ListStatus> listStatus = new List<ListStatus> {
-                    new ListStatus() { StatusID = SystemParameter.StatusID_0, StatusName = SystemParameter.StatusName_0},
-                    new ListStatus() { StatusID = SystemParameter.StatusID_1, StatusName = SystemParameter.StatusName_1},
-                    new ListStatus() { StatusID = SystemParameter.StatusID_2, StatusName = SystemParameter.StatusName_2}
-                };
-                UserInfoInstance.ListStatus = listStatus;*/
-                // UserInfoInstance.ListGroupMenu = LstGroupMenu;
-
+                //UserInfoInstance.UserIDInstance = user.Id;              
                 context.Validated(new AuthenticationTicket(identity, props));
             }
             else

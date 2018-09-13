@@ -1,4 +1,5 @@
 ﻿@using MEPAC.Model.Models;
+@using MEPAC.Web.Models
 
 @{
     ViewBag.Title = "Home Page";
@@ -15,8 +16,19 @@
         lstProject = (List<Projects>)ViewData["LIST_PROJECT_REP"];
     }
 
+    List<RangeViewModel> lstRangeVM = new List<RangeViewModel>();
+    if (ViewData["LIST_RANGE"] != null)
+    {
+        lstRangeVM = (List<RangeViewModel>)ViewData["LIST_RANGE"];
+    }
+
     int count = 0;
     int index = 0;
+    int count_range = 0;
+    string style = "";
+    int countRang = 0;
+
+    int countProject = 0;
 }
 
 <!-- banner -->
@@ -81,7 +93,7 @@
     </div>
 </div>
 
-
+<div style="padding-top: 10px;"></div>
 <!-- //banner -->
 <!-- du an tieu bieu -->
 <div class="events events-first project-representative">
@@ -103,132 +115,133 @@
 
             @foreach (var item in lstProject)
             {
+               
                 var linkUrl = "/chi-tiet-du-an/" + item.ProjectID;
-                <div class="col-md-4 events-gri;d">
+                <div class="col-sm-6 col-xs-3 col-md-3 events-grid @(countProject <= 1 ? "margin-bottom-30" : "")">
                     <div class="events-grid1 hvr-sweep-to-top">
                         <a href="@linkUrl">
                             <img src="@item.Image" alt="" class="img-responsive" />
                         </a>
-                        <h4><a href="@linkUrl">@item.Display</a></h4>
+                        <h4><a href="@linkUrl" style="display: block; margin-left: 0.4em;">@item.Display</a></h4>
                         <ul>
                             <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>@item.FromDate.ToString("dd/MM/yyyy") - @item.ToDate.ToString("dd/MM/yyyy")</li>
                         </ul>
                     </div>
                 </div>
+
+                countProject++;
             }
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
 <!-- //du an tieu bieu -->
+
 <!-- linh vuc -->
 <div class="events range none-padding-bottom">
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <h4 class="pd"><span class="border-bt">LĨNH VỰC HOẠT ĐỘNG</span></h4>
-                <div class="events-grids">
-                    <div class="col-md-6 col-sm-6 col-xs-12 slidering" style="margin-left: -15px;">
-                        <div class="thumbnail thumbnail-hr evaluation-img">
-                            <img src="~/Assets/Client/images/lapdat.jpg" alt="" style="max-width: 100%;">
-                            <div class="overlay-hover">
-                                <div class="text-hover">
-                                    <h4>
-                                        Cung cấp & lắp đặt
-                                    </h4>
-                                    <h4>
-                                        hệ thống điện tử
-                                    </h4>
+                    <h4 class="pd"><span class="border-bt">LĨNH VỰC HOẠT ĐỘNG</span></h4>
+                    <div class="events-grids">
+
+                        @foreach (var item in lstRangeVM)
+                        {
+
+                            if (countRang == 0 || countRang == 2)
+                            {
+                                style = "margin-left: -15px;";
+                            }
+                            else
+                            {
+                                style = "";
+                            }
+
+                                <div style="@(countRang <= 1  ? "padding-top: 0px;" : "")" class="col-md-6 col-sm-6 col-xs-12 slidering @(countRang == 0 || countRang == 2  ? "p-r-15" : "p-l-15") thumbnail thumbnail-hr evaluation-img">
+                                    <img class="img-rang" src="@item.LinkImage" alt="" style="max-width: 100%;">
+                                    <div class="overlay-hover">
+                                        @if (countRang == 0)
+                                        {
+                                            <div class="text-hover" style="width: 95%;left: 48.5%;">
+                                                <h4>@item.SubMenuName</h4>
+                                            </div>
+                                        }
+                                        else if (countRang == 1)
+                                        {
+                                            <div class="text-hover" style="width: 95%;left: 51.5%;">
+                                                <h4>@item.SubMenuName</h4>
+                                            </div>
+                                        }
+                                        else if (countRang == 2)
+                                        {
+                                            <div class="text-hover" style="width: 95%;left: 48.5%;">
+                                                <h4>@item.SubMenuName</h4>
+                                            </div>
+                                        }
+                                        else 
+                                        {
+                                            <div class="text-hover" style="width: 95%;left: 51.5%;">
+                                                <h4>@item.SubMenuName</h4>
+                                            </div>
+                                        }
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+               
+                            countRang++; 
+                        }
                     </div>
-
-                    <div class="col-md-6 col-sm-6 col-xs-12 slidering">
-                        <div class="thumbnail thumbnail-hr evaluation-img">
-                            <img src="~/Assets/Client/images/baotri2.jpg" alt="" style="max-width: 100%;">
-                            <div class="overlay-hover">
-                                <div class="text-hover">
-                                    <h4>
-                                        Bảo trì & bảo dưỡng
-                                    </h4>
-                                    <h4>
-                                        hệ thống điện tử
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-sm-6 col-xs-12 slidering" style="margin-left: -15px;">
-                        <div class="thumbnail thumbnail-hr evaluation-img">
-                            <img src="~/Assets/Client/images/tuvan.jpg" alt="" style="max-width: 100%;">
-                            <div class="overlay-hover">
-                                <div class="text-hover">
-                                    <h4>
-                                        Tư vấn thiết kế
-                                    </h4>
-                                    <h4>
-                                        hệ thống điện tử
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-sm-6 col-xs-12 slidering">
-                        <div class="thumbnail thumbnail-hr evaluation-img">
-                            <img src="~/Assets/Client/images/quanlyduan.jpg" alt="" style="max-width: 100%;">
-                            <div class="overlay-hover">
-                                <div class="text-hover">
-                                    <h4>
-                                        Tư vấn quản lý dự án
-                                    </h4>
-                                    <h4>
-                                        hệ thống điện tử
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="col-md-3 hiring">
-                <h4 class="pd"><span class="border-bt">TUYỂN DỤNG</span></h4>
-                <div class="events-grids vt-fontsize08">
-                    <div class="col-md-12 col-xs-6 padding-right-left-15">
-                        <div class="events-grid1 vt-hiring">
-                            <a href="single.html">
-                                <img src="~/Assets/Client/images/tuyenketoan.png" alt=" " class="img-responsive" />
-                            </a>
-                            <h4><a href="single.html">Tuyển dụng - Kế toán, kiểm toán.</a></h4>
-                            <ul>
-                                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/08/2018</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-xs-6 padding-right-left-15 vt-paddingtop10">
-                        <div class="events-grid1 vt-hiring">
-                            <a href="single.html">
-                                <img src="~/Assets/Client/images/kysudien.jpg" alt="" class="img-responsive" />
-                            </a>
-                            <h4><a href="single.html">Tuyển dụng - Kỹ sư điện.</a></h4>
-                            <ul>
-                                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>24/07/2018</li>
-                            </ul>
-                        </div>
-                    </div>
-
                     <div class="clearfix"></div>
-                </div>
-
             </div>
+           
+            <div class="col-md-3 area-hiring hiring">
+                    <h4 class="pd"><span class="border-bt">TUYỂN DỤNG</span></h4>
+                    <div class="events-grids vt-fontsize08">
+                        <div class="col-md-12 col-xs-12 padding-right-left-15">
+                            <div class="events-grid1 vt-hiring">
+                                <a href="single.html">
+                                    <img src="~/Assets/Client/images/tuyenketoan.png" alt=" " class="img-responsive" />
+                                </a>
+                                <h4><a href="single.html">Tuyển dụng - Kế toán, kiểm toán.</a></h4>
+                                <ul>
+                                    <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/08/2018</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-xs-12 padding-right-left-15">
+                            <div class="events-grid1 vt-hiring">
+                                <a href="single.html">
+                                    <img src="~/Assets/Client/images/kysudien.jpg" alt="" class="img-responsive" />
+                                </a>
+                                <h4><a href="single.html">Tuyển dụng - Kỹ sư điện.</a></h4>
+                                <ul>
+                                    <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>24/07/2018</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xs-12 padding-right-left-15">
+                            <div class="events-grid1 vt-hiring">                                
+                                <a href="single.html">
+                                    <img src="~/Assets/Client/images/kysudien.jpg" alt="" class="img-responsive" />
+                                </a>
+                                <h4><a href="single.html">Tuyển dụng - Kỹ sư điện.</a></h4>
+                                <ul>
+                                    <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>24/07/2018</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+            </div>
+
+
         </div>
     </div>
 </div>
 <!-- //linh vuc -->
+<div style="padding-top: 10px;"></div>
 <!-- tin tuc -->
 <div class="events news none-padding">
     <div class="container">
@@ -236,24 +249,35 @@
             <h4 class="pd"><span class="border-bt">TIN TỨC</span></h4>
             <div class="events-grids">
                 <div class="big-item clearfix">
-                    <div class="class-image-news col-md-8">
+                    <div class="class-image-news col-md-6">
                         <a href="#">
                             <div class="image-wrap">
-                                <img style="width: 100% !important;" class="img-news" src="~/Assets/Client/images/phoi-canh-vinhomes-central-park-1.jpg">
+                                <img style="width: 100% !important; min-height:305px" class="img-news" src="~/Assets/Client/images/phoi-canh-vinhomes-central-park-1.jpg">
                             </div>
                         </a>
                     </div>
-                    <div class="class-info-news col-md-4 ">
+                    <div class="class-info-news col-md-3">
                         <h2 class="post-title"><a href="#">Mepac phối cảnh thi công về thiết kế điện cho Dự án Vinhomes Central Park </a></h2>
                         <p style="font-size: 16px;" class="date" class="glyphicon glyphicon-calendar">20/08/2018</p>
                         <p style="font-size: 16px;" class="short-content-main">
                             Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
-                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
-                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.
-                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park...
+                            Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park. Mô tả chi tiết về phối cảnh Dự Án Vinhomes Cental Park.....
                         </p>
                         <p style="font-size: 16px;" class="post-link"><a href="#">Đọc thêm</a></p>
                         <p class="clear"></p>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="events-grid1 hvr-sweep-to-top">
+                            <a href="single.html">
+                                <img src="~/Assets/Client/images/van-phong-cho-thue-binh-thanh-coteccons-building-184470-1_221854.jpg" alt=" " class="img-responsive" />
+                            </a>
+                            <h4 class="child-item"><a href="single.html">Khởi công thi công các hạng mục tòa nhà Coteccons</a></h4>
+                            <ul class="child-date">
+                                <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/8/2018</li>
+                            </ul>
+                            <p class="short-content">Ngay sau lễ khởi công dự án...</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -271,7 +295,7 @@
                         <p class="short-content">Ngay sau lễ khởi công dự án...</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6 padding-top-15">
                     <div class="events-grid1 hvr-sweep-to-top">
                         <a href="single.html">
                             <img src="~/Assets/Client/images/CTBrotex.jpg" alt=" " class="img-responsive" />
@@ -314,7 +338,7 @@
     </div>
 </div>
 <!-- //tin tuc -->
-
+<div style="padding-top: 10px;"></div>
 <div class="events partner">
     <div class="container">
         <div class="row">
@@ -324,7 +348,7 @@
                     <div class="inner_sec_info_w3ls_agile">
                         <div class="row">
                             <div class="col-xs-12 col-md-12 col-centered">
-                                <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                                <div id="carousel" class="carousel slide" style="max-height: 80px;" data-ride="carousel" data-type="multi" data-interval="2500">
                                     <div class="carousel-inner">
                                         <div class="item active">
                                             <div class="carousel-col">
@@ -361,27 +385,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="item">
-                                            <div class="carousel-col">
-                                                <div class="thumbnail">
-                                                    <img src="~/Assets/Client/images/nestle.jpg" alt="Image" style="max-width: 100%;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="carousel-col">
-                                                <div class="thumbnail">
-                                                    <img src="~/Assets/Client/images/commscope.jpg" alt="Image" style="max-width: 100%;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item">
-                                            <div class="carousel-col">
-                                                <div class="thumbnail">
-                                                    <img src="~/Assets/Client/images/LOGO-UNICONS-thumbnail.jpg" alt="Image" style="max-width: 100%;">
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
+                                       
                                     </div>
 
 
@@ -389,13 +394,13 @@
                                     <!-- Controls -->
                                     <div class="left carousel-control">
                                         <a href="#carousel" role="button" data-slide="prev">
-                                            <span style="top: 45%;" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </div>
                                     <div class="right carousel-control">
                                         <a href="#carousel" role="button" data-slide="next">
-                                            <span style="top: 45%;" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                            <span class="next-partner glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>

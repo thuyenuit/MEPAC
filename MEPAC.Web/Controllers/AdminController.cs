@@ -8,6 +8,7 @@ namespace MEPAC.Web.Controllers
 {
     public class AdminController : Controller
     {
+        public static string UserID = "";
         // GET: Admin
         public ActionResult Index()
         {

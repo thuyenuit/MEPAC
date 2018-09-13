@@ -1,4 +1,5 @@
-﻿using MEPAC.Business.Business;
+﻿using MEPAC.Business;
+using MEPAC.Business.Business;
 using MEPAC.Model.Models;
 using MEPAC.Web.Models;
 using MEPAC.WebAdmin.Infrastructure.Core;
@@ -12,13 +13,29 @@ namespace MEPAC.Web.Controllers
 {
     public class HomeController : BaseController
     {
+        IRangeBusiness _rangeBusiness;
+        ISubMenuBusiness _subMenuBusiness;
+        IMenuBusiness _menuBusiness;
         ISlideBusiness _slideBusiness;
         IProjectsBusiness _projectsBusiness;
+        IMetaImageBusiness _metaImageBusiness;
+        IInformationBusiness _informationBusiness;
         public HomeController(ISlideBusiness _slideBusiness,
-             IProjectsBusiness _projectsBusiness) {
+            IRangeBusiness _rangeBusiness,
+        ISubMenuBusiness _subMenuBusiness,
+        IMenuBusiness _menuBusiness,
+         IMetaImageBusiness _metaImageBusiness,
+        IProjectsBusiness _projectsBusiness,
+        IInformationBusiness _informationBusiness) {
+
             this._slideBusiness = _slideBusiness;
             this._projectsBusiness = _projectsBusiness;
-        }
+            this._rangeBusiness = _rangeBusiness;
+            this._subMenuBusiness = _subMenuBusiness;
+            this._menuBusiness = _menuBusiness;
+            this._metaImageBusiness =_metaImageBusiness;
+            this._informationBusiness = _informationBusiness;
+    }
 
         public ActionResult Index()
         {
@@ -28,14 +45,42 @@ namespace MEPAC.Web.Controllers
             List<Projects> lstProject = _projectsBusiness.GetAll().Where(x => x.IsActive && x.IsShow && x.IsRepresentative).ToList();
             ViewData["LIST_PROJECT_REP"] = lstProject;
 
+            IDictionary<string, object> dic = new Dictionary<string, object>();
+            var lstRangeDB = _rangeBusiness.Search(dic);
+            var lstSubMenu = _subMenuBusiness.GetAll().Where(x => x.MenuID == 3);
+            var lstMenu = _menuBusiness.GetAll();
+
+            List<RangeViewModel> lstRangeVM = (from sm in lstSubMenu
+                                               join r in lstRangeDB on sm.SubMenuID equals r.SubMenuID into rt
+                                               from r in rt.DefaultIfEmpty()
+                                               join m in lstMenu on sm.MenuID equals m.MenuID
+                                               select new RangeViewModel
+                                               {
+                                                   RangeID = r != null ? r.RangeID : 0,
+                                                   Cotntent = r != null ? r.Cotntent : "",
+                                                   MenuID = m.MenuID,
+                                                   MenuName = m.Display,
+                                                   SubMenuID = sm.SubMenuID,
+                                                   LinkImage = sm.Image,
+                                                   SubMenuName = sm.Display,
+                                                   MetaKeyword = r != null ? r.MetaKeyword : "",
+                                                   MetaDescription = r != null ? r.MetaDescription : "",
+                                                   CreateBy = r != null ? r.CreateBy : "",
+                                                   CreateDate = r.CreateDate,
+                                                   UpdateBy = r != null ? r.UpdateBy : "",
+                                                   UpdateDate = r != null ? r.UpdateDate : null,
+                                                   OrderBy = sm.Order
+                                               }).OrderBy(x=>x.OrderBy).ToList();
+            ViewData["LIST_RANGE"] = lstRangeVM;
+
+
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            Information objInfo = _informationBusiness.GetAll().FirstOrDefault();
+            return View(objInfo);
         }
 
         public ActionResult Contact()
@@ -45,7 +90,7 @@ namespace MEPAC.Web.Controllers
             return View();
         }
 
-        public ActionResult Projects()
+        public ActionResult Project()
         {
             List<ClientYearViewModel> lstYearsVM = new List<ClientYearViewModel>();
             int currentYear = DateTime.Now.Year;
@@ -154,7 +199,34 @@ namespace MEPAC.Web.Controllers
 
         public ActionResult ProjectsDetail(int id)
         {
-            return View();
+            ProjectsViewModel obVM = new ProjectsViewModel();
+            Projects obj = _projectsBusiness.GetById(id);
+            if (obj != null)
+            {
+               
+                obVM.ProjectID = obj.ProjectID;
+                obVM.Display = obj.Display;
+                obVM.LinkImage = obj.Image;
+                obVM.Description = obj.Description;
+                obVM.CreateBy = obj.CreateBy;
+                obVM.CreateDate = obj.CreateDate;
+                obVM.IsActive = obj.IsActive;
+                obVM.IsShow = obj.IsShow;
+                obVM.PostBy = obj.PostBy;
+                obVM.PostDate = obj.PostDate;
+                obVM.MetaDescription = obj.MetaDescription;
+                obVM.MetaKeyword = obj.MetaKeyword;
+                obVM.IsRepresentative = obj.IsRepresentative;
+
+                List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == ParamFile.TYPE_IMAGE_PROJECT && x.ParentID == obj.ProjectID).ToList();
+                if (lstMetaImage.Count() > 0)
+                {
+                    List<string> lstImage = lstMetaImage.Select(x => x.Link).ToList();
+                    obVM.ListMoreImage = lstImage;
+                }  
+            }
+
+            return View(obVM);
         }
     }
 }

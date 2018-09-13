@@ -16,7 +16,7 @@ namespace MEPAC.Web
             routes.MapRoute(
                 name: "Danh sach cac du an",
                 url: "danh-sach-du-an",
-                defaults: new { controller = "Home", action = "Projects", id = UrlParameter.Optional },
+                defaults: new { controller = "Home", action = "Project", id = UrlParameter.Optional },
                 namespaces: new[] { "MEPAC.Web.Controllers" }
             );
 
@@ -26,6 +26,13 @@ namespace MEPAC.Web
                defaults: new { controller = "Home", action = "ProjectsDetail", id = UrlParameter.Optional },
                namespaces: new[] { "MEPAC.Web.Controllers" }
            );
+
+            routes.MapRoute(
+              name: "Gioi thieu",
+              url: "gioi-thieu",
+              defaults: new { controller = "Home", action = "About", id = UrlParameter.Optional },
+              namespaces: new[] { "MEPAC.Web.Controllers" }
+          );
 
 
             routes.MapRoute(

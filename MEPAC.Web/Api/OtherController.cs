@@ -16,9 +16,12 @@ namespace MEPAC.Web.Api
     public class OtherController : BaseApiController
     {
         IInformationBusiness _informationBusiness;
-        public OtherController(IInformationBusiness _informationBusiness)
+        ISubMenuBusiness _subMenuBusiness;
+        public OtherController(IInformationBusiness _informationBusiness,
+            ISubMenuBusiness _subMenuBusiness)
         {
             this._informationBusiness = _informationBusiness;
+            this._subMenuBusiness = _subMenuBusiness;
         }
 
         [Route("getListStatus")]
@@ -32,6 +35,18 @@ namespace MEPAC.Web.Api
                 lstStatus.Add(new Status() { StatusID = 2 , StatusName = "Đã hủy" });
 
                 var response = request.CreateResponse(HttpStatusCode.OK, lstStatus);
+                return response;
+            });
+        }
+
+        [Route("getTypeNews")]
+        [HttpGet]
+        public HttpResponseMessage getTypeNews(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var lstNews = _subMenuBusiness.GetAll().Where(x => x.MenuID == 5 && x.IsActive).ToList();
+                var response = request.CreateResponse(HttpStatusCode.OK, lstNews);
                 return response;
             });
         }

@@ -1,6 +1,7 @@
 ﻿using MEPAC.Business;
 using MEPAC.Business.Business;
 using MEPAC.Model.Models;
+using MEPAC.Web.Controllers;
 using MEPAC.Web.Infrastructure.Core;
 using MEPAC.Web.Models;
 using MEPAC.Web.Provider;
@@ -248,7 +249,7 @@ namespace MEPAC.Web.Api
 
                     projectVM.IsActive = true;
                     projectVM.CreateDate = DateTime.Now;
-                    projectVM.CreateBy = UserInfoInstance.UserIDInstance;
+                    projectVM.CreateBy = AdminController.UserID;// UserInfoInstance.UserIDInstance;
 
                     Slide objNew = new Slide();
                     objNew.Content = projectVM.Content;
@@ -326,8 +327,8 @@ namespace MEPAC.Web.Api
                         objNew.SlideID = projectVM.SlideID;
                         objNew.Content = projectVM.Content;                    
                         objNew.Image = projectVM.Image;                  
-                        objNew.IsActive = projectVM.IsActive;                     
-                        objNew.UpdateBy = UserInfoInstance.UserIDInstance;
+                        objNew.IsActive = projectVM.IsActive;
+                        objNew.UpdateBy = AdminController.UserID;// UserInfoInstance.UserIDInstance;
                         objNew.UpdateDate = DateTime.Now;
                         objNew.MetaDescription = projectVM.MetaDescription;
                         objNew.MetaKeyword = projectVM.MetaKeyword;

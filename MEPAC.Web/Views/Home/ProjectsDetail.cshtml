@@ -1,83 +1,114 @@
-﻿
+﻿@model MEPAC.Web.Models.ProjectsViewModel
 @{
     ViewBag.Title = "ProjectsDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    #style-2 p, #style-2 ul, #style-2 li {
+        padding-bottom:5px;
+    }
+
+     #style-2 ul {
+       margin-left:30px;
+    }
+</style>
 
 <div class="events events-first detail-project">
     <div class="w3aitssinglewthree">
         <div class="container">
-            <h4 class="pd"><span class="border-bt">CHI TIẾT DỰ ÁN LANMARK 81</span></h4>
-            <div class="products">
-                <div class="single-page">
-                    <div class="single-page-row" id="detail-21">
-                        <div class="">
-                            <img src="~/Assets/Client/images/Landmark_81.jpg" width="100%" style="padding-top:5px" />
-                        </div>
-
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="aitsaccordionw3layouts" style="padding-top: 10px;">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingOne">
-                                <h4 class="panel-title asd">
-                                    <a class="pa_italic"
-                                       href="#">
-                                        Mô tả dự án
-
-                                    </a>
-                                </h4>
+            @if (Model.ProjectID > 0)
+            {
+                <h4 class="pd">
+                    <span class="border-bt">
+                        @Model.Display
+                    </span>
+                </h4>
+                <div class="products">
+                    <div class="single-page">
+                        <div class="single-page-row" id="detail-21">
+                            <div class="">
+                                <img src="@Model.LinkImage" width="100%" style="padding-top:5px" />
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
-                                <div class="panel-body panel_text">
-                                    <div class="scrollbar" id="style-2">
-                                        The Landmark 81 là một tòa nhà chọc trời trong tổ hợp dự án Vinhomes Tân Cảng, một dự án có tổng mức đầu tư 30.000 tỷ đồng, do Công ty Cổ phần MEPAC thi công hệ thống cơ điện, chiếu sáng. Tòa tháp cao 81 tầng, lúc hoàn thành là tòa nhà cao nhất Việt Nam[2] và là tòa nhà cao nhất Đông nam Á. Dự án được xây dựng ở Tân Cảng, quận Bình Thạnh, ven sông Sài Gòn. Dự án được khởi công ngày 26/07/2014 và hoàn thành vào ngày 15/1/2019.
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="aitsaccordionw3layouts" style="padding-top: 10px;">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title asd">
+                                        <a class="pa_italic"
+                                           href="#">
+                                            Mô tả dự án
+
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
+                                    <div class="panel-body panel_text">
+                                        <div class="scrollbar" id="style-2">
+                                         @if (!string.IsNullOrEmpty(Model.Description))
+                                         {
+                                            @Html.Raw(Model.Description)
+                                         }
+                                         else
+                                         {
+                                             <span>Đang cập nhật...</span>
+                                         }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingTwo">
+                                    <h4 class="panel-title asd">
+                                        <a class="pa_italic"
+                                           href="#">
+                                            Hình ảnh
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false">
+                                    <div class="accordion-image">
+
+                                        @if (Model.ListMoreImage != null && Model.ListMoreImage.Count > 0)
+                                        {
+                                           foreach (var item in Model.ListMoreImage)
+                                           {
+                                            <div class="col-md-6 col-xs-12">
+                                                <a href="#"><img src="@item" class="img-project-single" style="padding: 1em;" alt="Groovy Apparel"></a>
+                                                @*<h4 style="padding-bottom: 10px;color: #333;text-align: center;     font-size: 15px;">Bản mẫu thi công chiếu sáng Tòa nhà Lanmark 81</h4>*@
+                                            </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="panel-body panel_text">
+                                                
+                                                    <span>Đang cập nhật...</span>
+                                            
+                                            </div>
+                                        }
+                                      
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading" role="tab" id="headingTwo">
-                                <h4 class="panel-title asd">
-                                    <a class="pa_italic"
-                                       href="#">
-                                        Hình ảnh
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false">
-                                <div class="accordion-image">
-                                    <div class="col-md-6 col-xs-12">
-                                        <a href="#"><img src="~/Assets/Client/images/Landmark_81.jpg" class="img-project-single" style="padding: 1em;" alt="Groovy Apparel"></a>
-                                        <h4 style="padding-bottom: 10px;color: #333;text-align: center;     font-size: 15px;">Bản mẫu thi công chiếu sáng Tòa nhà Lanmark 81</h4>
-                                    </div>
-                                    <div class="col-md-6 col-xs-12">
-                                        <a href="#">
-                                            <img src="~/Assets/Client/images/phoi-canh-vinhomes-central-park-1.jpg" class="img-project-single" style="padding: 1em;" alt="Groovy Apparel">
-                                        </a>
-                                        <h4 style="padding-bottom: 10px;color: #333;text-align: center;    font-size: 15px;">Bản mẫu thi công chiếu sáng Tòa nhà Lanmark 81</h4>
-                                    </div>
-
-                                    <div class="col-md-6 col-xs-12">
-                                        <a href="#"><img src="~/Assets/Client/images/Landmark_81.jpg" class="img-project-single" style="padding: 1em;" alt="Groovy Apparel"></a>
-                                        <h4 style="padding-bottom: 10px;color: #333;text-align: center;    font-size: 15px;">Bản mẫu thi công chiếu sáng Tòa nhà Lanmark 81</h4>
-                                    </div>
-                                    <div class="col-md-6 col-xs-12">
-                                        <a href="#">
-                                            <img src="~/Assets/Client/images/phoi-canh-vinhomes-central-park-1.jpg" class="img-project-single" style="padding: 1em;" alt="Groovy Apparel">
-                                        </a>
-                                        <h4 style="padding-bottom: 10px;color: #333;text-align: center;    font-size: 15px;">Bản mẫu thi công chiếu sáng Tòa nhà Lanmark 81</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <h4 class="pd">
+                    <span class="border-bt">
+                        Không tìm thấy dự án!
+                    </span>
+                </h4>
+            }
+            
 
         </div>
     </div>

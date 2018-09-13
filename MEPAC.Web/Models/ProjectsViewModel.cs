@@ -84,7 +84,11 @@ namespace MEPAC.Web.Models
         /// </summary>
         public bool IsRepresentative { get; set; }
 
+        public bool IsFinish { get; set; }
+
         public List<string> ListMoreImage { get; set; }
+
+        public string JSonMoreImage { get; set; }
 
     }
 }

@@ -17,66 +17,67 @@ using System.Web.Script.Serialization;
 
 namespace MEPAC.Web.Api
 {
-    [RoutePrefix("api/projects")]
+    [RoutePrefix("api/news")]
     [Authorize]
-    public class ProjectsController : BaseApiController
+    public class NewsController : BaseApiController
     {
         IMetaImageBusiness _metaImageBusiness;
         IProjectsBusiness _projectsBusiness;
         IApplicationUserBusiness _applicationUserBusiness;
-        public ProjectsController(
+        INewsBusiness _newsBusiness;
+        public NewsController(
             IMetaImageBusiness _metaImageBusiness,
             IProjectsBusiness _projectsBusiness,
-            IApplicationUserBusiness _applicationUserBusiness)
+            IApplicationUserBusiness _applicationUserBusiness,
+            INewsBusiness _newsBusiness)
         {
             this._metaImageBusiness = _metaImageBusiness;
             this._projectsBusiness = _projectsBusiness;
             this._applicationUserBusiness = _applicationUserBusiness;
+            this._newsBusiness = _newsBusiness;
         }
 
         [Route("search")]
         [HttpGet]
         public HttpResponseMessage Search(HttpRequestMessage request,
-            int page, int pageSize, string keyWord, int status)
+            int page, int pageSize, string keyWord, int status, int typeNewsID)
         {
             return CreateHttpResponse(request, () =>
             {
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("KeyWord", keyWord);
                 dic.Add("Status", status);
-                List<Projects> lstProjectsDB = _projectsBusiness.Search(dic).ToList();
+                dic.Add("TypeNewsID", typeNewsID);             
+                List<News> lstNewsDB = _newsBusiness.Search(dic).ToList();
 
-                List<ProjectsViewModel> lstProjectVM = lstProjectsDB.Select(x => new ProjectsViewModel()
+                List<NewsViewModel> lstNewsVM = lstNewsDB.Select(x => new NewsViewModel()
                 {
-                    ProjectID = x.ProjectID,
-                    Display = x.Display,
-                    FromDate = x.FromDate,
-                    ToDate = x.ToDate,
-                    LinkImage = x.Image,
-                    Description = x.Description,
-                    MetaKeyword = x.MetaKeyword,
+                    NewsID = x.NewsID,
+                    Content = x.Content,
+                    DisplayName = x.DisplayName,
+                    Image = x.Image,
                     MetaDescription = x.MetaDescription,
                     CreateBy = x.CreateBy,
                     CreateDate = x.CreateDate,
-                    UpdateBy = x.UpdateBy,
-                    UpdateDate = x.UpdateDate,
+                    MetaKeyword = x.MetaKeyword,
+                    ShortContent = x.ShortContent,
                     PostBy = x.PostBy,
                     PostDate = x.PostDate,
                     IsActive = x.IsActive,
-                    IsShow = x.IsShow,
-                    IsRepresentative = x.IsRepresentative,
-                    IsFinish = x.IsFinish
-            }).ToList();
+                    UpdateBy = x.UpdateBy,
+                    UpdateDate = x.UpdateDate,
+                    SubMenuID = x.SubMenuID
+                }).ToList();
 
                 string StrDate = string.Empty;
                 string StrHour = string.Empty;
                 string StrUser = string.Empty;
 
-                if (lstProjectVM.Count() > 0)
+                if (lstNewsVM.Count() > 0)
                 {
                     string userId = string.Empty;
-                    var objProjectByUpdate = lstProjectVM.OrderByDescending(x => x.UpdateDate).FirstOrDefault();
-                    var objProjectByCreate = lstProjectVM.OrderByDescending(x => x.CreateDate).FirstOrDefault();
+                    var objProjectByUpdate = lstNewsVM.OrderByDescending(x => x.UpdateDate).FirstOrDefault();
+                    var objProjectByCreate = lstNewsVM.OrderByDescending(x => x.CreateDate).FirstOrDefault();
 
                     if (objProjectByUpdate.UpdateDate.HasValue)
                     {
@@ -114,10 +115,10 @@ namespace MEPAC.Web.Api
                     }
                 }
 
-                lstProjectVM = lstProjectVM.OrderByDescending(x => x.ProjectID).ThenBy(x => x.Display).ToList();
-                int totalRow = lstProjectVM.Count();
+                lstNewsVM = lstNewsVM.OrderByDescending(x => x.NewsID).ThenBy(x => x.DisplayName).ToList();
+                int totalRow = lstNewsVM.Count();
 
-                List<ProjectsViewModel> lstResult = lstProjectVM.Skip((page) * pageSize).Take(pageSize).ToList();
+                List<NewsViewModel> lstResult = lstNewsVM.Skip((page) * pageSize).Take(pageSize).ToList();
                 List<string> lstUserID = lstResult.Select(x => x.CreateBy).ToList();
                 var lstUSer = _applicationUserBusiness.GetAll().Where(x => lstUserID.Contains(x.Id)).ToList();
 
@@ -129,18 +130,18 @@ namespace MEPAC.Web.Api
                         item.FullNameCreate = objUser.FullName;
                     }
 
-                    if(!string.IsNullOrEmpty(item.UpdateBy))
+                    if (!string.IsNullOrEmpty(item.UpdateBy))
                     {
                         objUser = lstUSer.Where(x => x.Id == item.UpdateBy).FirstOrDefault();
                         if (objUser != null)
                         {
                             item.FullNameUpdate = objUser.FullName;
                         }
-                    }                
+                    }
                 }
 
 
-                var paginationset = new PaginationSet<ProjectsViewModel>()
+                var paginationset = new PaginationSet<NewsViewModel>()
                 {
                     Items = lstResult.AsEnumerable(),
                     Page = page,
@@ -204,7 +205,7 @@ namespace MEPAC.Web.Api
                     catch (Exception ex)
                     {
                         response = request.CreateResponse(HttpStatusCode.NotFound, "Không tìm thấy");
-                    }                
+                    }
                 }
 
                 return response;
@@ -356,7 +357,7 @@ namespace MEPAC.Web.Api
                             return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
                         }
                         GlobalInfo _global = new GlobalInfo();
-                        List<string> lstMoreImage = !string.IsNullOrEmpty(projectVM.JSonMoreImage) ? new JavaScriptSerializer().Deserialize<List<string>>(projectVM.JSonMoreImage) :  new List<string>();
+                        List<string> lstMoreImage = !string.IsNullOrEmpty(projectVM.JSonMoreImage) ? new JavaScriptSerializer().Deserialize<List<string>>(projectVM.JSonMoreImage) : new List<string>();
                         projectVM.ListMoreImage = lstMoreImage;
 
                         if (projectVM.IsShow)
@@ -389,7 +390,7 @@ namespace MEPAC.Web.Api
                     {
                         response = request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
                     }
-                   
+
                 }
 
                 return response;
@@ -409,7 +410,7 @@ namespace MEPAC.Web.Api
             {
                 List<int> lstProjectID = new JavaScriptSerializer().Deserialize<List<int>>(jsonlistId);
 
-                List<Projects> lstProjects = _projectsBusiness.GetAll().Where(x=> lstProjectID.Contains(x.ProjectID)).ToList();
+                List<Projects> lstProjects = _projectsBusiness.GetAll().Where(x => lstProjectID.Contains(x.ProjectID)).ToList();
 
                 foreach (var item in lstProjects)
                 {
@@ -424,3 +425,4 @@ namespace MEPAC.Web.Api
 
     }
 }
+

@@ -8,6 +8,15 @@
         }
     })
 
+    app.filter('FinishFilter', function () {
+        return function (input) {
+            if (input == true)
+                return 'Đã hoàn thành';
+            else
+                return 'Chưa hoành thành';
+        }
+    })
+
     //app.filter('statusFilter', statusFilter);
 
     //function statusFilter() {

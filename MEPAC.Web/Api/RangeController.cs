@@ -37,40 +37,40 @@ namespace MEPAC.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-            IDictionary<string, object> dic = new Dictionary<string, object>();
-            dic.Add("KeyWord", keyWord);
-            dic.Add("Status", status);
-            var lstRangeDB = RangeBusiness.Search(dic);
-            var lstSubMenu = SubMenuBusiness.GetAll();
-            var lstMenu = MenuBusiness.GetAll();
+                IDictionary<string, object> dic = new Dictionary<string, object>();
+                dic.Add("KeyWord", keyWord);
+                dic.Add("Status", status);
+                var lstRangeDB = RangeBusiness.Search(dic);
+                var lstSubMenu = SubMenuBusiness.GetAll().Where(x=>x.MenuID == 3);
+                var lstMenu = MenuBusiness.GetAll();
 
-            List<RangeViewModel> lstRangeVM = (from sm in lstSubMenu
-                                               join r in lstRangeDB on sm.SubMenuID equals r.SubMenuID into rt
-                                               from r in rt.DefaultIfEmpty()
-                                                join m in lstMenu on sm.MenuID equals m.MenuID
-                                                select new RangeViewModel
-                                                {
-                                                    RangeID = r != null ? r.RangeID : 0, 
-                                                    Cotntent = r != null ? r.Cotntent : "",
-                                                    MenuID = m.MenuID,
-                                                    MenuName = m.Display,
-                                                    SubMenuID = sm.SubMenuID,
-                                                    LinkImage = sm.Image,
-                                                    SubMenuName = sm.Display,
-                                                    MetaKeyword = r != null ? r.MetaKeyword : "",
-                                                    MetaDescription = r != null ? r.MetaDescription : "",
-                                                    CreateBy = r != null ? r.CreateBy : "",
-                                                    CreateDate = r.CreateDate,
-                                                    UpdateBy = r != null ? r.UpdateBy : "",
-                                                    UpdateDate = r != null ? r.UpdateDate : null,
-                                                }).ToList();                
+                List<RangeViewModel> lstRangeVM = (from sm in lstSubMenu
+                                                   join r in lstRangeDB on sm.SubMenuID equals r.SubMenuID into rt
+                                                   from r in rt.DefaultIfEmpty()
+                                                   join m in lstMenu on sm.MenuID equals m.MenuID
+                                                   select new RangeViewModel
+                                                   {
+                                                       RangeID = r != null ? r.RangeID : 0,
+                                                       Cotntent = r != null ? r.Cotntent : "",
+                                                       MenuID = m.MenuID,
+                                                       MenuName = m.Display,
+                                                       SubMenuID = sm.SubMenuID,
+                                                       LinkImage = sm.Image,
+                                                       SubMenuName = sm.Display,
+                                                       MetaKeyword = r != null ? r.MetaKeyword : "",
+                                                       MetaDescription = r != null ? r.MetaDescription : "",
+                                                       CreateBy = r != null ? r.CreateBy : "",
+                                                       CreateDate = r.CreateDate,
+                                                       UpdateBy = r != null ? r.UpdateBy : "",
+                                                       UpdateDate = r != null ? r.UpdateDate : null,
+                                                   }).ToList();
 
                 lstRangeVM = lstRangeVM.OrderByDescending(x => x.CreateDate).ThenBy(x => x.SubMenuName).ToList();
                 int totalRow = lstRangeVM.Count();
 
                 List<RangeViewModel> lstResult = lstRangeVM.Skip((page) * pageSize).Take(pageSize).ToList();
                 List<string> lstUserID = lstResult.Select(x => x.CreateBy).ToList();
-               
+
 
                 var paginationset = new PaginationSet<RangeViewModel>()
                 {
@@ -106,26 +106,26 @@ namespace MEPAC.Web.Api
                         var lstMenu = MenuBusiness.GetAll();
                         var objRVM = new RangeViewModel();
 
-                        var objDB = (from sm in lstSubMenu.Where(x=>x.SubMenuID == rangeId)
-                                                           join r in lstRangeDB on sm.SubMenuID equals r.SubMenuID into rt
-                                                           from r in rt.DefaultIfEmpty()
-                                                           join m in lstMenu on sm.MenuID equals m.MenuID
-                                                           select new RangeViewModel
-                                                           {
-                                                               RangeID = r != null ? r.RangeID : 0,
-                                                               Cotntent = r != null ? r.Cotntent : "",
-                                                               MenuID = m.MenuID,
-                                                               MenuName = m.Display,
-                                                               SubMenuID = sm.SubMenuID,
-                                                               LinkImage = sm.Image,
-                                                               SubMenuName = sm.Display,
-                                                               MetaKeyword = r != null ? r.MetaKeyword : "",
-                                                               MetaDescription = r != null ? r.MetaDescription : "",
-                                                               CreateBy = r != null ? r.CreateBy : "",
-                                                               CreateDate = r.CreateDate,
-                                                               UpdateBy = r != null ? r.UpdateBy : "",
-                                                               UpdateDate = r != null ? r.UpdateDate : null,
-                                                           }).FirstOrDefault();
+                        var objDB = (from sm in lstSubMenu.Where(x => x.SubMenuID == rangeId)
+                                     join r in lstRangeDB on sm.SubMenuID equals r.SubMenuID into rt
+                                     from r in rt.DefaultIfEmpty()
+                                     join m in lstMenu on sm.MenuID equals m.MenuID
+                                     select new RangeViewModel
+                                     {
+                                         RangeID = r != null ? r.RangeID : 0,
+                                         Cotntent = r != null ? r.Cotntent : "",
+                                         MenuID = m.MenuID,
+                                         MenuName = m.Display,
+                                         SubMenuID = sm.SubMenuID,
+                                         LinkImage = sm.Image,
+                                         SubMenuName = sm.Display,
+                                         MetaKeyword = r != null ? r.MetaKeyword : "",
+                                         MetaDescription = r != null ? r.MetaDescription : "",
+                                         CreateBy = r != null ? r.CreateBy : "",
+                                         CreateDate = r.CreateDate,
+                                         UpdateBy = r != null ? r.UpdateBy : "",
+                                         UpdateDate = r != null ? r.UpdateDate : null,
+                                     }).FirstOrDefault();
                         if (objDB != null)
                         {
                             objRVM = objDB;
@@ -160,7 +160,7 @@ namespace MEPAC.Web.Api
                     try
                     {
                         List<string> lstError = new List<string>();
-                        var objSubMenu = new SubMenu();//SubMenuBusiness.GetById(rangeVM.SubMenuID);
+                        var objSubMenu = SubMenuBusiness.GetById(rangeVM.SubMenuID);
 
                         if (objSubMenu == null)
                         {
@@ -220,10 +220,10 @@ namespace MEPAC.Web.Api
                         //};
                         objSubMenu.Display = rangeVM.SubMenuName;
                         objSubMenu.Image = rangeVM.LinkImage;
-                       // SubMenuBusiness.Update(objSubMenu);
+                        SubMenuBusiness.Update(objSubMenu);
 
                         Range objRDB = RangeBusiness.GetById(rangeVM.RangeID);
-                        if(objRDB == null)
+                        if (objRDB == null)
                         {
                             Range objR = new Range()
                             {
@@ -254,7 +254,7 @@ namespace MEPAC.Web.Api
                             RangeBusiness.Update(objRDB);
                         }
 
-                        //SubMenuBusiness.Save();
+                        SubMenuBusiness.Save();
                         RangeBusiness.Save();
                         response = request.CreateResponse(HttpStatusCode.OK, "Cập nhật thành công");
                     }
@@ -291,11 +291,11 @@ namespace MEPAC.Web.Api
                 List<SubMenu> lstSubMenu = SubMenuBusiness.GetAll().Where(x => lstSubMenuID.Contains(x.SubMenuID)).ToList();
                 foreach (var item in lstSubMenu)
                 {
-                   // SubMenuBusiness.Delete(item.SubMenuID);
+                    SubMenuBusiness.Delete(item.SubMenuID);
                 }
 
-                //RangeBusiness.Save();
-                //SubMenuBusiness.Save();
+                RangeBusiness.Save();
+                SubMenuBusiness.Save();
                 response = request.CreateResponse(HttpStatusCode.OK, lstSubMenuID.Count());
 
             }
