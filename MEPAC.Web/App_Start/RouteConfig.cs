@@ -21,11 +21,32 @@ namespace MEPAC.Web
             );
 
             routes.MapRoute(
+               name: "Lĩnh vực",
+               url: "linh-vuc/{id}",
+               defaults: new { controller = "Home", action = "Range", id = UrlParameter.Optional },
+               namespaces: new[] { "MEPAC.Web.Controllers" }
+           );
+
+            routes.MapRoute(
                name: "Chi tiet du an",
                url: "chi-tiet-du-an/{id}",
                defaults: new { controller = "Home", action = "ProjectsDetail", id = UrlParameter.Optional },
                namespaces: new[] { "MEPAC.Web.Controllers" }
            );
+
+            routes.MapRoute(
+             name: "Tuyển dụng",
+             url: "tuyen-dung",
+             defaults: new { controller = "Home", action = "LoadHiringAndRecent", id = UrlParameter.Optional },
+             namespaces: new[] { "MEPAC.Web.Controllers" }
+         );
+
+            routes.MapRoute(
+              name: "Chi tiết tuyển dụng",
+              url: "chi-tiet-tuyen-dung/{id}",
+              defaults: new { controller = "Home", action = "HiringDetail", id = UrlParameter.Optional },
+              namespaces: new[] { "MEPAC.Web.Controllers" }
+          );
 
             routes.MapRoute(
               name: "Gioi thieu",
