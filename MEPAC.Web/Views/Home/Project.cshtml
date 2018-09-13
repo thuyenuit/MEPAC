@@ -5,9 +5,9 @@
     ViewBag.Title = ViewBag.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    List<ClientYearViewModel> lstYearsVM = ViewData["LIST_YEAR"] != null ? (List<ClientYearViewModel>)ViewData["LIST_YEAR"] : new List<ClientYearViewModel>();
+    List<ClientYearViewModel> lstYearsV5M = ViewData["LIST_YEAR"] != null ? (List<ClientYearViewModel>)ViewData["LIST_YEAR"] : new List<ClientYearViewModel>();
     List<ClientProjectViewMdel> lstProjectsCompleteVM = ViewData["LIST_PROJECT_COMPLETE"] != null ? (List<ClientProjectViewMdel>)ViewData["LIST_PROJECT_COMPLETE"] : new List<ClientProjectViewMdel>();
-    List<ClientProjectViewMdel> lstProjectsUnCompleteVM = ViewData["LIST_PROJECT_UNCOMPLETE"] != null ? (List<ClientProjectViewMdel>)ViewData["LIST_PROJECT_UNCOMPLETE"] : new List<ClientProjectViewMdel>();
+    //List<ClientProjectViewMdel> lstProjectsUnCompleteVM = ViewData["LIST_PROJECT_UNCOMPLETE"] != null ? (List<ClientProjectViewMdel>)ViewData["LIST_PROJECT_UNCOMPLETE"] : new List<ClientProjectViewMdel>();
 }
 
 <div class="events-first events-projects">
@@ -20,11 +20,11 @@
                         <div class="widget-box widget-color-blue2">
                             <div class="widget-header"></div>
                             <div class="widget-body product-by-year">
-                                @foreach (var item in lstYearsVM)
+                                @*@foreach (var item in lstYearsVM)
                                 {
                                     <span class="@(item.Selected ? "active info-year" : "info-year")"
                                           value="@item.YearID"><span>@item.Display</span></span>
-                                }
+                                }*@
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                             </div>
                             <div id="uncomplete" class="tab-pane fade">
 
-                                @if (lstProjectsUnCompleteVM.Count() > 0)
+                                @*@if (lstProjectsUnCompleteVM.Count() > 0)
                                 {
                                     <div class="events-grids">
                                         <div class="col-md-3 events-grid">
@@ -137,7 +137,7 @@
                                         <h4 style="margin-left: 15px;font-size: 15px !important;">Không có dự án nào</h4>
                                     </div>
                                     <div class="clearfix"></div>
-                                }
+                                }*@
 
 
                             </div>

@@ -5,7 +5,7 @@ using MEPAC.Web.Controllers;
 using MEPAC.Web.Infrastructure.Core;
 using MEPAC.Web.Models;
 using MEPAC.Web.Provider;
-using MEPAC.Web.Utils;
+//using MEPAC.Web.Utils;
 using MEPAC.WebAdmin.Infrastructure.Core;
 using System;
 using System.Collections.Generic;
@@ -191,7 +191,7 @@ namespace MEPAC.Web.Api
                             obVM.MetaKeyword = obj.MetaKeyword;
                             obVM.IsRepresentative = obj.IsRepresentative;
                             obVM.IsFinish = obj.IsFinish;
-                            List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == ParamFile.TYPE_IMAGE_PROJECT && x.ParentID == obj.ProjectID).ToList();
+                            List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == 1 && x.ParentID == obj.ProjectID).ToList();
                             if (lstMetaImage.Count() > 0)
                             {
                                 List<string> lstImage = lstMetaImage.Select(x => x.Link).ToList();
@@ -260,7 +260,7 @@ namespace MEPAC.Web.Api
                     {
                         return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
                     }
-                    GlobalInfo _global = new GlobalInfo();
+                    //GlobalInfo _global = new GlobalInfo();
                     List<string> lstMoreImage = new JavaScriptSerializer().Deserialize<List<string>>(projectVM.JSonMoreImage);
                     projectVM.ListMoreImage = lstMoreImage;
 
@@ -355,7 +355,7 @@ namespace MEPAC.Web.Api
                         {
                             return request.CreateResponse(HttpStatusCode.BadRequest, string.Join(", ", lstError.ToList()));
                         }
-                        GlobalInfo _global = new GlobalInfo();
+                        //GlobalInfo _global = new GlobalInfo();
                         List<string> lstMoreImage = !string.IsNullOrEmpty(projectVM.JSonMoreImage) ? new JavaScriptSerializer().Deserialize<List<string>>(projectVM.JSonMoreImage) :  new List<string>();
                         projectVM.ListMoreImage = lstMoreImage;
 

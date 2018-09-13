@@ -1,0 +1,13 @@
+﻿@using MEPAC.Web.Models
+@{
+    List<RangeViewModel> lstResult = new List<RangeViewModel>();
+    if(ViewData["lstRange"] != null)
+    {
+        lstResult = (List<RangeViewModel>)ViewData["lstRange"];
+    }
+}
+
+@foreach (var item in lstResult)
+{
+    <li><a href="/linh-vuc/@item.RangeID">@item.SubMenuName</a></li>
+}

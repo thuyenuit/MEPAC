@@ -1,0 +1,73 @@
+﻿@using MEPAC.Web.Models
+
+@model RangeViewModel
+@{
+    ViewBag.Title = Model.SubMenuName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="news no-padding" style="padding-top:140px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4 class="pd"><span class="border-bt">@Model.SubMenuName</span></h4>
+            </div>
+        </div>
+        <div class="row" style="padding-top:10px;">
+            <div class="">
+                <div class="big-item clearfix">
+                    <div class="class-image-news col-md-12 col-sm-12 col-xs-12">
+                        <a href="#">
+                            <div>
+                                <img style="width: 100% !important;" class="img-news text-center" alt="@Model.SubMenuName" title="@Model.SubMenuName" src="@Model.LinkImage">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="news no-padding" style="padding-top:20px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                <h4 class="pd"><span class="border-bt text-center">Chi tiết</span></h4>
+            </div>
+        </div>
+        @if (Model.Cotntent == null)
+        {
+            <div class="row text-center" style="padding-top:10px;">
+                <p>Lĩnh vực chưa có nội dung cho tiết.</p>
+            </div>
+        }
+        else
+        {
+        <div class="row" style="padding-top:10px;">
+            <div class="">
+                <div class="big-item clearfix">
+                    <div class="class-image-news col-md-12 col-sm-12 col-xs-12">
+                        <div class="class-image-news format-image">
+                            @Html.Raw(Model.Cotntent)
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+        }
+    </div>
+</div>
+<style>
+
+    .format-image img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .format-image table {
+        width: 100% !important;
+    }
+</style>

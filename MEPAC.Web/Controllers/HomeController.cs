@@ -20,13 +20,15 @@ namespace MEPAC.Web.Controllers
         IProjectsBusiness _projectsBusiness;
         IMetaImageBusiness _metaImageBusiness;
         IInformationBusiness _informationBusiness;
+        IHiringBusiness _hiringBusiness;
         public HomeController(ISlideBusiness _slideBusiness,
             IRangeBusiness _rangeBusiness,
         ISubMenuBusiness _subMenuBusiness,
         IMenuBusiness _menuBusiness,
          IMetaImageBusiness _metaImageBusiness,
         IProjectsBusiness _projectsBusiness,
-        IInformationBusiness _informationBusiness) {
+        IInformationBusiness _informationBusiness,
+        IHiringBusiness _hiringBusiness) {
 
             this._slideBusiness = _slideBusiness;
             this._projectsBusiness = _projectsBusiness;
@@ -35,6 +37,7 @@ namespace MEPAC.Web.Controllers
             this._menuBusiness = _menuBusiness;
             this._metaImageBusiness =_metaImageBusiness;
             this._informationBusiness = _informationBusiness;
+            this._hiringBusiness = _hiringBusiness;
     }
 
         public ActionResult Index()
@@ -196,7 +199,6 @@ namespace MEPAC.Web.Controllers
             return link;
         }
 
-
         public ActionResult ProjectsDetail(int id)
         {
             ProjectsViewModel obVM = new ProjectsViewModel();
@@ -218,7 +220,7 @@ namespace MEPAC.Web.Controllers
                 obVM.MetaKeyword = obj.MetaKeyword;
                 obVM.IsRepresentative = obj.IsRepresentative;
 
-                List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == ParamFile.TYPE_IMAGE_PROJECT && x.ParentID == obj.ProjectID).ToList();
+                List<MetaImage> lstMetaImage = _metaImageBusiness.GetAll().Where(x => x.TypeID == 1 && x.ParentID == obj.ProjectID).ToList();
                 if (lstMetaImage.Count() > 0)
                 {
                     List<string> lstImage = lstMetaImage.Select(x => x.Link).ToList();
@@ -228,5 +230,103 @@ namespace MEPAC.Web.Controllers
 
             return View(obVM);
         }
+
+        public ActionResult LoadRange()
+        {
+            IDictionary<string, object> dic = new Dictionary<string, object>();
+            List<RangeViewModel> model = (from sm in _subMenuBusiness.GetAll().Where(x => x.MenuID == 3)
+                                          join r in _rangeBusiness.Search(dic) on sm.SubMenuID equals r.SubMenuID into rt
+                                          from r in rt.DefaultIfEmpty()
+                                          join m in _menuBusiness.GetAll() on sm.MenuID equals m.MenuID
+                                          select new RangeViewModel
+                                          {
+                                              RangeID = r != null ? r.RangeID : 0,
+                                              Cotntent = r != null ? r.Cotntent : "",
+                                              MenuID = m.MenuID,
+                                              MenuName = m.Display,
+                                              SubMenuID = sm.SubMenuID,
+                                              LinkImage = sm.Image,
+                                              SubMenuName = sm.Display,
+                                              MetaKeyword = r != null ? r.MetaKeyword : "",
+                                              MetaDescription = r != null ? r.MetaDescription : "",
+                                              CreateBy = r != null ? r.CreateBy : "",
+                                              CreateDate = r.CreateDate,
+                                              UpdateBy = r != null ? r.UpdateBy : "",
+                                              UpdateDate = r != null ? r.UpdateDate : null,
+                                          }).ToList();
+            ViewData["lstRange"] = model;
+            return PartialView("_LoadRange");
+        }
+
+        public ActionResult Range(int id)
+        {
+            RangeViewModel rangeViewModel = new RangeViewModel();
+            IDictionary<string, object> dic = new Dictionary<string, object>();
+            RangeViewModel model = (from sm in _subMenuBusiness.GetAll().Where(x => x.MenuID == 3 && x.SubMenuID == id)
+                                          join r in _rangeBusiness.Search(dic).Where(x=>x.SubMenuID == id) on sm.SubMenuID equals r.SubMenuID into rt
+                                               from rr in rt.DefaultIfEmpty()
+                                               join m in _menuBusiness.GetAll() on sm.MenuID equals m.MenuID
+                                               select new RangeViewModel
+                                               {
+                                                   RangeID = rr != null ? rr.RangeID : 0,
+                                                   Cotntent = rr != null ? rr.Cotntent : "",
+                                                   MenuID = m.MenuID,
+                                                   MenuName = m.Display,
+                                                   SubMenuID = sm.SubMenuID,
+                                                   LinkImage = sm.Image,
+                                                   SubMenuName = sm.Display,
+                                                   MetaKeyword = rr != null ? rr.MetaKeyword : "",
+                                                   MetaDescription = rr != null ? rr.MetaDescription : "",
+                                                   CreateBy = rr != null ? rr.CreateBy : "",
+                                                   CreateDate = rr.CreateDate,
+                                                   UpdateBy = rr != null ? rr.UpdateBy : "",
+                                                   UpdateDate = rr != null ? rr.UpdateDate : null,
+                                               }).FirstOrDefault();
+            if (model != null)
+            {
+                rangeViewModel = model;
+            }
+
+            return View(rangeViewModel);
+        }
+
+        public ActionResult LoadHiringAndRecent()
+        {
+            return View();
+        }
+
+        public ActionResult Hirings()
+        {
+            var model = _hiringBusiness.Search(new Dictionary<string, object>() { })
+                        .Where(x => x.IsActive == true && x.IsShow == true &&
+                            (x.EnddDate == null || x.EnddDate >= DateTime.Now)).OrderByDescending(x=>x.EnddDate).ToList();
+            ViewData["lstHiring"] = model;
+
+            return PartialView("_Hiring");
+        }
+
+        public ActionResult RecentHiring()
+        {
+            var model = _hiringBusiness.Search(new Dictionary<string, object>() { })
+                        .Where(x => x.IsActive == true && x.IsShow == true &&
+                            (x.EnddDate == null || x.EnddDate >= DateTime.Now)).OrderByDescending(x => x.PostDate).ToList();
+            ViewData["lstRecentHiring"] = model.Take(4).ToList();
+
+            return PartialView("_RecentHiring");
+        }
+
+        public ActionResult HiringDetail(int id)
+        {
+            var model = _hiringBusiness.Search(new Dictionary<string, object>() { })
+                        .FirstOrDefault(x=>x.HiringID == id);
+
+            var result = new Hiring();
+            if(model != null)
+            {
+                result = model;
+            }
+            return View(result);
+        }
+
     }
 }

@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Tuyển dụng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- linh vuc -->
+<div class="range none-padding-bottom" style="padding-top:140px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h4 class=""><span class="border-bt">Tuyển dụng</span></h4>
+                <div class="events-grids">
+
+                    @Html.Action("Hirings", "Home")
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="col-md-3 area-hiring hiring">
+                <h4 class="pd"><span class="border-bt" style="padding-left:0.8em !important;">Tuyển dụng gần đây</span></h4>
+
+                <div class="events-grids vt-fontsize08">
+                    @Html.Action("RecentHiring", "Home")
+                    @*<div class="col-md-12 col-xs-12 padding-right-left-15">
+                            <div class="events-grid1 vt-hiring">
+                                <a href="single.html">
+                                    <img src="~/Assets/Client/images/tuyenketoan.png" alt=" " class="img-responsive" />
+                                </a>
+                                <h4><a href="single.html">Tuyển dụng - Kế toán, kiểm toán.</a></h4>
+                                <ul>
+                                    <li><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>20/08/2018</li>
+                                </ul>
+                            </div>
+                        </div>*@
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- //linh vuc -->

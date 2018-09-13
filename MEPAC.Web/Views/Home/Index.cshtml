@@ -158,7 +158,9 @@
                             }
 
                                 <div style="@(countRang <= 1  ? "padding-top: 0px;" : "")" class="col-md-6 col-sm-6 col-xs-12 slidering @(countRang == 0 || countRang == 2  ? "p-r-15" : "p-l-15") thumbnail thumbnail-hr evaluation-img">
-                                    <img class="img-rang" src="@item.LinkImage" alt="" style="max-width: 100%;">
+                                    <a href="/linh-vuc/@item.SubMenuID">
+                                        <img class="img-rang" src="@item.LinkImage" alt="" style="max-width: 100%;">
+                                    </a> 
                                     <div class="overlay-hover">
                                         @if (countRang == 0)
                                         {
