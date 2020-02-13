@@ -14,7 +14,7 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int SupplierID { get; set; }
 
         [Required]
         [MaxLength(255)]

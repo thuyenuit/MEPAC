@@ -55,7 +55,7 @@ namespace SMS.Service.ServiceObject
 
         public decimal? PriceSale { get; set; }
 
-        public long CategoryID { get; set; }
+        public int CategoryID { get; set; }
 
         public string CategoryName { get; set; }
 

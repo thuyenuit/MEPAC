@@ -167,8 +167,8 @@ namespace SMS.API.Infrastructure.Core
                 BaseRequest _baseRequest = new BaseRequest()
                 {
                     UserID = _global.UserID,
-                    UserFullName =_global.UserFullName,
-                    UserAccount = _global.UserAccount
+                    //UserFullName =_global.UserFullName,
+                    //UserAccount = _global.UserAccount
                 };
 
                 BindTo(request, _baseRequest);

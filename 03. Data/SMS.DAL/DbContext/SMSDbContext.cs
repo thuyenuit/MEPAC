@@ -13,22 +13,27 @@ namespace SMS.DAL.DbContext
         }
 
         public DbSet<Category> Category { get; set; }
-        public DbSet<CategoryType> CategoryType { get; set; }
+        public DbSet<Color> Color { get; set; }
+        public DbSet<ColorProduct> ColorProduct { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<ErrorLog> ErrorLog { get; set; }
+        public DbSet<Field> Field { get; set; }
+        public DbSet<FieldGroup> FieldGroup { get; set; }
+        public DbSet<FieldProduct> FieldProduct { get; set; }
         public DbSet<InventoryDeliveryVoucher> InventoryDeliveryVoucher { get; set; }
         public DbSet<InventoryDeliveryVoucherDetail> InventoryDeliveryVoucherDetail { get; set; }
         public DbSet<InventoryReceivingVoucher> InventoryReceivingVoucher { get; set; }
         public DbSet<InventoryReceivingVoucherDetail> InventoryReceivingVoucherDetail { get; set; }
-        public DbSet<ManagementStock> ManagementStock { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<ProductDetail> ProductDetail { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
-        public DbSet<Tag> Tag { get; set; }
-        public DbSet<Menu> Mennu { get; set; }
-        public DbSet<SubMenu> SubMenu { get; set; }
+        public DbSet<Menu> Menu { get; set; }
         public DbSet<MenuPermission> MenuPermission { get; set; }
         public DbSet<MenuPermissionDetail> MenuPermissionDetail { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ProductCategory> ProductCategory { get; set; }
+        public DbSet<Stock> Stock { get; set; }
+        public DbSet<StockManager> StockManager { get; set; }
+        public DbSet<StockProduct> StockProduct { get; set; }
+        public DbSet<Supplier> Supplier { get; set; }
+        public DbSet<Tag> Tag { get; set; }
 
         public static SMSDbContext Create()
         {

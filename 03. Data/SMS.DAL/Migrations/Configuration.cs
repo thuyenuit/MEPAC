@@ -13,10 +13,10 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(SMS.DAL.DbContext.SMSDbContext context)
+        protected override void Seed(SMSDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -31,7 +31,7 @@
             //    );
             //
 
-            this.CreateUserAdmin(context);
+            CreateUserAdmin(context);
         }
 
         private void CreateUserAdmin(SMSDbContext context)
@@ -41,11 +41,12 @@
 
             var user = new ApplicationUser()
             {
-                UserCode = "admin",
+                //UserCode = "admin",
                 UserName = "admin",
                 Email = "thuyennv1004@gmail.com",
                 EmailConfirmed = true,
-                FullName = "Thuyền Nguyễn",
+                FirstName = "Thuyền",
+                LastName = "Nguyễn",
                 BirthDay = DateTime.Now,
                 PhoneNumber = "0372102464",
                 PhoneNumberConfirmed = true,

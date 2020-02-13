@@ -11,14 +11,19 @@ namespace SMS.Model.Models
     [Table("MenuPermissions")]
     public class MenuPermission
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long MenuPermissionID { get; set; }
+
         [Required]
-        [Key, Column(Order = 1)]
         public string UserID { get; set; }
 
         [Required]
-        [Key, Column(Order = 2)]
         public int MenuID { get; set; }
 
-        public int SubMenuID { get; set; }
+        [ForeignKey("MenuID")]
+        public virtual Menu Menu { get; set; }
+
+        public virtual IEnumerable<MenuPermissionDetail> MenuPermissionDetails { get; set; }
     }
 }

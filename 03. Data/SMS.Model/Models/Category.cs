@@ -11,7 +11,7 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int CategoryID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -34,5 +34,7 @@ namespace SMS.Model.Models
         public string MetaDescription { get; set; }
 
         public virtual IEnumerable<ProductCategory> ProductCategories { get; set; }
+
+        public virtual IEnumerable<FieldGroup> FieldGroups { get; set; }
     }
 }

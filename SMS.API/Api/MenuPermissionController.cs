@@ -37,7 +37,7 @@ namespace SMS.API.Api
             BaseResponse<List<MenuModel>> response = new BaseResponse<List<MenuModel>>();
             response.ResponseCode = BaseCode.SUCCESS;
 
-            var resultMenu = (from mp in menuPermissionService.GetAll()
+           /* var resultMenu = (from mp in menuPermissionService.GetAll()
                               join me in menuService.GetAll() on mp.MenuID equals me.MenuID
                               join sm in subMenuService.GetAll().Where(x => x.IsDisplay) on mp.SubMenuID equals sm.SubMenuID
                               where mp.UserID == request.UserID
@@ -89,8 +89,8 @@ namespace SMS.API.Api
                 }
                 objMenu.SubMenus = lstSubMenu;
                 lstMenu.Add(objMenu);
-            }
-            response.Data = lstMenu;
+            }*/
+            response.Data = null;
             return response;
         }
     }

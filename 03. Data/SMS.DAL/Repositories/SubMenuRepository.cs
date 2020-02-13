@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace SMS.DAL.Repositories
 {
-    public interface ISubMenuRepository : IRepository<SubMenu>
+    public interface ISubMenuRepository : IRepository<FieldGroup>
     {
 
     }
 
-    public class SubMenuRepository : RepositoryBase<SubMenu>, ISubMenuRepository
+    public class SubMenuRepository : RepositoryBase<FieldGroup>, ISubMenuRepository
     {
 
         public SubMenuRepository(IDbFactory dbFactory) :

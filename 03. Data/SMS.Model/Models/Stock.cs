@@ -14,7 +14,7 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long ID { get; set; }
+        public int StockID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -29,5 +29,11 @@ namespace SMS.Model.Models
         [Column(TypeName = "varchar")]
         public string CellPhone { get; set; }
 
+        [Required]
+        public string SeniorManagerID { get; set; }
+
+        public virtual IEnumerable<StockManager> StockManagers { get; set; }
+
+        public virtual IEnumerable<StockProduct> StockProducts { get; set; }
     }
 }

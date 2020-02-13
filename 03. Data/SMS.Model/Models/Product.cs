@@ -14,10 +14,10 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long ID { get; set; }
+        public long ProductID { get; set; }
 
         [Required]
-        public long ProductCategoryID { get; set; }
+        public int ProductCategoryID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -37,6 +37,12 @@ namespace SMS.Model.Models
         [Column(TypeName = "xml")]
         public string MoreImage { get; set; }
 
+        [Required]
+        public decimal PriceInput { get; set; }
+
+        [Required]
+        public decimal PriceOutput { get; set; }
+
         [Column(TypeName = "text")]
         public string Content { get; set; }
 
@@ -52,7 +58,19 @@ namespace SMS.Model.Models
         [MaxLength(500)]
         public string Tags { get; set; }
 
-        [ForeignKey("FK_Product_ProductCategory")]
+        [MaxLength(500)]
+        public string MetaKeyword { get; set; }
+
+        [MaxLength(500)]
+        public string MetaDescription { get; set; }
+
+        [ForeignKey("ProductCategoryID")]
         public virtual ProductCategory ProductCategory { get; set; }
+
+        //public virtual IEnumerable<FieldProduct> FieldProducts { get; set; }
+
+        public virtual IEnumerable<StockProduct> StockProducts { get; set; }
+
+        public virtual IEnumerable<ColorProduct> ColorProducts { get; set; }
     }
 }

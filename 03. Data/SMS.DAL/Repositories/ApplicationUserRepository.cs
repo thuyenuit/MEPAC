@@ -26,7 +26,7 @@ namespace SMS.DAL.Repositories
 
         public ApplicationUser GetSingleByUserCode(string userCode)
         {
-            return DbContext.Users.Where(x=>x.UserCode.ToUpper() == userCode.ToUpper()).FirstOrDefault();
+            return DbContext.Users.Where(x=>x.UserName.ToUpper() == userCode.ToUpper()).FirstOrDefault();
         }
     }
 }

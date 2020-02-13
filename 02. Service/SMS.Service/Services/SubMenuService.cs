@@ -23,7 +23,7 @@ namespace SMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public IQueryable<SubMenu> GetAll()
+        public IQueryable<FieldGroup> GetAll()
         {
             return subMenuRepository.GetAll;
         }

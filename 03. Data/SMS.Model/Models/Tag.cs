@@ -13,7 +13,7 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int TagID { get; set; }
 
         [Required]
         [MaxLength(255)]

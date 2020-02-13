@@ -11,10 +11,10 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long ID { get; set; }
+        public int ProductCategoryID { get; set; }
 
         [Required]
-        public long CategoryID { get; set; }
+        public int CategoryID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -31,7 +31,7 @@ namespace SMS.Model.Models
 
         public bool IsHomeFlag { get; set; }
 
-        [ForeignKey("FK_ProductCategory_Category")]
+        [ForeignKey("CategoryID")]
         public virtual Category Category { get; set; }
 
         public virtual IEnumerable<Product> Products { get; set; }

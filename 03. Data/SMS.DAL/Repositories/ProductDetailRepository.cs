@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace SMS.DAL.Repositories
 {
-    public interface IProductDetailRepository : IRepository<ProductDetail>
+    public interface IProductDetailRepository : IRepository<Field>
     {
 
     }
 
-    public class ProductDetailRepository : RepositoryBase<ProductDetail>, IProductDetailRepository
+    public class ProductDetailRepository : RepositoryBase<Field>, IProductDetailRepository
     {
 
         public ProductDetailRepository(IDbFactory dbFactory) :

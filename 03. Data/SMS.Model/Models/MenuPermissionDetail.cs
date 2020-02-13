@@ -13,10 +13,10 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public long MenuPermissionDetailID { get; set; }
 
         [Required]
-        public string MenuPermissionID { get; set; }
+        public long MenuPermissionID { get; set; }
 
         [Required]
         public bool IsView { get; set; }
@@ -32,5 +32,8 @@ namespace SMS.Model.Models
 
         [Required]
         public DateTime CreateDate { get; set; }
+
+        [ForeignKey("MenuPermissionID")]
+        public virtual MenuPermission MenuPermission { get; set; }
     }
 }

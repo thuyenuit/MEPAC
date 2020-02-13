@@ -37,7 +37,7 @@ namespace SMS.Service.Services
 
             IQueryable<ApplicationUser> queryUser = userRepository.GetAll;
 
-            if (!string.IsNullOrEmpty(fullName))
+           /* if (!string.IsNullOrEmpty(fullName))
                 queryUser = queryUser.Where(x => fullName.ToUpper().Contains(x.FullName.ToUpper()));
 
             if (!string.IsNullOrEmpty(userCode))
@@ -45,7 +45,7 @@ namespace SMS.Service.Services
 
             if (!string.IsNullOrEmpty(keyword))
                 queryUser = queryUser.Where(x => keyword.ToUpper().Contains(x.UserCode.ToUpper()) 
-                                             || keyword.ToUpper().Contains(x.FullName.ToUpper()));
+                                             || keyword.ToUpper().Contains(x.FullName.ToUpper()));*/
 
             return queryUser;
         }

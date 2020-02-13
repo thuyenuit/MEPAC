@@ -33,16 +33,16 @@ namespace SMS.Service.Services
         public void Create(ProductSO entity)
         {
             Product objNew = new Product() {
-                CategoryID = entity.CategoryID,
-                ProductName = entity.ProductName,
-                ProductCode = entity.ProductCode,
+                ProductCategoryID = entity.CategoryID,
+                Name = entity.ProductName,
+                Code = entity.ProductCode,
                 Alias = entity.Alias,
                 Image =entity.Image,
                 MoreImage = entity.MoreImage,
                 Content = entity.Content,
-                OrderNumber =entity.OrderNumber,
-                HomeFlag =entity.HomeFlag,
-                HotFlag = entity.HotFlag,
+                Sequence =entity.OrderNumber,
+                IsHomeFlag =entity.HomeFlag,
+                IsHotFlag = entity.HotFlag,
                 Status = entity.Status,
                 Tags = entity.Tags,
                 CreateBy = entity.CreateBy,
@@ -55,7 +55,7 @@ namespace SMS.Service.Services
             productRepository.Create(objNew);
             this.SaveChanges();
 
-            ProductDetail objNewDetail = new ProductDetail() {
+           /* Field objNewDetail = new Field() {
                 ProductID = objNew.ProductID,
                 Quantity = entity.Quantity,
                 PriceInput = entity.PriceInput,
@@ -65,7 +65,7 @@ namespace SMS.Service.Services
             };
 
             productDetailRepository.Create(objNewDetail);
-            this.SaveChanges();
+            this.SaveChanges();*/
         }
 
         public void Update(ProductSO entity)
@@ -88,7 +88,7 @@ namespace SMS.Service.Services
             IQueryable<Product> queryProduct = productRepository.GetAll.Where(x=>x.IsActive);
             IQueryable<Category> queryCategory = categoryRepository.GetAll.Where(x=>x.IsActive);
 
-            if (!string.IsNullOrEmpty(productName))
+           /* if (!string.IsNullOrEmpty(productName))
                 queryProduct = queryProduct.Where(x => productName.ToUpper().Contains(x.ProductName.ToUpper()));
 
             if (!string.IsNullOrEmpty(productCode))
@@ -96,25 +96,25 @@ namespace SMS.Service.Services
 
             if (!string.IsNullOrEmpty(keyword))
                 queryProduct = queryProduct.Where(x => keyword.ToUpper().Contains(x.ProductName.ToUpper())
-                                             || keyword.ToUpper().Contains(x.ProductCode.ToUpper()));
+                                             || keyword.ToUpper().Contains(x.ProductCode.ToUpper()));*/
 
             if (statusId > 0)
                 queryProduct = queryProduct.Where(x => x.Status == statusId);
 
             if (checkHomeFlag)
             {
-                queryProduct = queryProduct.Where(x => x.HomeFlag == iskHomeFlag);
+                queryProduct = queryProduct.Where(x => x.IsHomeFlag == iskHomeFlag);
             }
 
             if (checkHotFlag)
             {
-                queryProduct = queryProduct.Where(x => x.HotFlag == iskHotFlag);
+                queryProduct = queryProduct.Where(x => x.IsHomeFlag == iskHotFlag);
             }
 
             //if(categoryId)
             //queryCategory = queryCategory.Where(x => x.CategoryID == categoryId);
 
-            IQueryable<ProductSO> result = (from pr in queryProduct
+            /*IQueryable<ProductSO> result = (from pr in queryProduct
                                             join ca in queryCategory on pr.CategoryID equals ca.CategoryID
                                             join prd in productDetailRepository.GetAll.Where(x=>x.IsActive).OrderByDescending(x=>x.CreateDate) 
                                                 on pr.ProductID equals prd.ProductID into j1
@@ -147,9 +147,12 @@ namespace SMS.Service.Services
                                                 Status = pr.Status,
                                                 Tags = pr.Tags,
                                                 UpdateBy = pr.UpdateBy
-                                            }).OrderBy(x => x.OrderNumberCategroy).ThenBy(x => x.AliasCategory).ThenBy(x=>x.OrderNumber).ThenBy(x=>x.Alias);
+                                            }).OrderBy(x => x.OrderNumberCategroy)
+                                            .ThenBy(x => x.AliasCategory)
+                                            .ThenBy(x=>x.OrderNumber)
+                                            .ThenBy(x=>x.Alias);*/
 
-            return result;
+            return null;
         }
 
         public IQueryable<Product> GetAll()

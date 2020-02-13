@@ -42,22 +42,22 @@ namespace SMS.API.Api
             var queryCategory = categoryService.GetAll().Where(x => x.IsActive);
             if (!string.IsNullOrEmpty(keyword))
             {
-                queryCategory = queryCategory.Where(x => x.Alias.ToUpper().Contains(keyword.ToUpper()) || x.CategoryName.ToUpper().Contains(keyword.ToUpper()));
+                queryCategory = queryCategory.Where(x => x.Alias.ToUpper().Contains(keyword.ToUpper()) || x.Name.ToUpper().Contains(keyword.ToUpper()));
             }
                        
             IQueryable<CategoryModel> queryResponse = queryCategory.Select(x => new CategoryModel
             {
-                CategoryName = x.CategoryName,
+                CategoryName = x.Name,
                 CategoryID = x.CategoryID,
                 Alias = x.Alias,
                 //CreateBy = x.CreateBy,
                 //CreateDate = x.CreateDate,
-                HomeFlag = x.HomeFlag,
+                HomeFlag = x.IsHomeFlag,
                 IsActive = x.IsActive,
                 MetaDescription = x.MetaDescription,
                 MetaKeyword = x.MetaKeyword,
                 //ModifiedDate = x.ModifiedDate,
-                Sequence = x.OrderNumber,
+                Sequence = x.Sequence,
                 //UpdateBy = x.UpdateBy
             }).OrderBy(x => x.Sequence).ThenBy(x => x.Alias);
 
@@ -170,15 +170,15 @@ namespace SMS.API.Api
             {
                 Category objInsert = new Category()
                 {
-                    CategoryName = request.Model.CategoryName,
+                    Name = request.Model.CategoryName,
                     Alias = request.Model.Alias,
                     CreateBy = request.UserID,
                     CreateDate = DateTime.Now,
-                    HomeFlag = request.Model.HomeFlag,
+                    IsHomeFlag = request.Model.HomeFlag,
                     IsActive = request.Model.IsActive,
                     MetaDescription = request.Model.MetaDescription,
                     MetaKeyword = request.Model.MetaKeyword,
-                    OrderNumber = request.Model.OrderNumber
+                    Sequence = request.Model.Sequence
                 };
                 categoryService.Create(objInsert);
                 return response;
@@ -209,7 +209,7 @@ namespace SMS.API.Api
                     return request.CreateResponse(HttpStatusCode.BadRequest, "Vui lòng nhập tên sản phẩm");
                 }
 
-                if (categoryService.GetAll().Any(x => x.CategoryID != model.CategoryID && model.CategoryName.ToUpper().Contains(x.CategoryName.ToUpper())))
+                if (categoryService.GetAll().Any(x => x.CategoryID != model.CategoryID && model.CategoryName.ToUpper().Contains(x.Name.ToUpper())))
                 {
                     return request.CreateResponse(HttpStatusCode.BadRequest, "Cập nhật thất bại. Tên thể loại đã tồn tại");
                 }

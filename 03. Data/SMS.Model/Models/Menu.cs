@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.Model.Models
 {
@@ -13,7 +10,7 @@ namespace SMS.Model.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int MenuID { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -23,11 +20,12 @@ namespace SMS.Model.Models
         [Column(TypeName = "varchar")]
         public string Url { get; set; }
 
-        [Column(TypeName = "varchar")]
-        public string Icon { get; set; }
-
         [Required]
         public int Sequence { get; set; }
+
+        public int ParentID { get; set; }
+
+        public bool IsParent { get; set; }
 
         [Required]
         public DateTime CreateDate { get; set; }
@@ -36,6 +34,6 @@ namespace SMS.Model.Models
     
         public bool IsActive { get; set; }
 
-        public virtual IEnumerable<SubMenu> SubMenus { get; set; }
+        public virtual IEnumerable<MenuPermission> MenuPermissions { get; set; }
     }
 }

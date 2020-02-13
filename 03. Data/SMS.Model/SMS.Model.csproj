@@ -58,11 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\Auditable.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\ExportStock.cs" />
-    <Compile Include="Models\ImportStock.cs" />
+    <Compile Include="Models\Color.cs" />
+    <Compile Include="Models\FieldProduct.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\ErrorLog.cs" />
@@ -70,13 +69,16 @@
     <Compile Include="Models\InventoryDeliveryVoucherDetail.cs" />
     <Compile Include="Models\InventoryReceivingVoucher.cs" />
     <Compile Include="Models\InventoryReceivingVoucherDetail.cs" />
+    <Compile Include="Models\ColorProduct.cs" />
+    <Compile Include="Models\StockProduct.cs" />
+    <Compile Include="Models\StockManager.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuPermission.cs" />
     <Compile Include="Models\MenuPermissionDetail.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductDetail.cs" />
-    <Compile Include="Models\SubMenu.cs" />
+    <Compile Include="Models\Field.cs" />
+    <Compile Include="Models\FieldGroup.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

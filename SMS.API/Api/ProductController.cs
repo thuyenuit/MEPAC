@@ -100,8 +100,8 @@ namespace SMS.API.Api
                     return request.CreateResponse(HttpStatusCode.BadRequest, "Vui lòng nhập mã sản phẩm");
                 }
 
-                if (productService.GetAll().Any(x => x.ProductName.ToUpper().Equals(model.ProductName.ToUpper())
-                                                                             || x.ProductCode.ToUpper().Equals(model.ProductCode.ToUpper())))
+                if (productService.GetAll().Any(x => x.Name.ToUpper().Equals(model.CategoryName.ToUpper())
+                                                                             || x.Code.ToUpper().Equals(model.ProductCode.ToUpper())))
                 {
                     return request.CreateResponse(HttpStatusCode.BadRequest, "Tên hoặc mã sản phẩm đã tồn tại. Vui lòng kiểm tra lại");
                 }
@@ -129,8 +129,8 @@ namespace SMS.API.Api
                 }
 
                 if (productService.GetAll().Any(x => x.ProductID != model.ProductID 
-                                                && (model.ProductName.ToUpper().Contains(x.ProductName.ToUpper()) 
-                                                    || model.ProductCode.ToUpper().Contains(x.ProductCode.ToUpper())) ))
+                                                && (model.ProductName.ToUpper().Contains(x.Name.ToUpper()) 
+                                                    || model.ProductCode.ToUpper().Contains(x.Code.ToUpper())) ))
                 {
                     return request.CreateResponse(HttpStatusCode.BadRequest, "Cập nhật thất bại. Tên hoặc mã sản phẩm đã tồn tại");
                 }

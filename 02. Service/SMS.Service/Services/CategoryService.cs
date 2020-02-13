@@ -27,24 +27,24 @@ namespace SMS.Service.Services
 
         public void Create(Category entity)
         {
-            if (string.IsNullOrEmpty(entity.CategoryName))
+            if (string.IsNullOrEmpty(entity.Name))
             {
                 throw new BusinessException("Vui lòng nhập tên thể loại");
             }
 
-            if (string.IsNullOrEmpty(entity.CategoryName))
+            if (string.IsNullOrEmpty(entity.Name))
             {
                 throw new BusinessException("Alias không được để trống");
             }
 
-            if (GetAll().Any(x => x.CategoryName.ToUpper().Equals(entity.CategoryName.ToUpper())))
+            if (GetAll().Any(x => x.Name.ToUpper().Equals(entity.Name.ToUpper())))
             {
                 throw new BusinessException("Tên thể loại đã tồn tại. Vui lòng kiểm tra lại");
             }
 
             if (string.IsNullOrEmpty(entity.Alias))
             {
-                entity.Alias = entity.CategoryName.GetSeoTitle();
+                entity.Alias = entity.Name.GetSeoTitle();
             }
 
             categoryRepository.Create(entity);

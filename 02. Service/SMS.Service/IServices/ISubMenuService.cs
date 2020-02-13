@@ -9,6 +9,6 @@ namespace SMS.Service.IServices
 {
     public interface ISubMenuService
     {
-        IQueryable<SubMenu> GetAll();
+        IQueryable<FieldGroup> GetAll();
     }
 }

@@ -64,13 +64,9 @@
     <Compile Include="Infrastructure\Interfaces\IDbFactory.cs" />
     <Compile Include="Infrastructure\Interfaces\IRepository.cs" />
     <Compile Include="Infrastructure\Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201912211542335_Create-DB.cs" />
-    <Compile Include="Migrations\201912211542335_Create-DB.Designer.cs">
-      <DependentUpon>201912211542335_Create-DB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912211631310_Add-Menu.cs" />
-    <Compile Include="Migrations\201912211631310_Add-Menu.Designer.cs">
-      <DependentUpon>201912211631310_Add-Menu.cs</DependentUpon>
+    <Compile Include="Migrations\202002131625162_Initial_Database_13022020.cs" />
+    <Compile Include="Migrations\202002131625162_Initial_Database_13022020.Designer.cs">
+      <DependentUpon>202002131625162_Initial_Database_13022020.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,11 +103,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912211542335_Create-DB.resx">
-      <DependentUpon>201912211542335_Create-DB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912211631310_Add-Menu.resx">
-      <DependentUpon>201912211631310_Add-Menu.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002131625162_Initial_Database_13022020.resx">
+      <DependentUpon>202002131625162_Initial_Database_13022020.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
