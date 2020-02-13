@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AccountController.cs" />
+    <Compile Include="Api\ProductCategoryController.cs" />
     <Compile Include="Api\CategoryController.cs" />
     <Compile Include="Api\MenuPermissionController.cs" />
     <Compile Include="Api\ProductController.cs" />

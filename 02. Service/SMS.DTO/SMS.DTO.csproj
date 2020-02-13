@@ -59,12 +59,16 @@
     <Compile Include="Menu\Model\SubMenuModel.cs" />
     <Compile Include="Menu\Request\MGetMenuRequest.cs" />
     <Compile Include="Menu\Request\MSearchRequest.cs" />
+    <Compile Include="ProductCategory\Model\ProductCategoryViewModel.cs" />
+    <Compile Include="ProductCategory\Resquest\AddOrEditCategoryRequest.cs" />
+    <Compile Include="ProductCategory\Resquest\CSearchRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CategoryType\Response\" />
     <Folder Include="Category\Response\" />
     <Folder Include="Menu\Response\" />
+    <Folder Include="ProductCategory\Response\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

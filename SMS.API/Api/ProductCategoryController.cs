@@ -11,21 +11,25 @@ using System.Net.Http;
 using System.Web.Http;
 using SMS.DTO.Base;
 using SMS.DTO.Category.Resquest;
+using SMS.DTO.ProductCategory.Model;
 
 namespace SMS.API.Api
 {
     [Authorize]
-    [RoutePrefix("api/category")]
-    public class CategoryController : BaseApiController
+    [RoutePrefix("api/product-category")]
+    public class ProductCategoryController : BaseApiController
     {
+        private readonly IProductCategoryService productCategoryService;
         private readonly IProductService productService;
         private readonly ICategoryService categoryService;
 
-        public CategoryController(IProductService productService,
-            ICategoryService categoryService)
+        public ProductCategoryController(IProductService productService,
+            ICategoryService categoryService,
+            IProductCategoryService productCategoryService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
+            this.productCategoryService = productCategoryService;
         }
 
         /// <summary>
@@ -35,33 +39,30 @@ namespace SMS.API.Api
         /// <returns></returns>
         [HttpGet]
         [Route("search")]
-        public BaseResponse<BasePaginationSet<CategoryModel>> Search(string keyword, int page = SystemParam.PAGE, int pageSize = SystemParam.PAGE_SIZE)
+        public BaseResponse<BasePaginationSet<ProductCategoryViewModel>> Search(string keyword, int page = SystemParam.PAGE, int pageSize = SystemParam.PAGE_SIZE)
         {
-            BaseResponse<BasePaginationSet<CategoryModel>> response = new BaseResponse<BasePaginationSet<CategoryModel>>();
+            BaseResponse<BasePaginationSet<ProductCategoryViewModel>> response = new BaseResponse<BasePaginationSet<ProductCategoryViewModel>>();
             response.ResponseCode = BaseCode.SUCCESS;
             var queryCategory = categoryService.GetAll().Where(x => x.IsActive);
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                queryCategory = queryCategory.Where(x => x.Alias.ToUpper().Contains(keyword.ToUpper()) || x.Name.ToUpper().Contains(keyword.ToUpper()));
-            }
-                       
-            IQueryable<CategoryModel> queryResponse = queryCategory.Select(x => new CategoryModel
-            {
-                CategoryName = x.Name,
-                CategoryID = x.CategoryID,
-                Alias = x.Alias,
-                HomeFlag = x.IsHomeFlag,
-                IsActive = x.IsActive,
-                MetaDescription = x.MetaDescription,
-                MetaKeyword = x.MetaKeyword,
-                Sequence = x.Sequence,
-            }).OrderBy(x => x.Sequence).ThenBy(x => x.Alias);
+            var queryProductCategory = productCategoryService.GetAll().Where(x => x.IsActive);
+
+            IQueryable<ProductCategoryViewModel> queryResponse = queryProductCategory.Join(queryCategory, pc => pc.CategoryID, c => c.CategoryID, (pc, c) => new { pc = pc, c = c })
+                .Select(x => new ProductCategoryViewModel
+                {
+                    Name = x.pc.Name,
+                    CategoryID = x.pc.CategoryID,
+                    Alias = x.pc.Alias,
+                    HomeFlag = x.pc.IsHomeFlag,
+                    IsActive = x.pc.IsActive,
+                    Sequence = x.pc.Sequence,
+                    CategoryName = x.c.Name,
+                }).OrderBy(x => x.Sequence).ThenBy(x => x.Alias);
 
             int totalRow = queryResponse.Count();
 
-            List<CategoryModel> lstResult = queryResponse.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<ProductCategoryViewModel> lstResult = queryResponse.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            var paginationset = new BasePaginationSet<CategoryModel>()
+            var paginationset = new BasePaginationSet<ProductCategoryViewModel>()
             {
                 Items = lstResult,
                 Page = page,
@@ -189,13 +190,5 @@ namespace SMS.API.Api
                 return request.CreateResponse(HttpStatusCode.OK, "Xóa thành công");
             });
         }
-    }
-
-    public class BaseResponseMsgAPI
-    {
-        public int StatusCode { get; set; }
-        public bool IsSuccess { get; set; }
-        public string Mesage { get; set; }
-        // public List<ResponseData> Data { get; set; }
     }
 }

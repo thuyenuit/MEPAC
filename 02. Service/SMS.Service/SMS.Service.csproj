@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IServices\IApplicationUserService.cs" />
+    <Compile Include="IServices\IProductCategoryService.cs" />
     <Compile Include="IServices\ICategoryService.cs" />
     <Compile Include="IServices\IMenuPermissionService.cs" />
     <Compile Include="IServices\IMenuService.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceObject\ProductSO.cs" />
     <Compile Include="Services\ApplicationUserService.cs" />
+    <Compile Include="Services\ProductCategoryService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\MenuPermissionService.cs" />
     <Compile Include="Services\MenuService.cs" />

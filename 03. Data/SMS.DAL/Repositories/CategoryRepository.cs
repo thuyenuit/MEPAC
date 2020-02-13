@@ -32,7 +32,7 @@ namespace SMS.DAL.Repositories
 
         public IEnumerable<Category> GetByAlias(string alias)
         {
-            return DbContext.Category.Where(x => x.Alias == alias);
+            return DbContext.Categories.Where(x => x.Alias == alias);
         }
     }
 }
