@@ -42,11 +42,10 @@ namespace SMS.API.Providers
                 {
                     ClaimsIdentity identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);                
                     var props = new AuthenticationProperties(new Dictionary<string, string>() {
-                        //{"userId", user.Id },
+                        {"userId", user.Id },
                         {"username", user.UserName },
-                        {"fullname", user.FirstName },
-                        {"email", user.Email },
-                        //{"email", user.im },
+                        {"fullname", string.Format("{0} {1}", user.FirstName, user.LastName) },
+                        {"email", user.Email }
                     });
                     context.Validated(new AuthenticationTicket(identity, props));                    
                 }
